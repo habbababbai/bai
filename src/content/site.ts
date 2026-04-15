@@ -4,6 +4,14 @@
 export const site = {
   displayName: 'bai',
   tagline: 'Interfaces, performance, craft.',
+  about: {
+    title: 'About',
+    paragraphs: [
+      'I build and ship React Native apps for iOS and Android — new features, refactors, and production fixes when timelines are tight.',
+      'Most of my work sits between product UI and the native layer: custom bridges and modules when JavaScript is not enough, thoughtful moves toward the New Architecture when it pays off, and performance that still feels good on older devices and heavy screens.',
+      'I care about predictable delivery too: solid CI, readable releases, and staying aligned with backend contracts so shipping stays boring in the best way.',
+    ],
+  },
   skills: [
     {
       label: 'Mobile & UI',

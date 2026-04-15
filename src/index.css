@@ -14,9 +14,6 @@
 
   body {
     @apply m-0 min-h-svh bg-[#06060a] font-sans text-zinc-100;
-    background-image:
-      radial-gradient(ellipse 120% 80% at 50% -20%, rgba(88, 76, 200, 0.18), transparent 55%),
-      radial-gradient(ellipse 80% 50% at 100% 50%, rgba(59, 130, 246, 0.08), transparent 45%);
   }
 
   #root {
@@ -34,7 +31,31 @@
   }
 
   .chip {
-    @apply rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)];
+    @apply inline-flex max-w-full cursor-default rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out;
+  }
+
+  .skill-card {
+    @apply rounded-2xl border border-white/8 bg-white/3 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-[transform,background-color,border-color,box-shadow] duration-300 ease-out md:p-6;
+  }
+
+  @media (hover: hover) {
+    .chip:hover {
+      @apply border-white/20 bg-white/[0.08];
+    }
+
+    .skill-card:hover {
+      @apply border-white/14 bg-white/[0.06];
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .chip:hover {
+      @apply -translate-y-px shadow-[0_0_0_1px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.1)];
+    }
+
+    .skill-card:hover {
+      @apply -translate-y-0.5 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.08)];
+    }
   }
 
   .link-pill {
@@ -52,52 +73,3 @@
   }
 }
 
-@keyframes orb-drift-a {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(4%, -3%, 0) scale(1.06);
-  }
-}
-
-@keyframes orb-drift-b {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-5%, 4%, 0) scale(1.04);
-  }
-}
-
-@keyframes orb-drift-c {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(3%, 5%, 0);
-  }
-}
-
-.animate-orb-a {
-  animation: orb-drift-a 22s ease-in-out infinite;
-}
-
-.animate-orb-b {
-  animation: orb-drift-b 28s ease-in-out infinite;
-}
-
-.animate-orb-c {
-  animation: orb-drift-c 26s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-orb-a,
-  .animate-orb-b,
-  .animate-orb-c {
-    animation: none;
-  }
-}

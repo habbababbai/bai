@@ -6,23 +6,23 @@ export function HeroSection() {
 
   return (
     <motion.section
-      className="frost-panel relative px-8 py-12 md:px-12 md:py-16"
+      className="frost-panel relative px-8 py-14 md:px-12 md:py-[4.25rem]"
       initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={
         reduceMotion
           ? { duration: 0 }
-          : { duration: 0.75, ease: [0.22, 1, 0.36, 1] }
+          : { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const }
       }
     >
-      <div className="mx-auto max-w-xl text-center">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-zinc-400">
+      <div className="mx-auto max-w-lg text-center md:max-w-xl">
+        <p className="mb-5 text-[0.6875rem] font-semibold uppercase tracking-[0.38em] text-zinc-500">
           Portfolio
         </p>
-        <h1 className="font-display text-balance-safe bg-gradient-to-b from-white via-white to-zinc-300 bg-clip-text text-6xl font-semibold leading-[0.95] tracking-tight text-transparent md:text-7xl">
+        <h1 className="font-display text-balance-safe bg-linear-to-b from-white via-white to-zinc-300 bg-clip-text text-[clamp(2.75rem,8vw,4.5rem)] font-semibold leading-[0.95] tracking-tight text-transparent">
           {site.displayName}
         </h1>
-        <p className="mt-5 text-pretty text-base leading-relaxed text-zinc-400 md:text-lg">
+        <p className="mx-auto mt-6 max-w-md text-pretty text-base leading-relaxed text-zinc-400 md:mt-7 md:text-lg">
           {site.tagline}
         </p>
       </div>

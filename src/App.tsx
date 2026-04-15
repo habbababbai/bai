@@ -1,3 +1,4 @@
+import { AboutSection } from '@/components/about-section'
 import { AmbientBackground } from '@/components/ambient-background'
 import { ContactSection } from '@/components/contact-section'
 import { HeroSection } from '@/components/hero-section'
@@ -8,13 +9,17 @@ export default function App() {
     <div className="relative min-h-svh overflow-x-hidden">
       <AmbientBackground />
       <a
-        href="#skills"
+        href="#about"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-zinc-950 focus:px-4 focus:py-2 focus:text-sm focus:text-white focus:ring-2 focus:ring-violet-400/80"
       >
-        Skip to skills
+        Skip to about
       </a>
-      <main className="relative z-10 mx-auto flex w-full max-w-3xl flex-col gap-10 px-5 pb-20 pt-14 md:gap-12 md:px-8 md:pt-20">
+      <main
+        id="main"
+        className="relative z-10 mx-auto flex w-full max-w-[42rem] flex-col gap-12 px-5 pb-28 pt-16 sm:px-6 md:max-w-[44rem] md:gap-14 md:px-8 md:pb-32 md:pt-24"
+      >
         <HeroSection />
+        <AboutSection />
         <SkillsSection />
         <ContactSection />
       </main>
