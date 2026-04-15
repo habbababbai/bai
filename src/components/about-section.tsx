@@ -31,7 +31,7 @@ export function AboutSection() {
             {site.about.title}
           </h2>
         </div>
-        <div className="space-y-4 text-left text-pretty text-[0.9375rem] leading-relaxed text-zinc-400 md:text-base md:leading-[1.7]">
+        <div className="space-y-4 text-left text-pretty text-[0.9375rem] leading-relaxed text-zinc-400 sm:hyphens-auto sm:text-justify md:text-base md:leading-[1.7]">
           {site.about.paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}

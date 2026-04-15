@@ -31,11 +31,11 @@
   }
 
   .chip {
-    @apply inline-flex max-w-full cursor-default rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out;
+    @apply inline-flex max-w-full cursor-default break-words rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out;
   }
 
   .skill-card {
-    @apply rounded-2xl border border-white/8 bg-white/3 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-[transform,background-color,border-color,box-shadow] duration-300 ease-out md:p-6;
+    @apply origin-center rounded-2xl border border-white/8 bg-white/3 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-[transform,background-color,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:p-6;
   }
 
   @media (hover: hover) {
@@ -54,7 +54,7 @@
     }
 
     .skill-card:hover {
-      @apply -translate-y-0.5 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.08)];
+      @apply -translate-y-px scale-[1.008] shadow-[0_16px_44px_-18px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.09)];
     }
   }
 

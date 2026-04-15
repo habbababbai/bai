@@ -55,7 +55,7 @@ export function SkillsSection() {
           Tools and technologies I reach for most often.
         </p>
         <motion.div
-          className="mt-6 grid grid-cols-1 items-start gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
+          className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
           variants={gridContainerVariants}
           initial="hidden"
           whileInView="visible"
@@ -70,17 +70,17 @@ export function SkillsSection() {
                 key={group.label}
                 variants={cardVariants}
                 className={cn(
-                  'skill-card flex flex-col',
+                  'skill-card flex h-full min-h-0 min-w-0 flex-col',
                   spanLastOdd &&
                     'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
                 )}
               >
-                <h3 className="text-sm font-medium leading-snug text-zinc-300">
+                <h3 className="shrink-0 text-sm font-medium leading-snug text-zinc-300">
                   {group.label}
                 </h3>
-                <ul className="mt-3.5 flex flex-wrap gap-x-2 gap-y-2">
+                <ul className="mt-3.5 flex min-h-0 flex-1 flex-wrap content-start gap-x-2 gap-y-2">
                   {group.items.map((item) => (
-                    <li key={item}>
+                    <li key={item} className="min-w-0 max-w-full">
                       <span className="chip leading-snug">{item}</span>
                     </li>
                   ))}

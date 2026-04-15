@@ -63,9 +63,9 @@ export function AmbientBackground() {
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden="true"
     >
-      {/* Slow aurora wash */}
+      {/* Slow aurora wash — GPU-friendly rotation only */}
       <motion.div
-        className="absolute -inset-[40%] opacity-50"
+        className="absolute -inset-[40%] opacity-[0.38] will-change-transform transform-gpu"
         style={{
           background:
             'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.22) 0deg, rgba(168,85,247,0.12) 120deg, rgba(59,130,246,0.15) 240deg, rgba(99,102,241,0.18) 360deg)',
@@ -73,12 +73,18 @@ export function AmbientBackground() {
         animate={
           reduceMotion
             ? { rotate: 0 }
-            : { rotate: [0, 360] }
+            : { rotate: 360 }
         }
         transition={
           reduceMotion
             ? { duration: 0 }
-            : { duration: 120, repeat: Infinity, ease: 'linear' }
+            : {
+                rotate: {
+                  duration: 140,
+                  repeat: Infinity,
+                  ease: 'linear',
+                },
+              }
         }
       />
 
