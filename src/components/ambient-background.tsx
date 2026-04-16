@@ -217,13 +217,13 @@ function useCursorGlow(disabled: boolean) {
 
     mouseX.set(window.innerWidth / 2)
     mouseY.set(window.innerHeight / 2)
-    opacity.set(0.35)
+    opacity.set(0.22)
 
     const flush = () => {
       rafIdRef.current = null
       mouseX.set(pendingRef.current.x)
       mouseY.set(pendingRef.current.y)
-      opacity.set(0.7)
+      opacity.set(0.42)
     }
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -233,11 +233,11 @@ function useCursorGlow(disabled: boolean) {
     }
 
     const handleMouseLeave = () => {
-      opacity.set(0.12)
+      opacity.set(0.07)
     }
 
     const handleMouseEnter = () => {
-      opacity.set(0.35)
+      opacity.set(0.22)
     }
 
     window.addEventListener('mousemove', handleMouseMove, {
@@ -377,21 +377,21 @@ function ParallaxOrb({
 
 function CursorGlow({ disabled }: { disabled: boolean }) {
   const cursor = useCursorGlow(disabled)
-  const x = useTransform(cursor.x, (v) => v - 360)
-  const y = useTransform(cursor.y, (v) => v - 360)
+  const x = useTransform(cursor.x, (v) => v - 220)
+  const y = useTransform(cursor.y, (v) => v - 220)
 
   if (disabled) return null
 
   return (
     <motion.div
-      className="pointer-events-none absolute rounded-full blur-[88px] will-change-transform"
+      className="pointer-events-none absolute rounded-full blur-[52px] will-change-transform"
       style={{
         x,
         y,
-        width: 720,
-        height: 720,
+        width: 440,
+        height: 440,
         background:
-          'radial-gradient(circle, rgba(72,122,196,0.18), rgba(106,84,182,0.12) 36%, rgba(194,114,72,0.06) 54%, transparent 72%)',
+          'radial-gradient(circle, rgba(72,122,196,0.11), rgba(106,84,182,0.075) 38%, rgba(194,114,72,0.04) 56%, transparent 74%)',
         opacity: cursor.opacity,
       }}
     />

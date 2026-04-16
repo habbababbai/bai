@@ -4,7 +4,7 @@
   }
 
   .hero-top-glow {
-    @apply pointer-events-none absolute inset-x-0 top-0 h-24 transition-opacity duration-350 ease-out;
+    @apply pointer-events-none absolute inset-x-0 top-0 h-16 transition-opacity duration-350 ease-out;
     background: radial-gradient(
       ellipse at top,
       rgba(118, 98, 188, 0.12),

@@ -16,7 +16,6 @@ import {
   useState,
 } from 'react'
 
-const HINT_DELAY_MS = 1050
 const TOUCH_REVEAL_THRESHOLD = 64
 const WHEEL_REVEAL_THRESHOLD = 24
 /** After hero tween finishes; avoids swap before motion completes */
@@ -97,6 +96,10 @@ export default function App() {
     }
   }, [clearRevealCompleteTimer, scrollToAbout])
 
+  const handleIntroTypingComplete = useCallback(() => {
+    setIntroPhase((p) => (p === 'locked' ? 'hint-visible' : p))
+  }, [])
+
   const triggerReveal = useCallback(
     (options?: { skipToContent?: boolean }) => {
       const skipToContent = options?.skipToContent ?? false
@@ -107,6 +110,10 @@ export default function App() {
       }
 
       if (skipToContent) pendingSkipRef.current = true
+
+      if (effectiveIntroPhase === 'locked') {
+        return
+      }
 
       if (
         revealLockedRef.current ||
@@ -140,16 +147,6 @@ export default function App() {
       scrollToAbout,
     ],
   )
-
-  useEffect(() => {
-    if (!introEnabled || effectiveIntroPhase !== 'locked') return
-
-    const timer = window.setTimeout(() => {
-      setIntroPhase((phase) => (phase === 'locked' ? 'hint-visible' : phase))
-    }, HINT_DELAY_MS)
-
-    return () => window.clearTimeout(timer)
-  }, [effectiveIntroPhase, introEnabled])
 
   useEffect(
     () => () => {
@@ -185,6 +182,11 @@ export default function App() {
 
       if (effectiveIntroPhase === 'revealed') return
 
+      if (effectiveIntroPhase === 'locked') {
+        event.preventDefault()
+        return
+      }
+
       if (event.deltaY <= WHEEL_REVEAL_THRESHOLD) {
         event.preventDefault()
         return
@@ -207,6 +209,13 @@ export default function App() {
 
       if (effectiveIntroPhase === 'revealed') return
 
+      if (effectiveIntroPhase === 'locked') {
+        if (event.key === 'ArrowDown' || event.key === 'PageDown') {
+          event.preventDefault()
+        }
+        return
+      }
+
       if (event.key === 'ArrowDown' || event.key === 'PageDown') {
         event.preventDefault()
         triggerReveal()
@@ -225,11 +234,12 @@ export default function App() {
   const handleSkipToAbout = useCallback(
     (event: ReactMouseEvent<HTMLAnchorElement>) => {
       if (!introEnabled) return
-
       event.preventDefault()
+      if (effectiveIntroPhase === 'locked') return
+
       triggerReveal({ skipToContent: true })
     },
-    [introEnabled, triggerReveal],
+    [effectiveIntroPhase, introEnabled, triggerReveal],
   )
 
   const handleSkipKeyDown = useCallback(
@@ -238,9 +248,11 @@ export default function App() {
       if (event.key !== 'Enter' && event.key !== ' ') return
 
       event.preventDefault()
+      if (effectiveIntroPhase === 'locked') return
+
       triggerReveal({ skipToContent: true })
     },
-    [introEnabled, triggerReveal],
+    [effectiveIntroPhase, introEnabled, triggerReveal],
   )
 
   const handleTouchStart = useCallback((event: ReactTouchEvent<HTMLDivElement>) => {
@@ -250,6 +262,7 @@ export default function App() {
   const handleTouchMove = useCallback(
     (event: ReactTouchEvent<HTMLDivElement>) => {
       if (!introEnabled || effectiveIntroPhase === 'revealed') return
+      if (effectiveIntroPhase === 'locked') return
 
       const touchStartY = touchStartYRef.current
       const currentY = event.touches[0]?.clientY
@@ -307,7 +320,7 @@ export default function App() {
         onTouchMove={handleTouchMove}
         onTouchStart={handleTouchStart}
       >
-        <AmbientBackground interactive={!introEnabled || effectiveIntroPhase === 'revealed'} />
+        <AmbientBackground />
         <a
           href="#about"
           onClick={handleSkipToAbout}
@@ -322,6 +335,7 @@ export default function App() {
             introPhase={effectiveIntroPhase}
             mode="intro"
             onReveal={() => triggerReveal()}
+            onIntroTypingComplete={handleIntroTypingComplete}
           />
         )}
 
@@ -381,6 +395,9 @@ export default function App() {
                 >
                   <ContactSection
                     disableEntrance={false}
+                    innerRevealDelay={
+                      showInnerContentFade ? introInnerFadeDelay(2) : undefined
+                    }
                   />
                 </motion.div>
               </motion.div>
