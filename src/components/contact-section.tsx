@@ -44,8 +44,8 @@ export function ContactSection() {
       aria-labelledby="contact-heading"
     >
       <TiltCard
-        maxTilt={2}
-        scale={1.003}
+        maxTilt={1.5}
+        scale={1.002}
         showShine
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >

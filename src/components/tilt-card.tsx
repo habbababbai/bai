@@ -32,7 +32,7 @@ export function TiltCard({
     disabled,
   })
 
-  const shineBackground = useMotionTemplate`radial-gradient(400px circle at ${tilt.shineX}% ${tilt.shineY}%, rgba(255,255,255,0.15), transparent 45%)`
+  const shineBackground = useMotionTemplate`radial-gradient(600px circle at ${tilt.shineX}% ${tilt.shineY}%, rgba(255,255,255,0.07), rgba(255,255,255,0.03) 40%, transparent 70%)`
 
   return (
     <div
