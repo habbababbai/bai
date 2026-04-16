@@ -57,6 +57,7 @@ type SkillInfo = {
 
 const skillMap: Record<string, SkillInfo> = {
     "React Native": { icon: TbBrandReactNative, color: "#61DAFB" },
+    Reanimated: { icon: TbBrandReactNative, color: "#8B5CF6" },
     "New Architecture": { icon: TbAtom2, color: "#61DAFB" },
     TypeScript: { icon: SiTypescript, color: "#3178C6" },
     JavaScript: { icon: SiJavascript, color: "#F7DF1E" },
