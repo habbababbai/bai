@@ -46,7 +46,7 @@ export const site = {
         },
         {
             label: "Firebase & analytics",
-            items: ["Firebase", "Sentry", "Segment", "Mixpanel", "PostHog"],
+            items: ["Firebase", "Sentry", "Segment", "Mixpanel", ],
         },
         {
             label: "Release & quality",

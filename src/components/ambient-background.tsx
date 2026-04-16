@@ -1,11 +1,11 @@
 import { cn } from '@/lib/cn'
-import { useMouseParallax } from '@/hooks/use-mouse-parallax'
 import {
   motion,
   useReducedMotion,
   useMotionValue,
   useSpring,
   useTransform,
+  useMotionTemplate,
 } from 'motion/react'
 import { useEffect } from 'react'
 
@@ -19,6 +19,8 @@ type OrbConfig = {
   duration: number
   delay?: number
   parallaxStrength: number
+  invert?: boolean
+  springConfig?: { stiffness: number; damping: number }
 }
 
 const orbs: OrbConfig[] = [
@@ -31,7 +33,9 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, 44, -28, 0], y: [0, -36, 28, 0], scale: [1, 1.09, 1.05, 1] },
     duration: 36,
     delay: 0,
-    parallaxStrength: 0.08,
+    parallaxStrength: 0.12,
+    invert: false,
+    springConfig: { stiffness: 35, damping: 20 },
   },
   {
     id: 'b',
@@ -42,7 +46,9 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, -52, 32, 0], y: [0, 40, -24, 0], scale: [1, 1.06, 1.08, 1] },
     duration: 42,
     delay: 1.2,
-    parallaxStrength: 0.055,
+    parallaxStrength: 0.08,
+    invert: true,
+    springConfig: { stiffness: 45, damping: 25 },
   },
   {
     id: 'c',
@@ -53,7 +59,9 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, 36, -20, 0], y: [0, 32, -18, 0], scale: [1, 1.05, 1.07, 1] },
     duration: 40,
     delay: 2.4,
-    parallaxStrength: 0.065,
+    parallaxStrength: 0.1,
+    invert: false,
+    springConfig: { stiffness: 30, damping: 18 },
   },
   {
     id: 'd',
@@ -64,13 +72,20 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, -30, 24, 0], y: [0, 24, -20, 0], scale: [1, 1.12, 1.04, 1] },
     duration: 48,
     delay: 0.8,
-    parallaxStrength: 0.045,
+    parallaxStrength: 0.06,
+    invert: true,
+    springConfig: { stiffness: 50, damping: 28 },
   },
 ]
 
-const PARALLAX_SPRING = { stiffness: 40, damping: 25 }
+const DEFAULT_SPRING = { stiffness: 40, damping: 25 }
 
-function useOrbParallax(strength: number, disabled: boolean) {
+function useInteractiveParallax(
+  strength: number,
+  invert: boolean,
+  springConfig: { stiffness: number; damping: number },
+  disabled: boolean
+) {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
@@ -88,17 +103,64 @@ function useOrbParallax(strength: number, disabled: boolean) {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [disabled, mouseX, mouseY])
 
-  const offsetX = useTransform(mouseX, (v) => v * strength)
-  const offsetY = useTransform(mouseY, (v) => v * strength)
+  const multiplier = invert ? -1 : 1
+  const offsetX = useTransform(mouseX, (v) => v * strength * multiplier)
+  const offsetY = useTransform(mouseY, (v) => v * strength * multiplier)
 
-  const x = useSpring(offsetX, PARALLAX_SPRING)
-  const y = useSpring(offsetY, PARALLAX_SPRING)
+  const x = useSpring(offsetX, springConfig)
+  const y = useSpring(offsetY, springConfig)
 
   return { x, y }
 }
 
+function useCursorGlow(disabled: boolean) {
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const opacity = useMotionValue(0)
+
+  useEffect(() => {
+    if (disabled || typeof window === 'undefined') return
+
+    let timeout: ReturnType<typeof setTimeout>
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
+      opacity.set(1)
+
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        opacity.set(0)
+      }, 3000)
+    }
+
+    const handleMouseLeave = () => {
+      opacity.set(0)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    document.addEventListener('mouseleave', handleMouseLeave)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+      clearTimeout(timeout)
+    }
+  }, [disabled, mouseX, mouseY, opacity])
+
+  const smoothX = useSpring(mouseX, { stiffness: 100, damping: 30 })
+  const smoothY = useSpring(mouseY, { stiffness: 100, damping: 30 })
+  const smoothOpacity = useSpring(opacity, { stiffness: 80, damping: 20 })
+
+  return { x: smoothX, y: smoothY, opacity: smoothOpacity }
+}
+
 function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: boolean }) {
-  const parallax = useOrbParallax(orb.parallaxStrength, reduceMotion)
+  const parallax = useInteractiveParallax(
+    orb.parallaxStrength,
+    orb.invert ?? false,
+    orb.springConfig ?? DEFAULT_SPRING,
+    reduceMotion
+  )
 
   return (
     <motion.div
@@ -138,13 +200,52 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
   )
 }
 
+function CursorGlow({ disabled }: { disabled: boolean }) {
+  const cursor = useCursorGlow(disabled)
+
+  const background = useMotionTemplate`radial-gradient(800px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.08), rgba(99,102,241,0.04) 40%, transparent 70%)`
+
+  if (disabled) return null
+
+  return (
+    <motion.div
+      className="absolute inset-0 transition-opacity duration-700"
+      style={{
+        background,
+        opacity: cursor.opacity,
+      }}
+    />
+  )
+}
+
 export function AmbientBackground() {
   const reduceMotion = useReducedMotion() ?? false
-  const auroraParallax = useMouseParallax({
-    strength: 0.025,
-    springConfig: { stiffness: 25, damping: 18 },
-    disabled: reduceMotion,
-  })
+
+  const auroraMouseX = useMotionValue(0)
+  const auroraMouseY = useMotionValue(0)
+
+  useEffect(() => {
+    if (reduceMotion || typeof window === 'undefined') return
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const centerX = window.innerWidth / 2
+      const centerY = window.innerHeight / 2
+      auroraMouseX.set(e.clientX - centerX)
+      auroraMouseY.set(e.clientY - centerY)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [reduceMotion, auroraMouseX, auroraMouseY])
+
+  const auroraX = useSpring(
+    useTransform(auroraMouseX, (v) => v * 0.03),
+    { stiffness: 20, damping: 15 }
+  )
+  const auroraY = useSpring(
+    useTransform(auroraMouseY, (v) => v * 0.03),
+    { stiffness: 20, damping: 15 }
+  )
 
   return (
     <div
@@ -160,8 +261,8 @@ export function AmbientBackground() {
         style={{
           background:
             'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.22) 0deg, rgba(134,94,194,0.17) 60deg, rgba(168,85,247,0.12) 120deg, rgba(114,108,197,0.13) 180deg, rgba(59,130,246,0.15) 240deg, rgba(79,116,244,0.16) 300deg, rgba(99,102,241,0.22) 360deg)',
-          x: reduceMotion ? undefined : auroraParallax.x,
-          y: reduceMotion ? undefined : auroraParallax.y,
+          x: reduceMotion ? undefined : auroraX,
+          y: reduceMotion ? undefined : auroraY,
         }}
         animate={
           reduceMotion
@@ -189,6 +290,9 @@ export function AmbientBackground() {
       {orbs.map((orb) => (
         <ParallaxOrb key={orb.id} orb={orb} reduceMotion={reduceMotion} />
       ))}
+
+      {/* Cursor glow - follows mouse with soft ambient light */}
+      <CursorGlow disabled={reduceMotion} />
 
       {/* Subtle film grain */}
       <div
