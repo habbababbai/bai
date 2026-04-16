@@ -300,20 +300,14 @@ export default function App() {
 
             {showSections && (
               <motion.div
-                initial={{ y: 36, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
+                initial={reduceMotion ? false : { y: 36 }}
+                animate={{ y: 0 }}
                 transition={
                   reduceMotion
                     ? { duration: 0 }
-                    : { 
-                        y: {
-                          duration: 0.72,
-                          ease: [0.16, 1, 0.3, 1],
-                        },
-                        opacity: {
-                          duration: 0.9,
-                          ease: [0.16, 1, 0.3, 1],
-                        },
+                    : {
+                        duration: 0.72,
+                        ease: [0.16, 1, 0.3, 1],
                       }
                 }
                 className="flex flex-col gap-12 md:gap-14"
