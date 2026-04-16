@@ -24,7 +24,7 @@ const REVEAL_COMPLETE_MS = 750
 const REVEAL_INPUT_LOCK_MS = 820
 
 /** Bottom sections: must match `revealSectionsContainerVariants` stagger math for inner content fade */
-const INTRO_BOTTOM_STAGGER = 0.12
+const INTRO_BOTTOM_STAGGER = 0.08
 const INTRO_BOTTOM_DELAY_CHILD = 0.07
 
 function introInnerFadeDelay(index: number) {
@@ -287,16 +287,14 @@ export default function App() {
 
   const revealSectionsItemVariants = useMemo(
     () => ({
-      hidden: { y: reduceMotion ? 0 : 32 },
+      hidden: { y: reduceMotion ? 0 : 24 },
       visible: {
         y: 0,
         transition: reduceMotion
           ? { duration: 0 }
           : {
-              type: 'spring' as const,
-              stiffness: 54,
-              damping: 16,
-              mass: 1,
+              duration: 0.48,
+              ease: [0.22, 1, 0.36, 1] as const,
             },
       },
     }),
@@ -367,9 +365,6 @@ export default function App() {
                 >
                   <SkillsSection
                     disableEntrance={introEntranceDisabled}
-                    innerRevealDelay={
-                      showInnerContentFade ? introInnerFadeDelay(1) : undefined
-                    }
                   />
                 </motion.div>
                 <motion.div

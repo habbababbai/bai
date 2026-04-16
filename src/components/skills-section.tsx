@@ -10,11 +10,6 @@ type SkillsSectionProps = {
   innerRevealDelay?: number
 }
 
-const cardVariantsStatic = {
-  hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0 },
-}
-
 export function SkillsSection({
   disableEntrance = false,
   innerRevealDelay,
@@ -22,15 +17,14 @@ export function SkillsSection({
   const reduceMotion = useReducedMotion() ?? false
   const skillGroups = site.skills
   const lastIsOdd = skillGroups.length % 2 === 1
-  const skipGridScrollReveal =
-    innerRevealDelay != null && !reduceMotion
+  const useIntroGridReveal = innerRevealDelay != null && !reduceMotion
 
   const gridContainerVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: reduceMotion || skipGridScrollReveal ? 0 : 0.08,
-        delayChildren: reduceMotion || skipGridScrollReveal ? 0 : 0.06,
+        staggerChildren: reduceMotion || useIntroGridReveal ? 0 : 0.08,
+        delayChildren: reduceMotion || useIntroGridReveal ? 0 : 0.06,
       },
     },
   }
@@ -40,17 +34,20 @@ export function SkillsSection({
       opacity: reduceMotion ? 1 : 0,
       y: reduceMotion ? 0 : 16,
     },
-    visible: {
+    visible: (index = 0) => ({
       opacity: 1,
       y: 0,
       transition: {
-        duration: reduceMotion ? 0 : 0.42,
+        duration: reduceMotion ? 0 : 0.46,
         ease: [0.22, 1, 0.36, 1] as const,
+        delay: reduceMotion
+          ? 0
+          : useIntroGridReveal
+            ? (innerRevealDelay ?? 0) + 0.1 + index * 0.085
+            : 0,
       },
-    },
+    }),
   }
-
-  const cardVariantsResolved = skipGridScrollReveal ? cardVariantsStatic : cardVariants
 
   const inner = (
     <div className="mx-auto max-w-160 select-none">
@@ -72,16 +69,14 @@ export function SkillsSection({
         className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
         variants={gridContainerVariants}
         initial={
-          skipGridScrollReveal
-            ? 'visible'
-            : disableEntrance
-              ? false
-              : 'hidden'
+          useIntroGridReveal
+            ? 'hidden'
+            : 'hidden'
         }
-        animate={skipGridScrollReveal ? 'visible' : undefined}
-        whileInView={skipGridScrollReveal ? undefined : 'visible'}
+        animate={useIntroGridReveal ? 'visible' : undefined}
+        whileInView={useIntroGridReveal ? undefined : 'visible'}
         viewport={
-          skipGridScrollReveal
+          useIntroGridReveal
             ? undefined
             : {
                 once: true,
@@ -97,7 +92,8 @@ export function SkillsSection({
           return (
             <motion.div
               key={group.label}
-              variants={cardVariantsResolved}
+              variants={cardVariants}
+              custom={index}
               className={cn(
                 'skill-card flex h-full min-h-0 min-w-0 flex-col',
                 spanLastOdd && 'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
@@ -156,7 +152,11 @@ export function SkillsSection({
         showShine
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >
-        {innerRevealDelay != null && !reduceMotion ? (
+        {/*
+          During intro reveal, the grid uses its own pop/fade stagger.
+          Wrapping the entire section in an opacity fade hides that pop.
+        */}
+        {innerRevealDelay != null && !reduceMotion && !useIntroGridReveal ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
