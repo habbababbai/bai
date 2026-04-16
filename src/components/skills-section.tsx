@@ -43,7 +43,7 @@ export function SkillsSection() {
         showShine
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >
-        <div className="mx-auto max-w-[40rem]">
+        <div className="mx-auto max-w-[40rem] select-none">
           <div className="mb-4 flex flex-row items-center justify-center gap-2.5">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
               <Layers className="h-5 w-5" aria-hidden strokeWidth={1.75} />
@@ -88,7 +88,7 @@ export function SkillsSection() {
                       const Icon = skillInfo?.icon
                       return (
                         <li key={item} className="min-w-0 max-w-full">
-                          <span className="chip group/chip leading-snug">
+                          <span className="chip group/chip select-none leading-snug">
                             {Icon && (
                               <Icon
                                 className="mr-1.5 h-3.5 w-3.5 shrink-0 opacity-75 transition-opacity duration-500 group-hover/chip:opacity-100"

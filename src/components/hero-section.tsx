@@ -21,7 +21,7 @@ export function HeroSection() {
         showShine
         innerClassName="frost-panel relative px-8 py-14 md:px-12 md:py-[4.25rem]"
       >
-        <div className="mx-auto max-w-lg text-center md:max-w-xl">
+        <div className="mx-auto max-w-lg select-none text-center md:max-w-xl">
           <p className="mb-5 text-[0.6875rem] font-semibold uppercase tracking-[0.38em] text-zinc-500">
             Portfolio
           </p>
