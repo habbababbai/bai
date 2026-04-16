@@ -4,6 +4,7 @@
 export const site = {
   displayName: 'bai',
   tagline: 'JavaScript Developer',
+  tagline2: 'szymanski.j.dev@gmail.com',
   intro: {
     revealLabel: 'Scroll to explore',
     revealAriaLabel: 'Reveal the rest of the page',
