@@ -38,7 +38,7 @@ export function ContactSection({
 }: ContactSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
 
-  const inner = (
+  const content = (
     <div className="mx-auto max-w-xl text-center select-none">
       <div className="mb-1 flex flex-row items-center justify-center gap-2.5">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
@@ -54,6 +54,35 @@ export function ContactSection({
       <p className="mt-3 text-sm leading-relaxed text-zinc-500">
         Links and email — best place to reach me.
       </p>
+    </div>
+  )
+
+  const links = (
+    <nav
+      className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3"
+      aria-label="Contact links"
+    >
+      {items.map(({ href, label, external, icon: Icon }) => (
+        <a
+          key={label}
+          className="link-pill min-h-11 select-none sm:min-w-42"
+          href={href}
+          {...(external ? { rel: 'noreferrer', target: '_blank' } : {})}
+        >
+          <Icon
+            className="h-4.5 w-4.5 shrink-0 opacity-90"
+            strokeWidth={2}
+            aria-hidden
+          />
+          {label}
+        </a>
+      ))}
+    </nav>
+  )
+
+  const inner = (
+    <div className="mx-auto max-w-xl text-center select-none">
+      {content}
       <nav
         className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3"
         aria-label="Contact links"
@@ -103,29 +132,35 @@ export function ContactSection({
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >
         {innerRevealDelay != null && !reduceMotion ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 1.12,
-              delay: innerRevealDelay,
-              ease: [0.18, 0.92, 0.22, 1] as const,
-            }}
-          >
-            {inner}
-          </motion.div>
+          <div className="mx-auto max-w-xl text-center select-none">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                duration: 1.12,
+                delay: innerRevealDelay,
+                ease: [0.18, 0.92, 0.22, 1] as const,
+              }}
+            >
+              {content}
+            </motion.div>
+            {links}
+          </div>
         ) : !disableEntrance && !reduceMotion ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-12% 0px' }}
-            transition={{
-              duration: 0.72,
-              ease: [0.22, 1, 0.36, 1] as const,
-            }}
-          >
-            {inner}
-          </motion.div>
+          <div className="mx-auto max-w-xl text-center select-none">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-12% 0px' }}
+              transition={{
+                duration: 0.72,
+                ease: [0.22, 1, 0.36, 1] as const,
+              }}
+            >
+              {content}
+            </motion.div>
+            {links}
+          </div>
         ) : (
           inner
         )}
