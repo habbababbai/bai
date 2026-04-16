@@ -31,7 +31,7 @@
   }
 
   .chip {
-    @apply inline-flex max-w-full cursor-default break-words rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm font-normal text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)];
+    @apply inline-flex max-w-full cursor-default items-center break-words rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm font-normal text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)];
   }
 
   .skill-card {

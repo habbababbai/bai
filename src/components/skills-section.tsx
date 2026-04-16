@@ -1,5 +1,6 @@
 import { site } from '@/content/site'
 import { cn } from '@/lib/cn'
+import { getSkillInfo } from '@/lib/skill-icons'
 import { TiltCard } from '@/components/tilt-card'
 import { Layers } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
@@ -82,11 +83,24 @@ export function SkillsSection() {
                     {group.label}
                   </h3>
                   <ul className="mt-3.5 flex min-h-0 flex-1 flex-wrap content-start gap-x-2 gap-y-2">
-                    {group.items.map((item) => (
-                      <li key={item} className="min-w-0 max-w-full">
-                        <span className="chip leading-snug">{item}</span>
-                      </li>
-                    ))}
+                    {group.items.map((item) => {
+                      const skillInfo = getSkillInfo(item)
+                      const Icon = skillInfo?.icon
+                      return (
+                        <li key={item} className="min-w-0 max-w-full">
+                          <span className="chip group/chip leading-snug">
+                            {Icon && (
+                              <Icon
+                                className="mr-1.5 h-3.5 w-3.5 shrink-0 opacity-75 transition-opacity duration-500 group-hover/chip:opacity-100"
+                                style={{ color: skillInfo?.color }}
+                                aria-hidden
+                              />
+                            )}
+                            {item}
+                          </span>
+                        </li>
+                      )
+                    })}
                   </ul>
                 </motion.div>
               )
