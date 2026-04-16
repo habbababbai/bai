@@ -40,9 +40,7 @@ export function AboutSection({
     <motion.section
       id="about"
       tabIndex={-1}
-      initial={
-        disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }
-      }
+      initial={disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }}
       whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-10% 0px' }}
       transition={

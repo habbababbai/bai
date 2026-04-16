@@ -316,94 +316,90 @@ export default function App() {
 
   return (
     <div
-        className={cn('relative min-h-svh overflow-x-hidden', showIntroHero && 'overflow-y-clip')}
-        onTouchMove={handleTouchMove}
-        onTouchStart={handleTouchStart}
+      className={cn(
+        'relative min-h-svh overflow-x-hidden',
+        showIntroHero && 'overflow-y-clip',
+      )}
+      onTouchMove={handleTouchMove}
+      onTouchStart={handleTouchStart}
+    >
+      <AmbientBackground />
+      <a
+        href="#about"
+        onClick={handleSkipToAbout}
+        onKeyDown={handleSkipKeyDown}
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-zinc-950 focus:px-4 focus:py-2 focus:text-sm focus:text-white focus:ring-2 focus:ring-[#68aec9]/80"
       >
-        <AmbientBackground />
-        <a
-          href="#about"
-          onClick={handleSkipToAbout}
-          onKeyDown={handleSkipKeyDown}
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-zinc-950 focus:px-4 focus:py-2 focus:text-sm focus:text-white focus:ring-2 focus:ring-[#68aec9]/80"
-        >
-          Skip to about
-        </a>
+        Skip to about
+      </a>
 
-        {showIntroHero && (
-          <HeroSection
-            introPhase={effectiveIntroPhase}
-            mode="intro"
-            onReveal={() => triggerReveal()}
-            onIntroTypingComplete={handleIntroTypingComplete}
-          />
-        )}
+      {showIntroHero && (
+        <HeroSection
+          introPhase={effectiveIntroPhase}
+          mode="intro"
+          onReveal={() => triggerReveal()}
+          onIntroTypingComplete={handleIntroTypingComplete}
+        />
+      )}
 
-        <main
-          id="main"
-          className="relative z-10 w-full px-5 pt-16 pb-28 sm:px-6 md:px-8 md:pt-24 md:pb-32"
-        >
-          <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 md:max-w-176 md:gap-14">
-            {showFlowHero && (
-              <HeroSection
-                introPhase={effectiveIntroPhase}
-                mode="flow"
-              />
-            )}
+      <main
+        id="main"
+        className="relative z-10 w-full px-5 pt-16 pb-28 sm:px-6 md:px-8 md:pt-24 md:pb-32"
+      >
+        <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 md:max-w-176 md:gap-14">
+          {showFlowHero && <HeroSection introPhase={effectiveIntroPhase} mode="flow" />}
 
-            {showSections && (
+          {showSections && (
+            <motion.div
+              variants={revealSectionsContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-col gap-12 md:gap-14"
+            >
               <motion.div
-                variants={revealSectionsContainerVariants}
-                initial="hidden"
-                animate="visible"
-                className="flex flex-col gap-12 md:gap-14"
+                variants={revealSectionsItemVariants}
+                className={cn(
+                  'w-full transform-gpu [contain-intrinsic-size:auto_520px] [content-visibility:auto]',
+                  keepRevealWillChange && 'will-change-transform',
+                )}
+                style={{ backfaceVisibility: 'hidden' }}
               >
-                <motion.div
-                  variants={revealSectionsItemVariants}
-                  className={cn(
-                    'w-full transform-gpu [contain-intrinsic-size:auto_520px] [content-visibility:auto]',
-                    keepRevealWillChange && 'will-change-transform',
-                  )}
-                  style={{ backfaceVisibility: 'hidden' }}
-                >
-                  <AboutSection
-                    disableEntrance={introEntranceDisabled}
-                    innerRevealDelay={
-                      showInnerContentFade ? introInnerFadeDelay(0) : undefined
-                    }
-                  />
-                </motion.div>
-                <motion.div
-                  variants={revealSectionsItemVariants}
-                  className={cn(
-                    'w-full transform-gpu [contain-intrinsic-size:auto_560px] [content-visibility:auto]',
-                    keepRevealWillChange && 'will-change-transform',
-                  )}
-                  style={{ backfaceVisibility: 'hidden' }}
-                >
-                  <SkillsSection
-                    disableEntrance={false}
-                  />
-                </motion.div>
-                <motion.div
-                  variants={revealSectionsItemVariants}
-                  className={cn(
-                    'w-full transform-gpu [contain-intrinsic-size:auto_420px] [content-visibility:auto]',
-                    keepRevealWillChange && 'will-change-transform',
-                  )}
-                  style={{ backfaceVisibility: 'hidden' }}
-                >
-                  <ContactSection
-                    disableEntrance={false}
-                    innerRevealDelay={
-                      showInnerContentFade ? introInnerFadeDelay(2) : undefined
-                    }
-                  />
-                </motion.div>
+                <AboutSection
+                  disableEntrance={introEntranceDisabled}
+                  innerRevealDelay={
+                    showInnerContentFade ? introInnerFadeDelay(0) : undefined
+                  }
+                />
               </motion.div>
-            )}
-          </div>
-        </main>
-      </div>
+              <motion.div
+                variants={revealSectionsItemVariants}
+                className={cn(
+                  'w-full transform-gpu [contain-intrinsic-size:auto_560px] [content-visibility:auto]',
+                  keepRevealWillChange && 'will-change-transform',
+                )}
+                style={{ backfaceVisibility: 'hidden' }}
+              >
+                <SkillsSection disableEntrance={false} />
+              </motion.div>
+              <motion.div
+                variants={revealSectionsItemVariants}
+                className={cn(
+                  'w-full transform-gpu [contain-intrinsic-size:auto_420px] [content-visibility:auto]',
+                  keepRevealWillChange && 'will-change-transform',
+                )}
+                style={{ backfaceVisibility: 'hidden' }}
+              >
+                <ContactSection
+                  disableEntrance={false}
+                  innerRevealDelay={
+                    showInnerContentFade ? introInnerFadeDelay(2) : undefined
+                  }
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </div>
+      </main>
+    </div>
   )
 }

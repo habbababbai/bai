@@ -50,12 +50,7 @@ export function EmailCopyLine({
   const widthEase = 'cubic-bezier(0.22, 1, 0.36, 1)'
 
   return (
-    <div
-      className={cn(
-        variant === 'centered' && 'flex justify-center',
-        className,
-      )}
-    >
+    <div className={cn(variant === 'centered' && 'flex justify-center', className)}>
       <button
         type="button"
         onClick={(e) => {
@@ -72,11 +67,15 @@ export function EmailCopyLine({
             ? 'hover:border-white/16 hover:bg-white/[0.06] hover:text-zinc-100'
             : 'pointer-events-none cursor-default opacity-60',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6f85c5]/80',
-          copied && 'border-emerald-500/25 bg-emerald-500/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_1px_rgba(52,211,153,0.12)]',
+          copied &&
+            'border-emerald-500/25 bg-emerald-500/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_1px_rgba(52,211,153,0.12)]',
         )}
         aria-label={`Copy email ${email}`}
       >
-        <span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center" aria-hidden>
+        <span
+          className="flex h-3.5 w-3.5 shrink-0 items-center justify-center"
+          aria-hidden
+        >
           {copied ? (
             <Check className="h-3.5 w-3.5 text-emerald-400/95" strokeWidth={2.5} />
           ) : (
@@ -92,18 +91,23 @@ export function EmailCopyLine({
         <span
           className={cn(
             'grid min-w-0 shrink-0 overflow-hidden',
-            reduceMotion ? 'transition-none' : 'transition-[grid-template-columns] duration-[420ms]',
+            reduceMotion
+              ? 'transition-none'
+              : 'transition-[grid-template-columns] duration-[420ms]',
           )}
           style={
             reduceMotion
               ? { gridTemplateColumns: copied ? '1fr' : '0fr' }
-              : { gridTemplateColumns: copied ? '1fr' : '0fr', transitionTimingFunction: widthEase }
+              : {
+                  gridTemplateColumns: copied ? '1fr' : '0fr',
+                  transitionTimingFunction: widthEase,
+                }
           }
           aria-hidden={!copied}
         >
           <span className="min-w-0">
             <span
-              className="inline-block whitespace-nowrap pl-1.5 text-[0.65rem] font-medium tracking-wide text-emerald-400/90"
+              className="inline-block pl-1.5 text-[0.65rem] font-medium tracking-wide whitespace-nowrap text-emerald-400/90"
               aria-live={copied ? 'polite' : undefined}
             >
               Copied

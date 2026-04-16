@@ -71,11 +71,7 @@ export function ContactSection({
           href={href}
           {...(external ? { rel: 'noreferrer', target: '_blank' } : {})}
         >
-          <Icon
-            className="h-4.5 w-4.5 shrink-0 opacity-90"
-            strokeWidth={2}
-            aria-hidden
-          />
+          <Icon className="h-4.5 w-4.5 shrink-0 opacity-90" strokeWidth={2} aria-hidden />
           {label}
         </a>
       ))}
@@ -132,9 +128,7 @@ export function ContactSection({
   return (
     <motion.section
       id="contact"
-      initial={
-        disableEntrance || reduceMotion ? false : { y: 20 }
-      }
+      initial={disableEntrance || reduceMotion ? false : { y: 20 }}
       whileInView={disableEntrance ? undefined : { y: 0 }}
       viewport={{ once: true, margin: '-12% 0px' }}
       transition={

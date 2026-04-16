@@ -17,7 +17,8 @@ const TYPING_CHAR_MS = 155
 const TYPING_SEGMENT_PAUSE_MS = 720
 
 /** Keeps typing ↔ static stable without oversized empty space */
-const INTRO_COPY_SHELL_CLASS = 'flex w-full min-h-[clamp(5.75rem,15vw,7.75rem)] flex-col items-center'
+const INTRO_COPY_SHELL_CLASS =
+  'flex w-full min-h-[clamp(5.75rem,15vw,7.75rem)] flex-col items-center'
 const INTRO_FIRST_LINE_CLASS =
   'order-1 min-h-[clamp(2.5rem,7vw,3.75rem)] font-display text-balance-safe text-[clamp(1.35rem,4.2vw,2rem)] leading-snug font-medium tracking-tight text-zinc-100'
 const INTRO_CARET_CLASS = 'ml-0.5 inline-block h-[1em] w-px shrink-0 align-[-0.1em]'
@@ -143,9 +144,7 @@ function HeroCard({
   const reducedLocked = isIntro && introPhase === 'locked' && reduceMotion
   const showIntroStaticGreeting =
     isIntro &&
-    (introPhase === 'hint-visible' ||
-      introPhase === 'revealing' ||
-      reducedLocked)
+    (introPhase === 'hint-visible' || introPhase === 'revealing' || reducedLocked)
 
   /** Visible for the whole intro (including while the line is typing). */
   const showEmailInIntro = isIntro
@@ -172,9 +171,7 @@ function HeroCard({
         {isIntro ? (
           <>
             {typingLocked ? (
-              <IntroTypingGreeting
-                onComplete={onIntroTypingComplete ?? (() => {})}
-              />
+              <IntroTypingGreeting onComplete={onIntroTypingComplete ?? (() => {})} />
             ) : showIntroStaticGreeting ? (
               reducedLocked ? (
                 <IntroReducedMotionReady onReady={onIntroTypingComplete ?? (() => {})} />
@@ -217,7 +214,9 @@ function HeroCard({
         innerClassName="frost-panel relative overflow-hidden px-6 py-8 sm:px-8 sm:py-9 md:px-10 md:py-10"
       >
         {canPressToReveal ? (
-          <div className={cn('cursor-pointer', typingLocked && 'select-none')}>{cardInner}</div>
+          <div className={cn('cursor-pointer', typingLocked && 'select-none')}>
+            {cardInner}
+          </div>
         ) : (
           cardInner
         )}

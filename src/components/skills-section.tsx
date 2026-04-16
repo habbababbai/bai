@@ -68,11 +68,7 @@ export function SkillsSection({
       <motion.div
         className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
         variants={gridContainerVariants}
-        initial={
-          useIntroGridReveal
-            ? 'hidden'
-            : 'hidden'
-        }
+        initial={useIntroGridReveal ? 'hidden' : 'hidden'}
         animate={useIntroGridReveal ? 'visible' : undefined}
         whileInView={useIntroGridReveal ? undefined : 'visible'}
         viewport={
@@ -135,9 +131,7 @@ export function SkillsSection({
     <motion.section
       id="skills"
       aria-labelledby="skills-heading"
-      initial={
-        disableEntrance || reduceMotion ? false : { y: 20 }
-      }
+      initial={disableEntrance || reduceMotion ? false : { y: 20 }}
       whileInView={disableEntrance ? undefined : { y: 0 }}
       viewport={{ once: true, margin: '-8% 0px' }}
       transition={
