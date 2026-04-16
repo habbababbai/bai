@@ -11,6 +11,7 @@ import {
   type TouchEvent as ReactTouchEvent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -18,8 +19,17 @@ import {
 const HINT_DELAY_MS = 1050
 const TOUCH_REVEAL_THRESHOLD = 64
 const WHEEL_REVEAL_THRESHOLD = 24
-const REVEAL_COMPLETE_MS = 620
+/** After hero tween finishes; avoids swap before motion completes */
+const REVEAL_COMPLETE_MS = 750
 const REVEAL_INPUT_LOCK_MS = 820
+
+/** Bottom sections: must match `revealSectionsContainerVariants` stagger math for inner content fade */
+const INTRO_BOTTOM_STAGGER = 0.12
+const INTRO_BOTTOM_DELAY_CHILD = 0.07
+
+function introInnerFadeDelay(index: number) {
+  return INTRO_BOTTOM_DELAY_CHILD + index * INTRO_BOTTOM_STAGGER
+}
 
 function isInteractiveTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false
@@ -262,6 +272,39 @@ export default function App() {
   const showSections = !introEnabled || effectiveIntroPhase === 'revealed'
   const introEntranceDisabled = introEnabled
 
+  const revealSectionsContainerVariants = useMemo(
+    () => ({
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: reduceMotion ? 0 : INTRO_BOTTOM_STAGGER,
+          delayChildren: reduceMotion ? 0 : INTRO_BOTTOM_DELAY_CHILD,
+        },
+      },
+    }),
+    [reduceMotion],
+  )
+
+  const revealSectionsItemVariants = useMemo(
+    () => ({
+      hidden: { y: reduceMotion ? 0 : 32 },
+      visible: {
+        y: 0,
+        transition: reduceMotion
+          ? { duration: 0 }
+          : {
+              type: 'spring' as const,
+              stiffness: 54,
+              damping: 16,
+              mass: 1,
+            },
+      },
+    }),
+    [reduceMotion],
+  )
+
+  const showInnerContentFade = introEntranceDisabled && !reduceMotion
+
   return (
     <div
         className={cn('relative min-h-svh overflow-x-hidden', showIntroHero && 'overflow-y-clip')}
@@ -300,21 +343,47 @@ export default function App() {
 
             {showSections && (
               <motion.div
-                initial={reduceMotion ? false : { y: 36 }}
-                animate={{ y: 0 }}
-                transition={
-                  reduceMotion
-                    ? { duration: 0 }
-                    : {
-                        duration: 0.72,
-                        ease: [0.16, 1, 0.3, 1],
-                      }
-                }
+                variants={revealSectionsContainerVariants}
+                initial="hidden"
+                animate="visible"
                 className="flex flex-col gap-12 md:gap-14"
               >
-                <AboutSection disableEntrance={introEntranceDisabled} />
-                <SkillsSection disableEntrance={introEntranceDisabled} />
-                <ContactSection disableEntrance={introEntranceDisabled} />
+                <motion.div
+                  variants={revealSectionsItemVariants}
+                  className="w-full transform-gpu will-change-transform"
+                  style={{ backfaceVisibility: 'hidden' }}
+                >
+                  <AboutSection
+                    disableEntrance={introEntranceDisabled}
+                    innerRevealDelay={
+                      showInnerContentFade ? introInnerFadeDelay(0) : undefined
+                    }
+                  />
+                </motion.div>
+                <motion.div
+                  variants={revealSectionsItemVariants}
+                  className="w-full transform-gpu will-change-transform"
+                  style={{ backfaceVisibility: 'hidden' }}
+                >
+                  <SkillsSection
+                    disableEntrance={introEntranceDisabled}
+                    innerRevealDelay={
+                      showInnerContentFade ? introInnerFadeDelay(1) : undefined
+                    }
+                  />
+                </motion.div>
+                <motion.div
+                  variants={revealSectionsItemVariants}
+                  className="w-full transform-gpu will-change-transform"
+                  style={{ backfaceVisibility: 'hidden' }}
+                >
+                  <ContactSection
+                    disableEntrance={introEntranceDisabled}
+                    innerRevealDelay={
+                      showInnerContentFade ? introInnerFadeDelay(2) : undefined
+                    }
+                  />
+                </motion.div>
               </motion.div>
             )}
           </div>

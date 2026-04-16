@@ -55,19 +55,18 @@ export function HeroSection({
     return (
       <div className="pointer-events-none fixed inset-0 z-20 flex items-start justify-center px-5 pt-16 sm:px-6 md:px-8 md:pt-24">
         <motion.div 
-          className="pointer-events-auto relative w-full max-w-2xl md:max-w-176"
+          className="pointer-events-auto relative w-full max-w-2xl transform-gpu will-change-transform md:max-w-176"
           initial={false}
           animate={{ 
             y: isRevealing ? 0 : 'calc(50vh - 50% - 4rem)',
           }}
+          style={{ backfaceVisibility: 'hidden' }}
           transition={
             reduceMotion
               ? { duration: 0 }
-              : { 
-                  type: 'spring',
-                  stiffness: 120,
-                  damping: 20,
-                  mass: 1,
+              : {
+                  duration: 0.6,
+                  ease: [0.25, 0.1, 0.25, 1] as const,
                 }
           }
         >

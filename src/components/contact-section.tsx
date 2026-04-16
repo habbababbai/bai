@@ -29,10 +29,53 @@ const items = [
 
 type ContactSectionProps = {
   disableEntrance?: boolean
+  innerRevealDelay?: number
 }
 
-export function ContactSection({ disableEntrance = false }: ContactSectionProps) {
+export function ContactSection({
+  disableEntrance = false,
+  innerRevealDelay,
+}: ContactSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
+
+  const inner = (
+    <div className="mx-auto max-w-xl text-center select-none">
+      <div className="mb-1 flex flex-row items-center justify-center gap-2.5">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+          <MessageCircle className="h-5 w-5" aria-hidden strokeWidth={1.75} />
+        </span>
+        <h2
+          id="contact-heading"
+          className="font-display text-2xl font-semibold tracking-tight text-zinc-100 md:text-3xl"
+        >
+          Connect
+        </h2>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-zinc-500">
+        Links and email — best place to reach me.
+      </p>
+      <nav
+        className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3"
+        aria-label="Contact links"
+      >
+        {items.map(({ href, label, external, icon: Icon }) => (
+          <a
+            key={label}
+            className="link-pill min-h-11 select-none sm:min-w-42"
+            href={href}
+            {...(external ? { rel: 'noreferrer', target: '_blank' } : {})}
+          >
+            <Icon
+              className="h-4.5 w-4.5 shrink-0 opacity-90"
+              strokeWidth={2}
+              aria-hidden
+            />
+            {label}
+          </a>
+        ))}
+      </nav>
+    </div>
+  )
 
   return (
     <motion.section
@@ -59,42 +102,21 @@ export function ContactSection({ disableEntrance = false }: ContactSectionProps)
         showShine
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >
-        <div className="mx-auto max-w-xl text-center select-none">
-          <div className="mb-1 flex flex-row items-center justify-center gap-2.5">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-              <MessageCircle className="h-5 w-5" aria-hidden strokeWidth={1.75} />
-            </span>
-            <h2
-              id="contact-heading"
-              className="font-display text-2xl font-semibold tracking-tight text-zinc-100 md:text-3xl"
-            >
-              Connect
-            </h2>
-          </div>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-            Links and email — best place to reach me.
-          </p>
-          <nav
-            className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3"
-            aria-label="Contact links"
+        {innerRevealDelay != null && !reduceMotion ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 1.12,
+              delay: innerRevealDelay,
+              ease: [0.18, 0.92, 0.22, 1] as const,
+            }}
           >
-            {items.map(({ href, label, external, icon: Icon }) => (
-              <a
-                key={label}
-                className="link-pill min-h-11 select-none sm:min-w-42"
-                href={href}
-                {...(external ? { rel: 'noreferrer', target: '_blank' } : {})}
-              >
-                <Icon
-                  className="h-4.5 w-4.5 shrink-0 opacity-90"
-                  strokeWidth={2}
-                  aria-hidden
-                />
-                {label}
-              </a>
-            ))}
-          </nav>
-        </div>
+            {inner}
+          </motion.div>
+        ) : (
+          inner
+        )}
       </TiltCard>
     </motion.section>
   )
