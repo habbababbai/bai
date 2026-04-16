@@ -3,14 +3,45 @@ import { TiltCard } from '@/components/tilt-card'
 import { Smartphone } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 
-export function AboutSection() {
-  const reduceMotion = useReducedMotion()
+type AboutSectionProps = {
+  disableEntrance?: boolean
+  /** Opacity fade for inner copy only (inside glass). Sync delay with App intro stagger. */
+  innerRevealDelay?: number
+}
+
+export function AboutSection({
+  disableEntrance = false,
+  innerRevealDelay,
+}: AboutSectionProps) {
+  const reduceMotion = useReducedMotion() ?? false
+
+  const inner = (
+    <div className="mx-auto max-w-160">
+      <div className="mb-6 flex flex-row items-center justify-center gap-2.5 select-none">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-[#68aec9]/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+          <Smartphone className="h-5 w-5" aria-hidden strokeWidth={1.75} />
+        </span>
+        <h2
+          id="about-heading"
+          className="font-display text-2xl font-semibold tracking-tight text-zinc-100 md:text-3xl"
+        >
+          {site.about.title}
+        </h2>
+      </div>
+      <div className="space-y-4 text-left text-[0.95rem] leading-[1.78] text-pretty text-zinc-400 sm:text-justify sm:hyphens-auto md:text-base">
+        {site.about.paragraphs.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
+      </div>
+    </div>
+  )
 
   return (
     <motion.section
       id="about"
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      tabIndex={-1}
+      initial={disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }}
+      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-10% 0px' }}
       transition={
         reduceMotion
@@ -25,24 +56,21 @@ export function AboutSection() {
         showShine
         innerClassName="frost-panel px-7 py-10 md:px-10 md:py-12"
       >
-        <div className="mx-auto max-w-160">
-          <div className="mb-6 flex flex-row items-center justify-center gap-2.5 select-none">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-              <Smartphone className="h-5 w-5" aria-hidden strokeWidth={1.75} />
-            </span>
-            <h2
-              id="about-heading"
-              className="font-display text-2xl font-semibold tracking-tight text-zinc-100 md:text-3xl"
-            >
-              {site.about.title}
-            </h2>
-          </div>
-          <div className="space-y-4 text-left text-[0.95rem] leading-[1.78] text-pretty text-zinc-400 sm:text-justify sm:hyphens-auto md:text-base">
-            {site.about.paragraphs.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-        </div>
+        {innerRevealDelay != null && !reduceMotion ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 1.12,
+              delay: innerRevealDelay,
+              ease: [0.18, 0.92, 0.22, 1] as const,
+            }}
+          >
+            {inner}
+          </motion.div>
+        ) : (
+          inner
+        )}
       </TiltCard>
     </motion.section>
   )

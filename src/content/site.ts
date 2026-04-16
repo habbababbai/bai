@@ -4,11 +4,16 @@
 export const site = {
   displayName: 'bai',
   tagline: 'JavaScript Developer',
+  tagline2: 'szymanski.j.dev@gmail.com',
+  intro: {
+    revealLabel: 'Scroll to explore',
+    revealAriaLabel: 'Reveal the rest of the page',
+  },
   about: {
     title: 'About',
     paragraphs: [
       'I work on React Native apps: shipping features, fixing what breaks, bumping versions, and refactoring when the codebase needs it. I’m efficient in TypeScript/JavaScript and I write native code when the problem isn’t solvable in JS alone.',
-      'Outside the JS layer I’ve done native modules, releases, hooking into APIs, analytics, push — the normal overhead around a shipped app.',
+      'Outside the JS layer I’ve done native modules, releases, hooking into APIs, analytics, push, and work around camera/video flows in React Native — the normal overhead around a shipped app.',
       'I know how to maintain a production app end to end — from everyday fixes and releases to coordinating with iOS, Android, and backend when needed.',
       'One of the important factors for me is having good processes and clear flows. Coding knowledge and technical ability matter, but documentation, testing, planning, and predictable ways of working are what really make production apps hold together.',
       "While React Native is my main focus, in free time I work on hobby projects with mostly Javascript stacks. I'm familiar with implementing Web in React, as well Node.js backend side and handling monorepos with multiple applications.",

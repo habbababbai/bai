@@ -1,0 +1,33 @@
+@layer base {
+  :root {
+    /* Legacy palette (kept for quick reuse) */
+    --legacy-ink: #06060a;
+    --legacy-indigo: #6366f1;
+    --legacy-violet: #8b5cf6;
+    --legacy-iris: #7b91ff;
+    --legacy-panel-tint: rgba(255, 255, 255, 0.055);
+
+    /* Dune / Arrakis palette - original */
+    --dune-arabic-blue: #3576ae;
+    --dune-vintage-aqua: #68aec9;
+    --dune-icarus: #a9d8de;
+    --dune-serengeti: #e9cb8e;
+    --dune-caramel-butter: #a5663a;
+    --dune-bottle-brown: #66280c;
+    --dune-ink: #05070b;
+
+    /* Vibrant planet colors (from reference) */
+    --planet-highlight: #f5a050;
+    --planet-lit: #e07838;
+    --planet-mid: #c86030;
+    --planet-rust: #8a4020;
+    --planet-shadow: #301008;
+    --planet-void: #180808;
+
+    /* Electric blue atmosphere */
+    --atmo-primary: #3576ae;
+    --atmo-bright: #5090c8;
+    --atmo-aqua: #68aec9;
+    --atmo-deep: #284878;
+  }
+}
