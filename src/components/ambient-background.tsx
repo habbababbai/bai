@@ -7,7 +7,7 @@ import {
   useTransform,
   useMotionTemplate,
 } from 'motion/react'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 
 type OrbConfig = {
   id: string
@@ -45,7 +45,7 @@ const orbs: OrbConfig[] = [
     blur: 'blur-[110px]',
     animate: { x: [0, -52, 32, 0], y: [0, 40, -24, 0], scale: [1, 1.06, 1.08, 1] },
     duration: 42,
-    delay: 1.2,
+    delay: 0,
     parallaxStrength: 0.12,
     invert: true,
     springConfig: { stiffness: 40, damping: 22 },
@@ -58,7 +58,7 @@ const orbs: OrbConfig[] = [
     blur: 'blur-[120px]',
     animate: { x: [0, 36, -20, 0], y: [0, 32, -18, 0], scale: [1, 1.05, 1.07, 1] },
     duration: 40,
-    delay: 2.4,
+    delay: 0,
     parallaxStrength: 0.15,
     invert: false,
     springConfig: { stiffness: 25, damping: 15 },
@@ -71,7 +71,7 @@ const orbs: OrbConfig[] = [
     blur: 'blur-[90px]',
     animate: { x: [0, -30, 24, 0], y: [0, 24, -20, 0], scale: [1, 1.12, 1.04, 1] },
     duration: 48,
-    delay: 0.8,
+    delay: 0,
     parallaxStrength: 0.1,
     invert: true,
     springConfig: { stiffness: 45, damping: 25 },
@@ -91,6 +91,9 @@ function useInteractiveParallax(
 
   useEffect(() => {
     if (disabled || typeof window === 'undefined') return
+
+    mouseX.set(0)
+    mouseY.set(0)
 
     const handleMouseMove = (e: MouseEvent) => {
       const centerX = window.innerWidth / 2
@@ -114,42 +117,48 @@ function useInteractiveParallax(
 }
 
 function useCursorGlow(disabled: boolean) {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const opacity = useMotionValue(0)
+  const mouseX = useMotionValue(
+    typeof window === 'undefined' ? 0 : window.innerWidth / 2
+  )
+  const mouseY = useMotionValue(
+    typeof window === 'undefined' ? 0 : window.innerHeight / 2
+  )
+  const opacity = useMotionValue(0.45)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (disabled || typeof window === 'undefined') return
 
-    let timeout: ReturnType<typeof setTimeout>
+    mouseX.set(window.innerWidth / 2)
+    mouseY.set(window.innerHeight / 2)
+    opacity.set(0.45)
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
-      opacity.set(1)
-
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        opacity.set(0)
-      }, 3000)
+      opacity.set(0.9)
     }
 
     const handleMouseLeave = () => {
-      opacity.set(0)
+      opacity.set(0.18)
+    }
+
+    const handleMouseEnter = () => {
+      opacity.set(0.45)
     }
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
     document.addEventListener('mouseleave', handleMouseLeave)
+    document.addEventListener('mouseenter', handleMouseEnter)
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseleave', handleMouseLeave)
-      clearTimeout(timeout)
+      document.removeEventListener('mouseenter', handleMouseEnter)
     }
   }, [disabled, mouseX, mouseY, opacity])
 
-  const smoothX = useSpring(mouseX, { stiffness: 100, damping: 30 })
-  const smoothY = useSpring(mouseY, { stiffness: 100, damping: 30 })
-  const smoothOpacity = useSpring(opacity, { stiffness: 80, damping: 20 })
+  const smoothX = useSpring(mouseX, { stiffness: 180, damping: 28 })
+  const smoothY = useSpring(mouseY, { stiffness: 180, damping: 28 })
+  const smoothOpacity = useSpring(opacity, { stiffness: 220, damping: 32 })
 
   return { x: smoothX, y: smoothY, opacity: smoothOpacity }
 }
@@ -164,30 +173,7 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
 
   return (
     <motion.div
-      className={cn(
-        'absolute rounded-full',
-        orb.position,
-        orb.size,
-        orb.gradient,
-        orb.blur,
-      )}
-      initial={false}
-      animate={
-        reduceMotion
-          ? { x: 0, y: 0, scale: 1 }
-          : orb.animate
-      }
-      transition={
-        reduceMotion
-          ? { duration: 0 }
-          : {
-              duration: orb.duration,
-              repeat: Infinity,
-              repeatType: 'mirror',
-              ease: 'easeInOut',
-              delay: orb.delay ?? 0,
-            }
-      }
+      className={cn('absolute', orb.position)}
       style={
         reduceMotion
           ? undefined
@@ -196,7 +182,33 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
               y: parallax.y,
             }
       }
-    />
+    >
+      <motion.div
+        className={cn(
+          'rounded-full',
+          orb.size,
+          orb.gradient,
+          orb.blur,
+        )}
+        initial={false}
+        animate={
+          reduceMotion
+            ? { x: 0, y: 0, scale: 1 }
+            : orb.animate
+        }
+        transition={
+          reduceMotion
+            ? { duration: 0 }
+            : {
+                duration: orb.duration,
+                repeat: Infinity,
+                repeatType: 'mirror',
+                ease: 'easeInOut',
+                delay: orb.delay ?? 0,
+              }
+        }
+      />
+    </motion.div>
   )
 }
 
@@ -226,6 +238,9 @@ export function AmbientBackground() {
 
   useEffect(() => {
     if (reduceMotion || typeof window === 'undefined') return
+
+    auroraMouseX.set(0)
+    auroraMouseY.set(0)
 
     const handleMouseMove = (e: MouseEvent) => {
       const centerX = window.innerWidth / 2
