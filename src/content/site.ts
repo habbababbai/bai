@@ -3,27 +3,101 @@
  */
 export const site = {
   displayName: 'bai',
-  tagline: 'Interfaces, performance, craft.',
+  tagline: 'JavaScript Developer',
+  about: {
+    title: 'About',
+    paragraphs: [
+      'I work on React Native apps: shipping features, fixing what breaks, bumping versions, and refactoring when the codebase needs it. I’m efficient in TypeScript/JavaScript and I write native code when the problem isn’t solvable in JS alone.',
+      'Outside the JS layer I’ve done native modules, releases, hooking into APIs, analytics, push — the normal overhead around a shipped app.',
+      'I know how to maintain a production app end to end — from everyday fixes and releases to coordinating with iOS, Android, and backend when needed.',
+      'One of the important factors for me is having good processes and clear flows. Coding knowledge and technical ability matter, but documentation, testing, planning, and predictable ways of working are what really make production apps hold together.',
+      "While React Native is my main focus, in free time I work on hobby projects with mostly Javascript stacks. I'm familiar with implementing Web in React, as well Node.js backend side and handling monorepos with multiple applications.",
+    ],
+  },
   skills: [
     {
-      label: 'Mobile & UI',
-      items: ['React Native', 'React', 'Expo', 'TypeScript', 'JavaScript'],
+      label: 'Mobile & frontend',
+      items: [
+        'React Native',
+        'Reanimated',
+        'React',
+        'Expo',
+        'Expo EAS',
+        'TypeScript',
+        'JavaScript',
+        'New Architecture',
+      ],
     },
     {
-      label: 'State & data',
-      items: ['Redux Toolkit', 'Zustand', 'TanStack Query'],
+      label: 'State, APIs & realtime',
+      items: [
+        'Redux Toolkit',
+        'RTK Query',
+        'Zustand',
+        'TanStack Query',
+        'GraphQL',
+        'REST',
+        'WebSockets',
+        'Postman',
+      ],
     },
     {
-      label: 'Native & platform',
-      items: ['New Architecture', 'Native modules', 'iOS & Android basics'],
+      label: 'Native modules & platform',
+      items: [
+        'TurboModules',
+        'Nitro modules',
+        'iOS',
+        'Android',
+        'Xcode',
+        'Android Studio',
+      ],
     },
     {
-      label: 'Quality & delivery',
-      items: ['Jest', 'CI/CD', 'Performance profiling', 'Git'],
+      label: 'Native languages',
+      items: ['Swift', 'Kotlin', 'C# (basics)'],
     },
     {
-      label: 'Web & APIs',
-      items: ['Next.js', 'Node.js', 'REST', 'HTML & CSS'],
+      label: 'Backend & web',
+      items: [
+        'Node.js',
+        'Fastify',
+        'NestJS',
+        'Next.js',
+        'PostgreSQL',
+        'SQLite',
+        'MSSQL',
+        'Discord.js',
+        'Docker',
+      ],
+    },
+    {
+      label: 'Analytics & product',
+      items: ['Firebase', 'Sentry', 'Segment', 'Mixpanel'],
+    },
+    {
+      label: 'Testing & quality',
+      items: [
+        'Jest',
+        'React Testing Library',
+        'React Native Testing Library',
+        'Detox',
+        'Git',
+      ],
+    },
+    {
+      label: 'Release & delivery',
+      items: [
+        'CI/CD',
+        'GitHub Actions',
+        'CodePush',
+        'TestFlight',
+        'App Store',
+        'Google Play',
+      ],
+    },
+    {
+      label: 'Tooling, design & AI',
+      items: ['Tailwind CSS', 'Figma', 'Cursor', 'Claude'],
     },
   ],
   links: {

@@ -1,0 +1,9 @@
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-balance-safe {
+    text-wrap: balance;
+  }
+}

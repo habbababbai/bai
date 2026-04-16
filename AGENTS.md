@@ -22,7 +22,7 @@ bun run lint
 
 ## Where to edit content
 
-- **`src/content/site.ts`** — display name, tagline, skill groups, links, and email. Keep this the single source of truth for copy that appears in the UI.
+- **`src/content/site.ts`** — display name, tagline, **about** paragraphs (React Native / delivery focus), skill groups, links, and email. Keep this the single source of truth for copy that appears in the UI.
 
 ## Design reference
 
@@ -30,4 +30,5 @@ bun run lint
 
 ## Deployment notes
 
-- Build output: **`dist/`**. Configure any static host (GitHub Pages, Cloudflare Pages, etc.) with build `bun run build` and publish `dist`. If the site is served from a subpath, set Vite `base` in `vite.config.ts`.
+- Build output: **`dist/`**. When you are ready to ship, configure your host with build `bun run build` and publish `dist`. If the site is served from a subpath, set Vite `base` in `vite.config.ts`.
+- **Do not** add GitHub Pages workflows, `gh-pages` pushes, or other deploy automation until the owner explicitly confirms. Until then, development stays local (`bun run dev` / optional `bun run preview`).

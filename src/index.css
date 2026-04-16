@@ -1,103 +1,12 @@
 @import 'tailwindcss';
+@import './styles/base.css';
+@import './styles/components-surfaces.css';
+@import './styles/components-interactions.css';
+@import './styles/utilities.css';
 
 @theme {
   --font-sans:
     'DM Sans Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji';
   --font-display: 'Syne Variable', ui-sans-serif, system-ui, sans-serif;
-}
-
-@layer base {
-  html {
-    @apply scroll-smooth antialiased;
-  }
-
-  body {
-    @apply m-0 min-h-svh bg-[#06060a] font-sans text-zinc-100;
-    background-image:
-      radial-gradient(ellipse 120% 80% at 50% -20%, rgba(88, 76, 200, 0.18), transparent 55%),
-      radial-gradient(ellipse 80% 50% at 100% 50%, rgba(59, 130, 246, 0.08), transparent 45%);
-  }
-
-  #root {
-    @apply min-h-svh;
-  }
-
-  ::selection {
-    @apply bg-violet-500/35 text-white;
-  }
-}
-
-@layer components {
-  .frost-panel {
-    @apply rounded-[28px] border border-white/10 bg-white/[0.055] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl backdrop-saturate-150;
-  }
-
-  .chip {
-    @apply rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)];
-  }
-
-  .link-pill {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-zinc-950/40 px-5 py-2.5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition-[transform,background-color,border-color] hover:-translate-y-0.5 hover:border-white/20 hover:bg-zinc-900/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80 active:translate-y-0;
-  }
-}
-
-@layer utilities {
-  .font-display {
-    font-family: var(--font-display);
-  }
-
-  .text-balance-safe {
-    text-wrap: balance;
-  }
-}
-
-@keyframes orb-drift-a {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(4%, -3%, 0) scale(1.06);
-  }
-}
-
-@keyframes orb-drift-b {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-5%, 4%, 0) scale(1.04);
-  }
-}
-
-@keyframes orb-drift-c {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(3%, 5%, 0);
-  }
-}
-
-.animate-orb-a {
-  animation: orb-drift-a 22s ease-in-out infinite;
-}
-
-.animate-orb-b {
-  animation: orb-drift-b 28s ease-in-out infinite;
-}
-
-.animate-orb-c {
-  animation: orb-drift-c 26s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-orb-a,
-  .animate-orb-b,
-  .animate-orb-c {
-    animation: none;
-  }
 }

@@ -1,0 +1,55 @@
+@layer components {
+  @media (hover: hover) {
+    .chip:hover {
+      @apply border-white/30 bg-white/8 font-medium text-zinc-100;
+    }
+
+    .skill-card:hover {
+      @apply border-white/14 bg-white/6;
+    }
+
+    .skill-card:hover h3 {
+      @apply font-semibold text-zinc-100;
+    }
+
+    .link-pill:hover {
+      @apply border-white/35 bg-zinc-900/55 font-semibold;
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .chip:hover {
+      @apply shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_0_1px_rgba(255,255,255,0.06)];
+    }
+
+    .skill-card:hover {
+      @apply shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_12px_32px_-12px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.04)];
+    }
+
+    .link-pill:hover {
+      @apply shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_20px_-6px_rgba(0,0,0,0.3)];
+    }
+
+    .link-pill:active {
+      @apply scale-[0.98] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)];
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .chip:active {
+      @apply border-white/24 bg-white/[0.07] font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_0_1px_rgba(255,255,255,0.05)];
+    }
+
+    .skill-card:active {
+      @apply border-white/12 bg-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_10px_24px_-12px_rgba(0,0,0,0.28),0_0_0_1px_rgba(255,255,255,0.04)];
+    }
+
+    .skill-card:active h3 {
+      @apply font-semibold text-zinc-100;
+    }
+
+    .link-pill:active {
+      @apply border-white/28 bg-zinc-900/52 font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_20px_-6px_rgba(0,0,0,0.24)];
+    }
+  }
+}
