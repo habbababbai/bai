@@ -33,6 +33,14 @@
     .link-pill:active {
       @apply scale-[0.98] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)];
     }
+
+    .intro-reveal-zone:hover .intro-reveal-pill {
+      @apply border-white/24 bg-zinc-900/56 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_16px_30px_-16px_rgba(0,0,0,0.56)];
+    }
+
+    .intro-reveal-zone:hover .intro-reveal-arrow {
+      @apply text-violet-100;
+    }
   }
 
   @media (hover: none) and (pointer: coarse) {
@@ -51,5 +59,13 @@
     .link-pill:active {
       @apply border-white/28 bg-zinc-900/52 font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_20px_-6px_rgba(0,0,0,0.24)];
     }
+
+    .intro-reveal-zone:active .intro-reveal-pill {
+      @apply border-white/22 bg-zinc-900/56 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_14px_24px_-16px_rgba(0,0,0,0.52)];
+    }
+  }
+
+  .intro-reveal-arrow {
+    @apply transition-colors duration-300 ease-out;
   }
 }

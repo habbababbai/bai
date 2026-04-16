@@ -5,8 +5,12 @@ import { TiltCard } from '@/components/tilt-card'
 import { Layers } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 
-export function SkillsSection() {
-  const reduceMotion = useReducedMotion()
+type SkillsSectionProps = {
+  disableEntrance?: boolean
+}
+
+export function SkillsSection({ disableEntrance = false }: SkillsSectionProps) {
+  const reduceMotion = useReducedMotion() ?? false
   const skillGroups = site.skills
   const lastIsOdd = skillGroups.length % 2 === 1
 
@@ -36,7 +40,20 @@ export function SkillsSection() {
   }
 
   return (
-    <section id="skills" aria-labelledby="skills-heading">
+    <motion.section
+      id="skills"
+      aria-labelledby="skills-heading"
+      initial={
+        disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }
+      }
+      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-8% 0px' }}
+      transition={
+        reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.58, ease: [0.22, 1, 0.36, 1] as const }
+      }
+    >
       <TiltCard
         maxTilt={0.8}
         scale={1.001}
@@ -61,7 +78,7 @@ export function SkillsSection() {
           <motion.div
             className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
             variants={gridContainerVariants}
-            initial="hidden"
+            initial={disableEntrance ? false : 'hidden'}
             whileInView="visible"
             viewport={{
               once: true,
@@ -113,6 +130,6 @@ export function SkillsSection() {
           </motion.div>
         </div>
       </TiltCard>
-    </section>
+    </motion.section>
   )
 }

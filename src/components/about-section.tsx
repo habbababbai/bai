@@ -3,14 +3,21 @@ import { TiltCard } from '@/components/tilt-card'
 import { Smartphone } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
 
-export function AboutSection() {
-  const reduceMotion = useReducedMotion()
+type AboutSectionProps = {
+  disableEntrance?: boolean
+}
+
+export function AboutSection({ disableEntrance = false }: AboutSectionProps) {
+  const reduceMotion = useReducedMotion() ?? false
 
   return (
     <motion.section
       id="about"
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      tabIndex={-1}
+      initial={
+        disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }
+      }
+      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-10% 0px' }}
       transition={
         reduceMotion

@@ -27,14 +27,20 @@ const items = [
   },
 ] as const
 
-export function ContactSection() {
-  const reduceMotion = useReducedMotion()
+type ContactSectionProps = {
+  disableEntrance?: boolean
+}
+
+export function ContactSection({ disableEntrance = false }: ContactSectionProps) {
+  const reduceMotion = useReducedMotion() ?? false
 
   return (
     <motion.section
       id="contact"
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={
+        disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }
+      }
+      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-12% 0px' }}
       transition={
         reduceMotion

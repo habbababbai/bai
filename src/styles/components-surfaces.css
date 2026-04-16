@@ -23,4 +23,16 @@
   .link-pill {
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-zinc-950/40 px-5 py-2.5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)] backdrop-blur-md transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80;
   }
+
+  .intro-reveal-zone {
+    @apply absolute inset-x-0 -bottom-6 flex h-[22svh] items-end justify-center rounded-4xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80;
+  }
+
+  .intro-reveal-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-zinc-950/42 px-4 py-2.5 text-[0.78rem] font-medium tracking-[0.18em] text-zinc-200/88 uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_16px_34px_-18px_rgba(0,0,0,0.62)] backdrop-blur-md;
+  }
+
+  .intro-reveal-arrow {
+    @apply text-base leading-none text-violet-200/85;
+  }
 }
