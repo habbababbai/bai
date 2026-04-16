@@ -134,8 +134,8 @@ export function ContactSection({
   return (
     <motion.section
       id="contact"
-      initial={disableEntrance || reduceMotion ? false : { y: 20 }}
-      whileInView={disableEntrance ? undefined : { y: 0 }}
+      initial={disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }}
+      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-12% 0px' }}
       transition={
         reduceMotion

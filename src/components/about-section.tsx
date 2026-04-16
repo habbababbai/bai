@@ -60,20 +60,36 @@ export function AboutSection({
     <motion.section
       id="about"
       tabIndex={-1}
-      initial={disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
+      initial={disableEntrance || reduceMotion ? false : { opacity: 0, y: 28, scale: 0.988 }}
+      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-10% 0px' }}
       transition={
         reduceMotion
           ? { duration: 0 }
-          : { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }
+          : {
+              type: 'spring',
+              stiffness: 118,
+              damping: 20,
+              mass: 0.8,
+            }
       }
       aria-labelledby="about-heading"
     >
       <motion.div
         className={cn(touchScrollActive && 'touch-scroll-active')}
-        initial={false}
-        viewport={{ once: false, amount: 0.22, margin: '-8% 0px' }}
+        initial={reduceMotion ? false : { opacity: 0.93, y: 12, scale: 0.996 }}
+        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: false, amount: 0.22, margin: '-8% 0px -10% 0px' }}
+        transition={
+          reduceMotion
+            ? { duration: 0 }
+            : {
+                type: 'spring',
+                stiffness: 128,
+                damping: 22,
+                mass: 0.78,
+              }
+        }
         onViewportEnter={() => setIsTouchScrollActive(true)}
         onViewportLeave={() => setIsTouchScrollActive(false)}
       >
