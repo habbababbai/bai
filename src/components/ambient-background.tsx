@@ -5,6 +5,7 @@ import {
   useScroll,
   useReducedMotion,
   useMotionValue,
+  useTime,
   useSpring,
   useTransform,
   type MotionValue,
@@ -274,11 +275,13 @@ function useCursorGlow(disabled: boolean) {
 
 function ParallaxOrb({
   orb,
+  orbIndex,
   reduceMotion,
   interactionMode,
   scrollY,
 }: {
   orb: OrbConfig
+  orbIndex: number
   reduceMotion: boolean
   interactionMode: 'mouse' | 'scroll'
   scrollY: MotionValue<number>
@@ -291,6 +294,27 @@ function ParallaxOrb({
     interactionMode,
     scrollY,
   )
+  const time = useTime()
+  const phase = orbIndex * 2.35
+  const horizontalDirection = orbIndex % 2 === 0 ? 1 : -1
+  const verticalDirection = orbIndex % 2 === 0 ? -1 : 1
+
+  // Closed-loop path with a secondary harmonic keeps motion centered,
+  // so orbs do not appear to "drift away" in one direction.
+  const idleDriftX = useTransform(time, (t) =>
+    reduceMotion
+      ? 0
+      : horizontalDirection *
+          (Math.sin(t / 5200 + phase) * 52 + Math.sin(t / 8200 + phase * 1.7) * 22),
+  )
+  const idleDriftY = useTransform(time, (t) =>
+    reduceMotion
+      ? 0
+      : verticalDirection *
+          (Math.cos(t / 6800 + phase) * 40 + Math.sin(t / 9600 + phase * 1.4) * 18),
+  )
+  const layeredX = useTransform(() => parallax.x.get() + idleDriftX.get())
+  const layeredY = useTransform(() => parallax.y.get() + idleDriftY.get())
 
   return (
     <motion.div
@@ -299,8 +323,8 @@ function ParallaxOrb({
         reduceMotion
           ? undefined
           : {
-              x: parallax.x,
-              y: parallax.y,
+              x: layeredX,
+              y: layeredY,
             }
       }
     >
@@ -524,10 +548,11 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(60,100,170,0.065),rgba(96,68,160,0.05)_26%,transparent_40%)]" />
 
       {/* Floating orbs with parallax */}
-      {orbs.map((orb) => (
+      {orbs.map((orb, orbIndex) => (
         <ParallaxOrb
           key={orb.id}
           orb={orb}
+          orbIndex={orbIndex}
           reduceMotion={reduceMotion}
           interactionMode={interactionMode}
           scrollY={scrollY}
