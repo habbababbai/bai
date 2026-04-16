@@ -55,8 +55,6 @@ export default function App() {
   const revealInputUnlockTimerRef = useRef<number | null>(null)
   const touchStartYRef = useRef<number | null>(null)
   const pendingSkipRef = useRef(false)
-  const [revealInputLocked, setRevealInputLocked] = useState(false)
-
   const clearRevealCompleteTimer = useCallback(() => {
     if (revealCompleteTimerRef.current !== null) {
       window.clearTimeout(revealCompleteTimerRef.current)
@@ -73,7 +71,6 @@ export default function App() {
 
   const setRevealInputLock = useCallback((locked: boolean) => {
     revealInputLockedRef.current = locked
-    setRevealInputLocked(locked)
   }, [])
 
   const scrollToAbout = useCallback(() => {
@@ -223,7 +220,7 @@ export default function App() {
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [effectiveIntroPhase, introEnabled, revealInputLocked, triggerReveal])
+  }, [effectiveIntroPhase, introEnabled, triggerReveal])
 
   const handleSkipToAbout = useCallback(
     (event: ReactMouseEvent<HTMLAnchorElement>) => {
@@ -271,6 +268,7 @@ export default function App() {
   const showFlowHero = !introEnabled || effectiveIntroPhase === 'revealed'
   const showSections = !introEnabled || effectiveIntroPhase === 'revealed'
   const introEntranceDisabled = introEnabled
+  const keepRevealWillChange = introEnabled && effectiveIntroPhase !== 'revealed'
 
   const revealSectionsContainerVariants = useMemo(
     () => ({
@@ -309,7 +307,7 @@ export default function App() {
         onTouchMove={handleTouchMove}
         onTouchStart={handleTouchStart}
       >
-        <AmbientBackground />
+        <AmbientBackground interactive={!introEnabled || effectiveIntroPhase === 'revealed'} />
         <a
           href="#about"
           onClick={handleSkipToAbout}
@@ -348,7 +346,10 @@ export default function App() {
               >
                 <motion.div
                   variants={revealSectionsItemVariants}
-                  className="w-full transform-gpu will-change-transform"
+                  className={cn(
+                    'w-full transform-gpu [contain-intrinsic-size:auto_520px] [content-visibility:auto]',
+                    keepRevealWillChange && 'will-change-transform',
+                  )}
                   style={{ backfaceVisibility: 'hidden' }}
                 >
                   <AboutSection
@@ -360,7 +361,10 @@ export default function App() {
                 </motion.div>
                 <motion.div
                   variants={revealSectionsItemVariants}
-                  className="w-full transform-gpu will-change-transform"
+                  className={cn(
+                    'w-full transform-gpu [contain-intrinsic-size:auto_560px] [content-visibility:auto]',
+                    keepRevealWillChange && 'will-change-transform',
+                  )}
                   style={{ backfaceVisibility: 'hidden' }}
                 >
                   <SkillsSection
@@ -369,7 +373,10 @@ export default function App() {
                 </motion.div>
                 <motion.div
                   variants={revealSectionsItemVariants}
-                  className="w-full transform-gpu will-change-transform"
+                  className={cn(
+                    'w-full transform-gpu [contain-intrinsic-size:auto_420px] [content-visibility:auto]',
+                    keepRevealWillChange && 'will-change-transform',
+                  )}
                   style={{ backfaceVisibility: 'hidden' }}
                 >
                   <ContactSection

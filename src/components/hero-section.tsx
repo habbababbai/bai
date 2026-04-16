@@ -1,6 +1,8 @@
 import { site } from '@/content/site'
 import { TiltCard } from '@/components/tilt-card'
+import { cn } from '@/lib/cn'
 import { motion, useReducedMotion } from 'motion/react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export type HeroIntroPhase = 'locked' | 'hint-visible' | 'revealing' | 'revealed'
 
@@ -12,8 +14,10 @@ type HeroSectionProps = {
 
 function HeroCard({
   isIntro,
+  disableTilt = false,
 }: {
   isIntro: boolean
+  disableTilt?: boolean
 }) {
   return (
     <div>
@@ -21,6 +25,7 @@ function HeroCard({
         maxTilt={isIntro ? 1.2 : 0.8}
         scale={isIntro ? 1.004 : 1.001}
         showShine
+        disabled={disableTilt}
         innerClassName="frost-panel relative overflow-hidden px-8 py-13 md:px-12 md:py-[4.1rem]"
       >
         <div className="hero-top-glow" aria-hidden />
@@ -46,8 +51,50 @@ export function HeroSection({
   onReveal,
 }: HeroSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
+  const [isRevealHintIdle, setIsRevealHintIdle] = useState(false)
+  const idleTimerRef = useRef<number | null>(null)
   const isIntro = mode === 'intro'
   const showRevealHint = isIntro && introPhase === 'hint-visible'
+
+  const clearIdleTimer = useCallback(() => {
+    if (idleTimerRef.current !== null) {
+      window.clearTimeout(idleTimerRef.current)
+      idleTimerRef.current = null
+    }
+  }, [])
+
+  const scheduleIdleJump = useCallback(() => {
+    clearIdleTimer()
+    idleTimerRef.current = window.setTimeout(() => {
+      setIsRevealHintIdle(true)
+    }, 3200)
+  }, [clearIdleTimer])
+
+  const markRevealHintActive = useCallback(() => {
+    setIsRevealHintIdle(false)
+    scheduleIdleJump()
+  }, [scheduleIdleJump])
+
+  useEffect(() => {
+    if (!showRevealHint || reduceMotion) return
+
+    scheduleIdleJump()
+
+    const markGlobalInteraction = () => {
+      markRevealHintActive()
+    }
+
+    window.addEventListener('wheel', markGlobalInteraction, { passive: true })
+    window.addEventListener('keydown', markGlobalInteraction)
+    window.addEventListener('touchstart', markGlobalInteraction, { passive: true })
+
+    return () => {
+      clearIdleTimer()
+      window.removeEventListener('wheel', markGlobalInteraction)
+      window.removeEventListener('keydown', markGlobalInteraction)
+      window.removeEventListener('touchstart', markGlobalInteraction)
+    }
+  }, [showRevealHint, reduceMotion, scheduleIdleJump, clearIdleTimer, markRevealHintActive])
 
   if (isIntro) {
     const isRevealing = introPhase === 'revealing'
@@ -55,7 +102,9 @@ export function HeroSection({
     return (
       <div className="pointer-events-none fixed inset-0 z-20 flex items-start justify-center px-5 pt-16 sm:px-6 md:px-8 md:pt-24">
         <motion.div 
-          className="pointer-events-auto relative w-full max-w-2xl transform-gpu will-change-transform md:max-w-176"
+          className="intro-hero-group pointer-events-auto relative w-full max-w-2xl transform-gpu will-change-transform md:max-w-176"
+          onPointerEnter={showRevealHint ? markRevealHintActive : undefined}
+          onPointerLeave={showRevealHint ? scheduleIdleJump : undefined}
           initial={false}
           animate={{ 
             y: isRevealing ? 0 : 'calc(50vh - 50% - 4rem)',
@@ -71,7 +120,7 @@ export function HeroSection({
           }
         >
           <section>
-            <HeroCard isIntro />
+            <HeroCard isIntro disableTilt={isRevealing} />
           </section>
 
           {showRevealHint && (
@@ -88,12 +137,36 @@ export function HeroSection({
               }
               aria-label={site.intro.revealAriaLabel}
             >
-              <span className="intro-reveal-pill">
-                <span className="intro-reveal-arrow" aria-hidden>
-                  ↓
+              <motion.span
+                className={cn(
+                  'inline-flex transform-gpu',
+                  isRevealHintIdle && 'will-change-transform',
+                )}
+                animate={
+                  isRevealHintIdle
+                    ? { y: [0, 10, 0, 8, 0] }
+                    : { y: 0 }
+                }
+                initial={false}
+                transition={
+                  isRevealHintIdle
+                    ? {
+                        duration: 0.58,
+                        times: [0, 0.2, 0.45, 0.68, 1],
+                        ease: 'easeOut',
+                        repeat: Infinity,
+                        repeatDelay: 2.1,
+                      }
+                    : { duration: 0.22, ease: 'easeOut' }
+                }
+              >
+                <span className="intro-reveal-pill">
+                  <span className="intro-reveal-arrow" aria-hidden>
+                    ↓
+                  </span>
+                  <span>{site.intro.revealLabel}</span>
                 </span>
-                <span>{site.intro.revealLabel}</span>
-              </span>
+              </motion.span>
             </motion.button>
           )}
         </motion.div>

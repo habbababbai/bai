@@ -43,6 +43,8 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
   } = config
 
   const ref = useRef<T>(null)
+  const rafIdRef = useRef<number | null>(null)
+  const pendingPointerRef = useRef<{ clientX: number; clientY: number } | null>(null)
   const [isHovering, setIsHovering] = useState(false)
 
   const rawRotateX = useMotionValue(0)
@@ -61,31 +63,42 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
   const shineX = useSpring(rawShineX, { stiffness: 400, damping: 35 })
   const shineY = useSpring(rawShineY, { stiffness: 400, damping: 35 })
 
+  const flushPointerFrame = useCallback(() => {
+    rafIdRef.current = null
+    const pending = pendingPointerRef.current
+    if (disabled || !ref.current || !pending) return
+
+    const rect = ref.current.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+
+    const mouseX = pending.clientX - centerX
+    const mouseY = pending.clientY - centerY
+
+    const percentX = mouseX / (rect.width / 2)
+    const percentY = mouseY / (rect.height / 2)
+
+    rawRotateX.set(-percentY * maxTilt)
+    rawRotateY.set(percentX * maxTilt)
+    rawX.set(percentX * 2)
+    rawY.set(percentY * 2)
+
+    const shinePercentX = ((pending.clientX - rect.left) / rect.width) * 100
+    const shinePercentY = ((pending.clientY - rect.top) / rect.height) * 100
+    rawShineX.set(shinePercentX)
+    rawShineY.set(shinePercentY)
+  }, [disabled, maxTilt, rawRotateX, rawRotateY, rawX, rawY, rawShineX, rawShineY])
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<T>) => {
-      if (disabled || !ref.current) return
+      if (disabled) return
 
-      const rect = ref.current.getBoundingClientRect()
-      const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height / 2
+      pendingPointerRef.current = { clientX: e.clientX, clientY: e.clientY }
+      if (rafIdRef.current !== null) return
 
-      const mouseX = e.clientX - centerX
-      const mouseY = e.clientY - centerY
-
-      const percentX = mouseX / (rect.width / 2)
-      const percentY = mouseY / (rect.height / 2)
-
-      rawRotateX.set(-percentY * maxTilt)
-      rawRotateY.set(percentX * maxTilt)
-      rawX.set(percentX * 2)
-      rawY.set(percentY * 2)
-
-      const shinePercentX = ((e.clientX - rect.left) / rect.width) * 100
-      const shinePercentY = ((e.clientY - rect.top) / rect.height) * 100
-      rawShineX.set(shinePercentX)
-      rawShineY.set(shinePercentY)
+      rafIdRef.current = window.requestAnimationFrame(flushPointerFrame)
     },
-    [disabled, maxTilt, rawRotateX, rawRotateY, rawX, rawY, rawShineX, rawShineY],
+    [disabled, flushPointerFrame],
   )
 
   const handleMouseEnter = useCallback(() => {
@@ -95,6 +108,12 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
   }, [disabled, scaleAmount, rawScale])
 
   const handleMouseLeave = useCallback(() => {
+    if (rafIdRef.current !== null) {
+      window.cancelAnimationFrame(rafIdRef.current)
+      rafIdRef.current = null
+    }
+    pendingPointerRef.current = null
+
     setIsHovering(false)
     rawRotateX.set(0)
     rawRotateY.set(0)
