@@ -31,8 +31,8 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
     onMouseLeave: () => void
     onMouseEnter: () => void
     onPointerDown: (e: React.PointerEvent<T>) => void
-    onPointerUp: () => void
-    onPointerCancel: () => void
+    onPointerUp: (e: React.PointerEvent<T>) => void
+    onPointerCancel: (e: React.PointerEvent<T>) => void
   }
 } {
   const {
@@ -123,9 +123,15 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
     [disabled, rawRotateX, rawRotateY, rawScale, rawShineX, rawShineY, scaleAmount],
   )
 
-  const handlePointerUp = useCallback(() => {
-    handleMouseLeave()
-  }, [handleMouseLeave])
+  const handlePointerUp = useCallback(
+    (e: React.PointerEvent<T>) => {
+      // Mouse clicks should not recenter hover/shine while still hovering.
+      // We only reset on touch/pen release/cancel.
+      if (e.pointerType === 'mouse') return
+      handleMouseLeave()
+    },
+    [handleMouseLeave],
+  )
 
   return {
     ref,
