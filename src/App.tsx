@@ -18,7 +18,6 @@ import {
 const HINT_DELAY_MS = 1050
 const TOUCH_REVEAL_THRESHOLD = 64
 const WHEEL_REVEAL_THRESHOLD = 24
-const REVEAL_EASE = [0.22, 1, 0.36, 1] as const
 const REVEAL_COMPLETE_MS = 620
 const REVEAL_INPUT_LOCK_MS = 820
 
@@ -258,17 +257,14 @@ export default function App() {
     [effectiveIntroPhase, introEnabled, triggerReveal],
   )
 
-  const showIntroOverlay = introEnabled && effectiveIntroPhase !== 'revealed'
-  const showFlowContent =
-    !introEnabled ||
-    effectiveIntroPhase === 'revealing' ||
-    effectiveIntroPhase === 'revealed'
-  const revealInProgress = effectiveIntroPhase === 'revealing'
+  const showIntroHero = introEnabled && effectiveIntroPhase !== 'revealed'
+  const showFlowHero = !introEnabled || effectiveIntroPhase === 'revealed'
+  const showSections = !introEnabled || effectiveIntroPhase === 'revealed'
   const introEntranceDisabled = introEnabled
 
   return (
     <div
-        className={cn('relative min-h-svh overflow-x-hidden', showIntroOverlay && 'overflow-y-clip')}
+        className={cn('relative min-h-svh overflow-x-hidden', showIntroHero && 'overflow-y-clip')}
         onTouchMove={handleTouchMove}
         onTouchStart={handleTouchStart}
       >
@@ -282,7 +278,7 @@ export default function App() {
           Skip to about
         </a>
 
-        {showIntroOverlay && (
+        {showIntroHero && (
           <HeroSection
             introPhase={effectiveIntroPhase}
             mode="intro"
@@ -292,41 +288,32 @@ export default function App() {
 
         <main
           id="main"
-          className="relative z-10 mx-auto w-full max-w-2xl px-5 pt-16 pb-28 sm:px-6 md:max-w-176 md:px-8 md:pt-24 md:pb-32"
+          className="relative z-10 w-full px-5 pt-16 pb-28 sm:px-6 md:px-8 md:pt-24 md:pb-32"
         >
-          <motion.div
-            initial={false}
-            animate={showFlowContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { duration: 0.48, ease: REVEAL_EASE }
-            }
-            className={cn(
-              'flex flex-col gap-12 md:gap-14',
-              !showFlowContent && 'pointer-events-none',
-            )}
-            aria-hidden={!showFlowContent}
-          >
-            {showFlowContent && (
+          <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 md:max-w-176 md:gap-14">
+            {showFlowHero && (
               <HeroSection
                 introPhase={effectiveIntroPhase}
                 mode="flow"
-                revealInProgress={revealInProgress}
               />
             )}
 
-            {showFlowContent && (
+            {showSections && (
               <motion.div
-                initial={false}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ y: 36, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
                 transition={
                   reduceMotion
                     ? { duration: 0 }
-                    : {
-                        duration: 0.48,
-                        delay: revealInProgress ? 0.08 : 0,
-                        ease: REVEAL_EASE,
+                    : { 
+                        y: {
+                          duration: 0.72,
+                          ease: [0.16, 1, 0.3, 1],
+                        },
+                        opacity: {
+                          duration: 0.9,
+                          ease: [0.16, 1, 0.3, 1],
+                        },
                       }
                 }
                 className="flex flex-col gap-12 md:gap-14"
@@ -336,7 +323,7 @@ export default function App() {
                 <ContactSection disableEntrance={introEntranceDisabled} />
               </motion.div>
             )}
-          </motion.div>
+          </div>
         </main>
       </div>
   )
