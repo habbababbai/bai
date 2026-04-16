@@ -16,8 +16,8 @@ export function HeroSection() {
       }
     >
       <TiltCard
-        maxTilt={1.5}
-        scale={1.002}
+        maxTilt={0.8}
+        scale={1.001}
         showShine
         innerClassName="frost-panel relative px-8 py-14 md:px-12 md:py-[4.25rem]"
       >

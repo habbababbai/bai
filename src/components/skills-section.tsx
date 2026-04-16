@@ -37,8 +37,8 @@ export function SkillsSection() {
   return (
     <section id="skills" aria-labelledby="skills-heading">
       <TiltCard
-        maxTilt={1.5}
-        scale={1.002}
+        maxTilt={0.8}
+        scale={1.001}
         showShine
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >

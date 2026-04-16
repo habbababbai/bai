@@ -33,9 +33,9 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, 44, -28, 0], y: [0, -36, 28, 0], scale: [1, 1.09, 1.05, 1] },
     duration: 36,
     delay: 0,
-    parallaxStrength: 0.12,
+    parallaxStrength: 0.18,
     invert: false,
-    springConfig: { stiffness: 35, damping: 20 },
+    springConfig: { stiffness: 30, damping: 18 },
   },
   {
     id: 'b',
@@ -46,9 +46,9 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, -52, 32, 0], y: [0, 40, -24, 0], scale: [1, 1.06, 1.08, 1] },
     duration: 42,
     delay: 1.2,
-    parallaxStrength: 0.08,
+    parallaxStrength: 0.12,
     invert: true,
-    springConfig: { stiffness: 45, damping: 25 },
+    springConfig: { stiffness: 40, damping: 22 },
   },
   {
     id: 'c',
@@ -59,9 +59,9 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, 36, -20, 0], y: [0, 32, -18, 0], scale: [1, 1.05, 1.07, 1] },
     duration: 40,
     delay: 2.4,
-    parallaxStrength: 0.1,
+    parallaxStrength: 0.15,
     invert: false,
-    springConfig: { stiffness: 30, damping: 18 },
+    springConfig: { stiffness: 25, damping: 15 },
   },
   {
     id: 'd',
@@ -72,9 +72,9 @@ const orbs: OrbConfig[] = [
     animate: { x: [0, -30, 24, 0], y: [0, 24, -20, 0], scale: [1, 1.12, 1.04, 1] },
     duration: 48,
     delay: 0.8,
-    parallaxStrength: 0.06,
+    parallaxStrength: 0.1,
     invert: true,
-    springConfig: { stiffness: 50, damping: 28 },
+    springConfig: { stiffness: 45, damping: 25 },
   },
 ]
 
@@ -203,7 +203,7 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
 function CursorGlow({ disabled }: { disabled: boolean }) {
   const cursor = useCursorGlow(disabled)
 
-  const background = useMotionTemplate`radial-gradient(800px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.08), rgba(99,102,241,0.04) 40%, transparent 70%)`
+  const background = useMotionTemplate`radial-gradient(1000px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.12), rgba(99,102,241,0.06) 35%, transparent 65%)`
 
   if (disabled) return null
 
@@ -239,12 +239,12 @@ export function AmbientBackground() {
   }, [reduceMotion, auroraMouseX, auroraMouseY])
 
   const auroraX = useSpring(
-    useTransform(auroraMouseX, (v) => v * 0.03),
-    { stiffness: 20, damping: 15 }
+    useTransform(auroraMouseX, (v) => v * 0.05),
+    { stiffness: 18, damping: 12 }
   )
   const auroraY = useSpring(
-    useTransform(auroraMouseY, (v) => v * 0.03),
-    { stiffness: 20, damping: 15 }
+    useTransform(auroraMouseY, (v) => v * 0.05),
+    { stiffness: 18, damping: 12 }
   )
 
   return (
