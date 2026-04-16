@@ -1,0 +1,17 @@
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply m-0 min-h-svh bg-[#06060a] font-sans text-zinc-100;
+  }
+
+  #root {
+    @apply min-h-svh;
+  }
+
+  ::selection {
+    @apply bg-violet-500/35 text-white;
+  }
+}

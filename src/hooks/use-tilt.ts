@@ -1,5 +1,5 @@
 import { useMotionValue, useSpring, type MotionValue } from 'motion/react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 export type TiltConfig = {
   maxTilt?: number
@@ -22,7 +22,7 @@ export type TiltValues = {
 const DEFAULT_SPRING = { stiffness: 300, damping: 30 }
 
 export function useTilt<T extends HTMLElement = HTMLElement>(
-  config: TiltConfig = {}
+  config: TiltConfig = {},
 ): {
   ref: React.RefObject<T | null>
   tilt: TiltValues
@@ -85,7 +85,7 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
       rawShineX.set(shinePercentX)
       rawShineY.set(shinePercentY)
     },
-    [disabled, maxTilt, rawRotateX, rawRotateY, rawX, rawY, rawShineX, rawShineY]
+    [disabled, maxTilt, rawRotateX, rawRotateY, rawX, rawY, rawShineX, rawShineY],
   )
 
   const handleMouseEnter = useCallback(() => {
@@ -120,18 +120,12 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
       rawShineX.set(shinePercentX)
       rawShineY.set(shinePercentY)
     },
-    [disabled, rawRotateX, rawRotateY, rawScale, rawShineX, rawShineY, scaleAmount]
+    [disabled, rawRotateX, rawRotateY, rawScale, rawShineX, rawShineY, scaleAmount],
   )
 
   const handlePointerUp = useCallback(() => {
     handleMouseLeave()
   }, [handleMouseLeave])
-
-  useEffect(() => {
-    if (disabled && isHovering) {
-      handleMouseLeave()
-    }
-  }, [disabled, isHovering, handleMouseLeave])
 
   return {
     ref,

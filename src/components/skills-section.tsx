@@ -43,7 +43,7 @@ export function SkillsSection() {
         showShine
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >
-        <div className="mx-auto max-w-[40rem] select-none">
+        <div className="mx-auto max-w-160 select-none">
           <div className="mb-4 flex flex-row items-center justify-center gap-2.5">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
               <Layers className="h-5 w-5" aria-hidden strokeWidth={1.75} />
@@ -63,7 +63,11 @@ export function SkillsSection() {
             variants={gridContainerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.25, margin: '-8% 0px' }}
+            viewport={{
+              once: true,
+              amount: 0.25,
+              margin: '-8% 0px',
+            }}
           >
             {skillGroups.map((group, index) => {
               const isLast = index === skillGroups.length - 1
@@ -75,11 +79,10 @@ export function SkillsSection() {
                   variants={cardVariants}
                   className={cn(
                     'skill-card flex h-full min-h-0 min-w-0 flex-col',
-                    spanLastOdd &&
-                      'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
+                    spanLastOdd && 'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
                   )}
                 >
-                  <h3 className="shrink-0 text-sm font-medium leading-snug text-zinc-300 transition-[font-weight,color] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]">
+                  <h3 className="shrink-0 text-sm leading-snug font-medium text-zinc-300 transition-[font-weight,color] duration-700 ease-in-out">
                     {group.label}
                   </h3>
                   <ul className="mt-3.5 flex min-h-0 flex-1 flex-wrap content-start gap-x-2 gap-y-2">
@@ -87,12 +90,14 @@ export function SkillsSection() {
                       const skillInfo = getSkillInfo(item)
                       const Icon = skillInfo?.icon
                       return (
-                        <li key={item} className="min-w-0 max-w-full">
-                          <span className="chip group/chip select-none leading-snug">
+                        <li key={item} className="max-w-full min-w-0">
+                          <span className="chip group/chip leading-snug select-none">
                             {Icon && (
                               <Icon
                                 className="mr-1.5 h-3.5 w-3.5 shrink-0 opacity-75 transition-opacity duration-500 group-hover/chip:opacity-100"
-                                style={{ color: skillInfo?.color }}
+                                style={{
+                                  color: skillInfo?.color,
+                                }}
                                 aria-hidden
                               />
                             )}

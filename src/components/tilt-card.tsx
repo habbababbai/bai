@@ -44,7 +44,7 @@ export function TiltCard({
         className={cn(
           'relative h-full w-full',
           !disabled && 'transform-gpu',
-          innerClassName
+          innerClassName,
         )}
         style={
           disabled

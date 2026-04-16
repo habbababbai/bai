@@ -30,7 +30,11 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(72vw,520px)] w-[min(72vw,520px)]',
     gradient: 'bg-gradient-to-br from-indigo-600/45 via-violet-600/28 to-transparent',
     blur: 'blur-[100px]',
-    animate: { x: [0, 58, -36, 0], y: [0, -48, 34, 0], scale: [1, 1.11, 1.06, 1] },
+    animate: {
+      x: [0, 58, -36, 0],
+      y: [0, -48, 34, 0],
+      scale: [1, 1.11, 1.06, 1],
+    },
     duration: 30,
     delay: 0,
     parallaxStrength: 0.22,
@@ -43,7 +47,11 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(65vw,480px)] w-[min(65vw,480px)]',
     gradient: 'bg-gradient-to-bl from-sky-500/30 via-blue-600/15 to-transparent',
     blur: 'blur-[110px]',
-    animate: { x: [0, -68, 40, 0], y: [0, 50, -30, 0], scale: [1, 1.08, 1.1, 1] },
+    animate: {
+      x: [0, -68, 40, 0],
+      y: [0, 50, -30, 0],
+      scale: [1, 1.08, 1.1, 1],
+    },
     duration: 34,
     delay: 0,
     parallaxStrength: 0.16,
@@ -56,7 +64,11 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(70vw,500px)] w-[min(70vw,500px)]',
     gradient: 'bg-gradient-to-tr from-fuchsia-700/25 via-indigo-800/20 to-transparent',
     blur: 'blur-[120px]',
-    animate: { x: [0, 50, -28, 0], y: [0, 42, -24, 0], scale: [1, 1.08, 1.09, 1] },
+    animate: {
+      x: [0, 50, -28, 0],
+      y: [0, 42, -24, 0],
+      scale: [1, 1.08, 1.09, 1],
+    },
     duration: 32,
     delay: 0,
     parallaxStrength: 0.2,
@@ -69,7 +81,11 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(55vw,380px)] w-[min(55vw,380px)]',
     gradient: 'bg-gradient-to-r from-violet-600/20 via-transparent to-cyan-500/15',
     blur: 'blur-[90px]',
-    animate: { x: [0, -42, 30, 0], y: [0, 34, -24, 0], scale: [1, 1.14, 1.06, 1] },
+    animate: {
+      x: [0, -42, 30, 0],
+      y: [0, 34, -24, 0],
+      scale: [1, 1.14, 1.06, 1],
+    },
     duration: 38,
     delay: 0,
     parallaxStrength: 0.13,
@@ -84,7 +100,7 @@ function useInteractiveParallax(
   strength: number,
   invert: boolean,
   springConfig: { stiffness: number; damping: number },
-  disabled: boolean
+  disabled: boolean,
 ) {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -102,7 +118,9 @@ function useInteractiveParallax(
       mouseY.set(e.clientY - centerY)
     }
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    window.addEventListener('mousemove', handleMouseMove, {
+      passive: true,
+    })
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [disabled, mouseX, mouseY])
 
@@ -117,11 +135,9 @@ function useInteractiveParallax(
 }
 
 function useCursorGlow(disabled: boolean) {
-  const mouseX = useMotionValue(
-    typeof window === 'undefined' ? 0 : window.innerWidth / 2
-  )
+  const mouseX = useMotionValue(typeof window === 'undefined' ? 0 : window.innerWidth / 2)
   const mouseY = useMotionValue(
-    typeof window === 'undefined' ? 0 : window.innerHeight / 2
+    typeof window === 'undefined' ? 0 : window.innerHeight / 2,
   )
   const opacity = useMotionValue(0.45)
 
@@ -146,7 +162,9 @@ function useCursorGlow(disabled: boolean) {
       opacity.set(0.45)
     }
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    window.addEventListener('mousemove', handleMouseMove, {
+      passive: true,
+    })
     document.addEventListener('mouseleave', handleMouseLeave)
     document.addEventListener('mouseenter', handleMouseEnter)
     return () => {
@@ -168,7 +186,7 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
     orb.parallaxStrength,
     orb.invert ?? false,
     orb.springConfig ?? DEFAULT_SPRING,
-    reduceMotion
+    reduceMotion,
   )
 
   return (
@@ -184,18 +202,9 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
       }
     >
       <motion.div
-        className={cn(
-          'rounded-full',
-          orb.size,
-          orb.gradient,
-          orb.blur,
-        )}
+        className={cn('rounded-full', orb.size, orb.gradient, orb.blur)}
         initial={false}
-        animate={
-          reduceMotion
-            ? { x: 0, y: 0, scale: 1 }
-            : orb.animate
-        }
+        animate={reduceMotion ? { x: 0, y: 0, scale: 1 } : orb.animate}
         transition={
           reduceMotion
             ? { duration: 0 }
@@ -249,17 +258,19 @@ export function AmbientBackground() {
       auroraMouseY.set(e.clientY - centerY)
     }
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    window.addEventListener('mousemove', handleMouseMove, {
+      passive: true,
+    })
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [reduceMotion, auroraMouseX, auroraMouseY])
 
   const auroraX = useSpring(
     useTransform(auroraMouseX, (v) => v * 0.07),
-    { stiffness: 24, damping: 14 }
+    { stiffness: 24, damping: 14 },
   )
   const auroraY = useSpring(
     useTransform(auroraMouseY, (v) => v * 0.07),
-    { stiffness: 24, damping: 14 }
+    { stiffness: 24, damping: 14 },
   )
 
   return (
@@ -272,18 +283,14 @@ export function AmbientBackground() {
 
       {/* Slow aurora wash — GPU-friendly rotation + mouse parallax */}
       <motion.div
-        className="absolute -inset-[62%] opacity-[0.44] will-change-transform transform-gpu"
+        className="absolute -inset-[62%] transform-gpu opacity-[0.44] will-change-transform"
         style={{
           background:
             'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.22) 0deg, rgba(134,94,194,0.17) 60deg, rgba(168,85,247,0.12) 120deg, rgba(114,108,197,0.13) 180deg, rgba(59,130,246,0.15) 240deg, rgba(79,116,244,0.16) 300deg, rgba(99,102,241,0.22) 360deg)',
           x: reduceMotion ? undefined : auroraX,
           y: reduceMotion ? undefined : auroraY,
         }}
-        animate={
-          reduceMotion
-            ? { rotate: 0 }
-            : { rotate: 360 }
-        }
+        animate={reduceMotion ? { rotate: 0 } : { rotate: 360 }}
         transition={
           reduceMotion
             ? { duration: 0 }

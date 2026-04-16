@@ -1,0 +1,26 @@
+@layer components {
+  .frost-panel {
+    @apply rounded-[28px] border border-white/10 bg-white/5.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl backdrop-saturate-150;
+  }
+
+  .hero-top-glow {
+    @apply pointer-events-none absolute inset-x-0 top-0 h-24;
+    background: radial-gradient(
+      ellipse at top,
+      rgba(168, 85, 247, 0.1),
+      transparent 70%
+    );
+  }
+
+  .chip {
+    @apply inline-flex max-w-full cursor-default items-center rounded-full border border-white/10 bg-white/4 px-2.5 py-1.5 text-left text-[0.8125rem] font-normal wrap-break-word text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out sm:px-3 sm:text-sm;
+  }
+
+  .skill-card {
+    @apply origin-center rounded-2xl border border-white/8 bg-white/3 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_24px_-12px_rgba(0,0,0,0)] transition-[transform,background-color,border-color,box-shadow] duration-700 ease-in-out sm:p-5 md:p-6;
+  }
+
+  .link-pill {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-zinc-950/40 px-5 py-2.5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)] backdrop-blur-md transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80;
+  }
+}

@@ -39,7 +39,11 @@ export function ContactSection() {
       transition={
         reduceMotion
           ? { duration: 0 }
-          : { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const, delay: 0.05 }
+          : {
+              duration: 0.55,
+              ease: [0.22, 1, 0.36, 1] as const,
+              delay: 0.05,
+            }
       }
       aria-labelledby="contact-heading"
     >
@@ -49,7 +53,7 @@ export function ContactSection() {
         showShine
         innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
       >
-        <div className="mx-auto max-w-xl select-none text-center">
+        <div className="mx-auto max-w-xl text-center select-none">
           <div className="mb-1 flex flex-row items-center justify-center gap-2.5">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
               <MessageCircle className="h-5 w-5" aria-hidden strokeWidth={1.75} />
@@ -75,7 +79,11 @@ export function ContactSection() {
                 href={href}
                 {...(external ? { rel: 'noreferrer', target: '_blank' } : {})}
               >
-                <Icon className="h-4.5 w-4.5 shrink-0 opacity-90" strokeWidth={2} aria-hidden />
+                <Icon
+                  className="h-4.5 w-4.5 shrink-0 opacity-90"
+                  strokeWidth={2}
+                  aria-hidden
+                />
                 {label}
               </a>
             ))}
