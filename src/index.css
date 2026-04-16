@@ -31,35 +31,55 @@
   }
 
   .chip {
-    @apply inline-flex max-w-full cursor-default break-words rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out;
+    @apply inline-flex max-w-full cursor-default break-words rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm font-normal text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)];
   }
 
   .skill-card {
-    @apply origin-center rounded-2xl border border-white/8 bg-white/3 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-[transform,background-color,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:p-6;
+    @apply origin-center rounded-2xl border border-white/8 bg-white/3 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_24px_-12px_rgba(0,0,0,0)] transition-[transform,background-color,border-color,box-shadow] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] md:p-6;
   }
 
   @media (hover: hover) {
     .chip:hover {
-      @apply border-white/20 bg-white/[0.08];
+      @apply border-white/30 bg-white/[0.08] font-medium text-zinc-100;
     }
 
     .skill-card:hover {
       @apply border-white/14 bg-white/[0.06];
     }
+
+    .skill-card:hover h3 {
+      @apply font-semibold text-zinc-100;
+    }
   }
 
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .chip:hover {
-      @apply -translate-y-px shadow-[0_0_0_1px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.1)];
+      @apply shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_0_1px_rgba(255,255,255,0.06)];
     }
 
     .skill-card:hover {
-      @apply -translate-y-px scale-[1.008] shadow-[0_16px_44px_-18px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.09)];
+      @apply shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_12px_32px_-12px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.04)];
     }
   }
 
   .link-pill {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-zinc-950/40 px-5 py-2.5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition-[transform,background-color,border-color] hover:-translate-y-0.5 hover:border-white/20 hover:bg-zinc-900/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80 active:translate-y-0;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-zinc-950/40 px-5 py-2.5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)] backdrop-blur-md transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80;
+  }
+
+  @media (hover: hover) {
+    .link-pill:hover {
+      @apply border-white/35 bg-zinc-900/55 font-semibold;
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .link-pill:hover {
+      @apply shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_20px_-6px_rgba(0,0,0,0.3)];
+    }
+
+    .link-pill:active {
+      @apply scale-[0.98] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)];
+    }
   }
 }
 

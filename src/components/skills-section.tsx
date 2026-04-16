@@ -78,7 +78,7 @@ export function SkillsSection() {
                       'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
                   )}
                 >
-                  <h3 className="shrink-0 text-sm font-medium leading-snug text-zinc-300">
+                  <h3 className="shrink-0 text-sm font-medium leading-snug text-zinc-300 transition-[font-weight,color] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]">
                     {group.label}
                   </h3>
                   <ul className="mt-3.5 flex min-h-0 flex-1 flex-wrap content-start gap-x-2 gap-y-2">
