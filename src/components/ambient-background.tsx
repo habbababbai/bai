@@ -141,7 +141,7 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
 export function AmbientBackground() {
   const reduceMotion = useReducedMotion() ?? false
   const auroraParallax = useMouseParallax({
-    strength: 0.04,
+    strength: 0.025,
     springConfig: { stiffness: 25, damping: 18 },
     disabled: reduceMotion,
   })
@@ -151,12 +151,15 @@ export function AmbientBackground() {
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden="true"
     >
+      {/* Solid base - ensures no gaps ever show */}
+      <div className="absolute inset-0 bg-[#06060a]" />
+
       {/* Slow aurora wash — GPU-friendly rotation + mouse parallax */}
       <motion.div
-        className="absolute -inset-[40%] opacity-[0.38] will-change-transform transform-gpu"
+        className="absolute -inset-[60%] opacity-[0.38] will-change-transform transform-gpu"
         style={{
           background:
-            'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.22) 0deg, rgba(168,85,247,0.12) 120deg, rgba(59,130,246,0.15) 240deg, rgba(99,102,241,0.18) 360deg)',
+            'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.22) 0deg, rgba(134,94,194,0.17) 60deg, rgba(168,85,247,0.12) 120deg, rgba(114,108,197,0.13) 180deg, rgba(59,130,246,0.15) 240deg, rgba(79,116,244,0.16) 300deg, rgba(99,102,241,0.22) 360deg)',
           x: reduceMotion ? undefined : auroraParallax.x,
           y: reduceMotion ? undefined : auroraParallax.y,
         }}
