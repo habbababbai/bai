@@ -2,6 +2,8 @@
 
 Single-page portfolio website built with React, TypeScript, and Vite.
 
+https://habbababbai.github.io/bai/
+
 ## Stack
 
 - React 19
