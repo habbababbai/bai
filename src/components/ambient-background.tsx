@@ -30,12 +30,12 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(72vw,520px)] w-[min(72vw,520px)]',
     gradient: 'bg-gradient-to-br from-indigo-600/45 via-violet-600/28 to-transparent',
     blur: 'blur-[100px]',
-    animate: { x: [0, 44, -28, 0], y: [0, -36, 28, 0], scale: [1, 1.09, 1.05, 1] },
-    duration: 36,
+    animate: { x: [0, 58, -36, 0], y: [0, -48, 34, 0], scale: [1, 1.11, 1.06, 1] },
+    duration: 30,
     delay: 0,
-    parallaxStrength: 0.18,
+    parallaxStrength: 0.22,
     invert: false,
-    springConfig: { stiffness: 30, damping: 18 },
+    springConfig: { stiffness: 34, damping: 17 },
   },
   {
     id: 'b',
@@ -43,12 +43,12 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(65vw,480px)] w-[min(65vw,480px)]',
     gradient: 'bg-gradient-to-bl from-sky-500/30 via-blue-600/15 to-transparent',
     blur: 'blur-[110px]',
-    animate: { x: [0, -52, 32, 0], y: [0, 40, -24, 0], scale: [1, 1.06, 1.08, 1] },
-    duration: 42,
+    animate: { x: [0, -68, 40, 0], y: [0, 50, -30, 0], scale: [1, 1.08, 1.1, 1] },
+    duration: 34,
     delay: 0,
-    parallaxStrength: 0.12,
+    parallaxStrength: 0.16,
     invert: true,
-    springConfig: { stiffness: 40, damping: 22 },
+    springConfig: { stiffness: 46, damping: 20 },
   },
   {
     id: 'c',
@@ -56,12 +56,12 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(70vw,500px)] w-[min(70vw,500px)]',
     gradient: 'bg-gradient-to-tr from-fuchsia-700/25 via-indigo-800/20 to-transparent',
     blur: 'blur-[120px]',
-    animate: { x: [0, 36, -20, 0], y: [0, 32, -18, 0], scale: [1, 1.05, 1.07, 1] },
-    duration: 40,
+    animate: { x: [0, 50, -28, 0], y: [0, 42, -24, 0], scale: [1, 1.08, 1.09, 1] },
+    duration: 32,
     delay: 0,
-    parallaxStrength: 0.15,
+    parallaxStrength: 0.2,
     invert: false,
-    springConfig: { stiffness: 25, damping: 15 },
+    springConfig: { stiffness: 30, damping: 14 },
   },
   {
     id: 'd',
@@ -69,12 +69,12 @@ const orbs: OrbConfig[] = [
     size: 'h-[min(55vw,380px)] w-[min(55vw,380px)]',
     gradient: 'bg-gradient-to-r from-violet-600/20 via-transparent to-cyan-500/15',
     blur: 'blur-[90px]',
-    animate: { x: [0, -30, 24, 0], y: [0, 24, -20, 0], scale: [1, 1.12, 1.04, 1] },
-    duration: 48,
+    animate: { x: [0, -42, 30, 0], y: [0, 34, -24, 0], scale: [1, 1.14, 1.06, 1] },
+    duration: 38,
     delay: 0,
-    parallaxStrength: 0.1,
+    parallaxStrength: 0.13,
     invert: true,
-    springConfig: { stiffness: 45, damping: 25 },
+    springConfig: { stiffness: 52, damping: 23 },
   },
 ]
 
@@ -135,7 +135,7 @@ function useCursorGlow(disabled: boolean) {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
-      opacity.set(0.9)
+      opacity.set(1)
     }
 
     const handleMouseLeave = () => {
@@ -156,9 +156,9 @@ function useCursorGlow(disabled: boolean) {
     }
   }, [disabled, mouseX, mouseY, opacity])
 
-  const smoothX = useSpring(mouseX, { stiffness: 180, damping: 28 })
-  const smoothY = useSpring(mouseY, { stiffness: 180, damping: 28 })
-  const smoothOpacity = useSpring(opacity, { stiffness: 220, damping: 32 })
+  const smoothX = useSpring(mouseX, { stiffness: 220, damping: 24 })
+  const smoothY = useSpring(mouseY, { stiffness: 220, damping: 24 })
+  const smoothOpacity = useSpring(opacity, { stiffness: 260, damping: 26 })
 
   return { x: smoothX, y: smoothY, opacity: smoothOpacity }
 }
@@ -215,7 +215,7 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
 function CursorGlow({ disabled }: { disabled: boolean }) {
   const cursor = useCursorGlow(disabled)
 
-  const background = useMotionTemplate`radial-gradient(1000px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.12), rgba(99,102,241,0.06) 35%, transparent 65%)`
+  const background = useMotionTemplate`radial-gradient(1200px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.16), rgba(99,102,241,0.08) 34%, transparent 66%)`
 
   if (disabled) return null
 
@@ -254,12 +254,12 @@ export function AmbientBackground() {
   }, [reduceMotion, auroraMouseX, auroraMouseY])
 
   const auroraX = useSpring(
-    useTransform(auroraMouseX, (v) => v * 0.05),
-    { stiffness: 18, damping: 12 }
+    useTransform(auroraMouseX, (v) => v * 0.07),
+    { stiffness: 24, damping: 14 }
   )
   const auroraY = useSpring(
-    useTransform(auroraMouseY, (v) => v * 0.05),
-    { stiffness: 18, damping: 12 }
+    useTransform(auroraMouseY, (v) => v * 0.07),
+    { stiffness: 24, damping: 14 }
   )
 
   return (
@@ -272,7 +272,7 @@ export function AmbientBackground() {
 
       {/* Slow aurora wash — GPU-friendly rotation + mouse parallax */}
       <motion.div
-        className="absolute -inset-[60%] opacity-[0.38] will-change-transform transform-gpu"
+        className="absolute -inset-[62%] opacity-[0.44] will-change-transform transform-gpu"
         style={{
           background:
             'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.22) 0deg, rgba(134,94,194,0.17) 60deg, rgba(168,85,247,0.12) 120deg, rgba(114,108,197,0.13) 180deg, rgba(59,130,246,0.15) 240deg, rgba(79,116,244,0.16) 300deg, rgba(99,102,241,0.22) 360deg)',
