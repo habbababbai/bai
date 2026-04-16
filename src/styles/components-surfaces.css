@@ -1,38 +1,38 @@
 @layer components {
   .frost-panel {
-    @apply rounded-[28px] border border-white/10 bg-white/5.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl backdrop-saturate-150;
+    @apply rounded-[28px] border border-white/9 bg-[#070a10]/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl backdrop-saturate-150;
   }
 
   .hero-top-glow {
     @apply pointer-events-none absolute inset-x-0 top-0 h-24;
     background: radial-gradient(
       ellipse at top,
-      rgba(168, 85, 247, 0.1),
+      rgba(53, 118, 174, 0.18),
       transparent 70%
     );
   }
 
   .chip {
-    @apply inline-flex max-w-full cursor-default items-center rounded-full border border-white/10 bg-white/4 px-2.5 py-1.5 text-left text-[0.8125rem] font-normal wrap-break-word text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out sm:px-3 sm:text-sm;
+    @apply inline-flex max-w-full cursor-default items-center rounded-full border border-[#68aec9]/14 bg-[#0d131c]/62 px-2.5 py-1.5 text-left text-[0.8125rem] font-normal wrap-break-word text-zinc-200/95 shadow-[inset_0_1px_0_rgba(169,216,222,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out sm:px-3 sm:text-sm;
   }
 
   .skill-card {
-    @apply origin-center rounded-2xl border border-white/8 bg-white/3 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_24px_-12px_rgba(0,0,0,0)] transition-[transform,background-color,border-color,box-shadow] duration-700 ease-in-out sm:p-5 md:p-6;
+    @apply origin-center rounded-2xl border border-[#68aec9]/11 bg-[#0b131d]/62 p-4 shadow-[inset_0_1px_0_rgba(169,216,222,0.05),0_8px_24px_-12px_rgba(0,0,0,0)] transition-[transform,background-color,border-color,box-shadow] duration-700 ease-in-out sm:p-5 md:p-6;
   }
 
   .link-pill {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-zinc-950/40 px-5 py-2.5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)] backdrop-blur-md transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[#68aec9]/18 bg-[#0b131d]/74 px-5 py-2.5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(169,216,222,0.08),0_4px_12px_-4px_rgba(0,0,0,0)] backdrop-blur-md transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#68aec9]/80;
   }
 
   .intro-reveal-zone {
-    @apply absolute inset-x-0 -bottom-6 flex h-[22svh] items-end justify-center rounded-4xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/80;
+    @apply absolute inset-x-0 -bottom-6 flex h-[22svh] items-end justify-center rounded-4xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#68aec9]/80;
   }
 
   .intro-reveal-pill {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-zinc-950/42 px-4 py-2.5 text-[0.78rem] font-medium tracking-[0.18em] text-zinc-200/88 uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_16px_34px_-18px_rgba(0,0,0,0.62)] backdrop-blur-md;
+    @apply inline-flex items-center gap-2 rounded-full border border-[#68aec9]/22 bg-[#0f1a2a]/68 px-4 py-2.5 text-[0.78rem] font-medium tracking-[0.18em] text-zinc-200/90 uppercase shadow-[inset_0_1px_0_rgba(169,216,222,0.1),0_16px_34px_-18px_rgba(0,0,0,0.62)] backdrop-blur-md;
   }
 
   .intro-reveal-arrow {
-    @apply text-base leading-none text-violet-200/85;
+    @apply text-base leading-none text-[#68aec9]/90;
   }
 }

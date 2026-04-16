@@ -52,7 +52,7 @@ export function SkillsSection({
   const inner = (
     <div className="mx-auto max-w-160 select-none">
       <div className="mb-4 flex flex-row items-center justify-center gap-2.5">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-[#68aec9]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
           <Layers className="h-5 w-5" aria-hidden strokeWidth={1.75} />
         </span>
         <h2

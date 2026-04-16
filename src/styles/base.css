@@ -4,7 +4,7 @@
   }
 
   body {
-    @apply m-0 min-h-svh bg-[#06060a] font-sans text-zinc-100;
+    @apply m-0 min-h-svh bg-[#05070b] font-sans text-zinc-100;
   }
 
   #root {
@@ -12,6 +12,6 @@
   }
 
   ::selection {
-    @apply bg-violet-500/35 text-white;
+    @apply bg-[#3576ae]/45 text-white;
   }
 }

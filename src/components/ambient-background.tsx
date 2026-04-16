@@ -34,19 +34,19 @@ const orbs: OrbConfig[] = [
     id: 'a',
     position: 'right-[-16%] top-[-8%]',
     size: 'h-[min(68vw,520px)] w-[min(68vw,520px)]',
-    glowClassName: 'absolute inset-[-8%] rounded-full blur-[34px]',
+    glowClassName: 'absolute inset-[-8%] rounded-full blur-[38px]',
     glowBackground:
-      'radial-gradient(circle at 36% 42%, rgba(121,137,255,0.32), rgba(100,76,219,0.18) 28%, rgba(20,20,34,0.04) 56%, transparent 72%)',
+      'radial-gradient(circle at 36% 42%, rgba(53,118,174,0.72), rgba(80,144,200,0.55) 30%, rgba(104,174,201,0.28) 48%, rgba(6,8,16,0.1) 64%, transparent 78%)',
     planetClassName:
-      'absolute inset-[10%] rounded-full border border-white/[0.035] shadow-[inset_-26px_-40px_80px_rgba(0,0,0,0.45),inset_22px_24px_60px_rgba(131,152,255,0.08)]',
+      'absolute inset-[10%] rounded-full border border-white/[0.02] shadow-[inset_-46px_-58px_130px_rgba(0,0,0,0.92),inset_22px_22px_54px_rgba(245,160,80,0.22)]',
     planetBackground:
-      'radial-gradient(circle at 34% 32%, rgba(82,102,214,0.22), rgba(19,22,40,0.95) 42%, rgba(5,7,14,0.99) 76%)',
-    rimClassName: 'absolute inset-[4%] rounded-full blur-[28px] opacity-70',
+      'radial-gradient(circle at 32% 30%, rgba(245,160,80,0.95), rgba(224,120,56,0.9) 28%, rgba(200,96,48,0.8) 42%, rgba(48,16,8,0.98) 58%, rgba(8,4,4,1) 78%)',
+    rimClassName: 'absolute inset-[4%] rounded-full blur-[32px] opacity-75',
     rimBackground:
-      'radial-gradient(circle at 42% 48%, transparent 50%, rgba(123,145,255,0.18) 68%, transparent 78%)',
-    highlightClassName: 'absolute inset-[22%] rounded-full blur-[56px] opacity-72',
+      'radial-gradient(circle at 42% 48%, transparent 46%, rgba(53,118,174,0.52) 64%, rgba(80,144,200,0.3) 74%, transparent 82%)',
+    highlightClassName: 'absolute inset-[22%] rounded-full blur-[48px] opacity-55',
     highlightBackground:
-      'radial-gradient(circle at 35% 28%, rgba(255,255,255,0.1), rgba(147,171,255,0.07) 22%, transparent 56%)',
+      'radial-gradient(circle at 35% 26%, rgba(104,174,201,0.22), rgba(80,144,200,0.15) 28%, transparent 58%)',
     animate: {
       x: [0, -26, 12, 0],
       y: [0, 14, -12, 0],
@@ -62,16 +62,16 @@ const orbs: OrbConfig[] = [
     id: 'b',
     position: 'left-[-18%] bottom-[-16%]',
     size: 'h-[min(72vw,560px)] w-[min(72vw,560px)]',
-    glowClassName: 'absolute inset-[-10%] rounded-full blur-[46px]',
+    glowClassName: 'absolute inset-[-10%] rounded-full blur-[50px]',
     glowBackground:
-      'radial-gradient(circle at 62% 38%, rgba(97,122,255,0.24), rgba(68,74,170,0.15) 28%, rgba(11,12,24,0.06) 58%, transparent 78%)',
+      'radial-gradient(circle at 62% 38%, rgba(53,118,174,0.68), rgba(80,144,200,0.5) 32%, rgba(104,174,201,0.26) 50%, rgba(6,8,16,0.1) 62%, transparent 80%)',
     planetClassName:
-      'absolute inset-[12%] rounded-full border border-white/[0.03] shadow-[inset_-22px_-36px_80px_rgba(0,0,0,0.54),inset_18px_20px_42px_rgba(120,136,255,0.06)]',
+      'absolute inset-[12%] rounded-full border border-white/[0.018] shadow-[inset_-42px_-54px_126px_rgba(0,0,0,0.94),inset_22px_20px_50px_rgba(245,160,80,0.2)]',
     planetBackground:
-      'radial-gradient(circle at 56% 34%, rgba(72,93,205,0.14), rgba(13,16,30,0.97) 44%, rgba(3,5,10,1) 78%)',
-    rimClassName: 'absolute inset-[2%] rounded-full blur-[34px] opacity-65',
+      'radial-gradient(circle at 58% 33%, rgba(245,160,80,0.92), rgba(224,120,56,0.88) 30%, rgba(200,96,48,0.78) 44%, rgba(138,64,32,0.6) 54%, rgba(24,8,8,0.98) 72%, rgba(8,4,4,1) 86%)',
+    rimClassName: 'absolute inset-[2%] rounded-full blur-[38px] opacity-70',
     rimBackground:
-      'radial-gradient(circle at 58% 48%, transparent 52%, rgba(108,128,255,0.12) 68%, transparent 80%)',
+      'radial-gradient(circle at 58% 48%, transparent 48%, rgba(53,118,174,0.5) 66%, rgba(80,144,200,0.28) 76%, transparent 84%)',
     animate: {
       x: [0, 24, -12, 0],
       y: [0, -18, 10, 0],
@@ -87,16 +87,16 @@ const orbs: OrbConfig[] = [
     id: 'c',
     position: 'right-[10%] top-[50%]',
     size: 'h-[min(28vw,230px)] w-[min(28vw,230px)]',
-    glowClassName: 'absolute inset-[-18%] rounded-full blur-[30px]',
+    glowClassName: 'absolute inset-[-18%] rounded-full blur-[34px]',
     glowBackground:
-      'radial-gradient(circle at 48% 44%, rgba(94,111,255,0.22), rgba(73,55,171,0.12) 34%, transparent 72%)',
+      'radial-gradient(circle at 48% 44%, rgba(53,118,174,0.68), rgba(80,144,200,0.52) 36%, rgba(104,174,201,0.26) 52%, transparent 76%)',
     planetClassName:
-      'absolute inset-[16%] rounded-full border border-white/[0.03] shadow-[inset_-16px_-22px_40px_rgba(0,0,0,0.48),inset_10px_12px_26px_rgba(111,126,255,0.06)]',
+      'absolute inset-[16%] rounded-full border border-white/[0.016] shadow-[inset_-26px_-34px_64px_rgba(0,0,0,0.92),inset_12px_14px_28px_rgba(245,160,80,0.18)]',
     planetBackground:
-      'radial-gradient(circle at 42% 34%, rgba(74,96,214,0.16), rgba(12,15,26,0.95) 40%, rgba(4,6,12,1) 82%)',
-    highlightClassName: 'absolute inset-[28%] rounded-full blur-[34px] opacity-68',
+      'radial-gradient(circle at 42% 34%, rgba(245,160,80,0.9), rgba(224,120,56,0.85) 28%, rgba(200,96,48,0.72) 42%, rgba(48,16,8,0.98) 56%, rgba(8,4,4,1) 80%)',
+    highlightClassName: 'absolute inset-[28%] rounded-full blur-[30px] opacity-50',
     highlightBackground:
-      'radial-gradient(circle at 40% 30%, rgba(255,255,255,0.08), transparent 56%)',
+      'radial-gradient(circle at 40% 30%, rgba(104,174,201,0.2), rgba(80,144,200,0.12) 30%, transparent 58%)',
     animate: {
       x: [0, -10, 8, 0],
       y: [0, 12, -8, 0],
@@ -155,27 +155,27 @@ function useCursorGlow(disabled: boolean) {
   const mouseY = useMotionValue(
     typeof window === 'undefined' ? 0 : window.innerHeight / 2,
   )
-  const opacity = useMotionValue(0.45)
+  const opacity = useMotionValue(0.35)
 
   useLayoutEffect(() => {
     if (disabled || typeof window === 'undefined') return
 
     mouseX.set(window.innerWidth / 2)
     mouseY.set(window.innerHeight / 2)
-    opacity.set(0.45)
+    opacity.set(0.35)
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
-      opacity.set(1)
+      opacity.set(0.7)
     }
 
     const handleMouseLeave = () => {
-      opacity.set(0.18)
+      opacity.set(0.12)
     }
 
     const handleMouseEnter = () => {
-      opacity.set(0.45)
+      opacity.set(0.35)
     }
 
     window.addEventListener('mousemove', handleMouseMove, {
@@ -255,7 +255,7 @@ function ParallaxOrb({ orb, reduceMotion }: { orb: OrbConfig; reduceMotion: bool
 function CursorGlow({ disabled }: { disabled: boolean }) {
   const cursor = useCursorGlow(disabled)
 
-  const background = useMotionTemplate`radial-gradient(1200px circle at ${cursor.x}px ${cursor.y}px, rgba(139,92,246,0.16), rgba(99,102,241,0.08) 34%, transparent 66%)`
+  const background = useMotionTemplate`radial-gradient(900px circle at ${cursor.x}px ${cursor.y}px, rgba(53,118,174,0.28), rgba(80,144,200,0.18) 40%, rgba(104,174,201,0.08) 56%, transparent 72%)`
 
   if (disabled) return null
 
@@ -310,14 +310,14 @@ export function AmbientBackground() {
       aria-hidden="true"
     >
       {/* Solid base - ensures no gaps ever show */}
-      <div className="absolute inset-0 bg-[#06060a]" />
+      <div className="absolute inset-0 bg-[#000000]" />
 
       {/* Slow atmospheric wash - kept subtle so the planet forms lead the scene */}
       <motion.div
-        className="absolute -inset-[62%] transform-gpu opacity-[0.24] will-change-transform"
+        className="absolute -inset-[62%] transform-gpu opacity-[0.3] will-change-transform"
         style={{
           background:
-            'conic-gradient(from 180deg at 50% 50%, rgba(99,102,241,0.15) 0deg, rgba(93,85,199,0.12) 72deg, rgba(122,92,240,0.08) 144deg, rgba(52,69,148,0.12) 220deg, rgba(79,116,244,0.11) 300deg, rgba(99,102,241,0.15) 360deg)',
+            'conic-gradient(from 180deg at 50% 50%, rgba(53,118,174,0.34) 0deg, rgba(104,174,201,0.3) 70deg, rgba(169,216,222,0.24) 130deg, rgba(14,22,34,0.24) 216deg, rgba(53,118,174,0.32) 304deg, rgba(53,118,174,0.34) 360deg)',
           x: reduceMotion ? undefined : auroraX,
           y: reduceMotion ? undefined : auroraY,
         }}
@@ -336,9 +336,9 @@ export function AmbientBackground() {
       />
 
       {/* Center glow and framing vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_78%_58%_at_50%_34%,rgba(255,255,255,0.055),transparent_56%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_110%_82%_at_50%_100%,rgba(7,10,20,0.92),transparent_48%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(93,110,212,0.07),transparent_34%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_78%_58%_at_50%_34%,rgba(104,174,201,0.06),transparent_56%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_110%_82%_at_50%_100%,rgba(0,0,0,0.99),transparent_48%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(53,118,174,0.1),transparent_36%)]" />
 
       {/* Floating orbs with parallax */}
       {orbs.map((orb) => (
