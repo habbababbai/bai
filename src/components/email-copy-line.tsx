@@ -62,13 +62,13 @@ export function EmailCopyLine({
         tabIndex={enabled ? 0 : -1}
         aria-disabled={!enabled}
         className={cn(
-          'group inline-flex max-w-full items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-left text-[0.8125rem] text-zinc-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[border-color,background-color,box-shadow,color,opacity] duration-200',
+          'group inline-flex max-w-full items-center gap-2 rounded-lg border border-white/10 bg-white/4 px-3 py-2 text-left text-[0.8125rem] text-zinc-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[border-color,background-color,box-shadow,color,opacity] duration-200',
           enabled
-            ? 'hover:border-white/16 hover:bg-white/[0.06] hover:text-zinc-100'
+            ? 'hover:border-white/16 hover:bg-white/6 hover:text-zinc-100'
             : 'pointer-events-none cursor-default opacity-60',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6f85c5]/80',
           copied &&
-            'border-emerald-500/25 bg-emerald-500/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_1px_rgba(52,211,153,0.12)]',
+            'border-emerald-500/25 bg-emerald-500/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_1px_rgba(52,211,153,0.12)]',
         )}
         aria-label={`Copy email ${email}`}
       >
@@ -93,7 +93,7 @@ export function EmailCopyLine({
             'grid min-w-0 shrink-0 overflow-hidden',
             reduceMotion
               ? 'transition-none'
-              : 'transition-[grid-template-columns] duration-[420ms]',
+              : 'transition-[grid-template-columns] duration-420',
           )}
           style={
             reduceMotion

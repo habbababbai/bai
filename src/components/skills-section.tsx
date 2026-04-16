@@ -2,8 +2,10 @@ import { site } from '@/content/site'
 import { cn } from '@/lib/cn'
 import { getSkillInfo } from '@/lib/skill-icons'
 import { TiltCard } from '@/components/tilt-card'
+import { useInputModality } from '@/hooks/use-input-modality'
 import { Layers } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
+import { useState } from 'react'
 
 type SkillsSectionProps = {
   disableEntrance?: boolean
@@ -15,6 +17,9 @@ export function SkillsSection({
   innerRevealDelay,
 }: SkillsSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
+  const { isTouchLike } = useInputModality()
+  const [isTouchScrollActive, setIsTouchScrollActive] = useState(false)
+  const touchScrollActive = isTouchLike && !reduceMotion && isTouchScrollActive
   const skillGroups = site.skills
   const lastIsOdd = skillGroups.length % 2 === 1
   const useIntroGridReveal = innerRevealDelay != null && !reduceMotion
@@ -140,44 +145,52 @@ export function SkillsSection({
           : { duration: 0.58, ease: [0.22, 1, 0.36, 1] as const }
       }
     >
-      <TiltCard
-        maxTilt={0.8}
-        scale={1.001}
-        showShine
-        innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
+      <motion.div
+        className={cn(touchScrollActive && 'touch-scroll-active')}
+        initial={false}
+        viewport={{ once: false, amount: 0.22, margin: '-8% 0px' }}
+        onViewportEnter={() => setIsTouchScrollActive(true)}
+        onViewportLeave={() => setIsTouchScrollActive(false)}
       >
-        {/*
-          During intro reveal, the grid uses its own pop/fade stagger.
-          Wrapping the entire section in an opacity fade hides that pop.
-        */}
-        {innerRevealDelay != null && !reduceMotion && !useIntroGridReveal ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 1.12,
-              delay: innerRevealDelay,
-              ease: [0.18, 0.92, 0.22, 1] as const,
-            }}
-          >
-            {inner}
-          </motion.div>
-        ) : !disableEntrance && !reduceMotion ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.25, margin: '-8% 0px' }}
-            transition={{
-              duration: 0.72,
-              ease: [0.22, 1, 0.36, 1] as const,
-            }}
-          >
-            {inner}
-          </motion.div>
-        ) : (
-          inner
-        )}
-      </TiltCard>
+        <TiltCard
+          maxTilt={0.8}
+          scale={1.001}
+          showShine
+          innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
+        >
+          {/*
+            During intro reveal, the grid uses its own pop/fade stagger.
+            Wrapping the entire section in an opacity fade hides that pop.
+          */}
+          {innerRevealDelay != null && !reduceMotion && !useIntroGridReveal ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                duration: 1.12,
+                delay: innerRevealDelay,
+                ease: [0.18, 0.92, 0.22, 1] as const,
+              }}
+            >
+              {inner}
+            </motion.div>
+          ) : !disableEntrance && !reduceMotion ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.25, margin: '-8% 0px' }}
+              transition={{
+                duration: 0.72,
+                ease: [0.22, 1, 0.36, 1] as const,
+              }}
+            >
+              {inner}
+            </motion.div>
+          ) : (
+            inner
+          )}
+        </TiltCard>
+      </motion.div>
     </motion.section>
   )
 }

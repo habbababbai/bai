@@ -2,8 +2,11 @@ import { site } from '@/content/site'
 import { IconGitHub, IconLinkedIn } from '@/components/brand-icons'
 import { EmailCopyLine } from '@/components/email-copy-line'
 import { TiltCard } from '@/components/tilt-card'
+import { useInputModality } from '@/hooks/use-input-modality'
+import { cn } from '@/lib/cn'
 import { Mail, MessageCircle } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
+import { useState } from 'react'
 
 const mailto = `mailto:${site.links.email}`
 
@@ -38,6 +41,9 @@ export function ContactSection({
   innerRevealDelay,
 }: ContactSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
+  const { isTouchLike } = useInputModality()
+  const [isTouchScrollActive, setIsTouchScrollActive] = useState(false)
+  const touchScrollActive = isTouchLike && !reduceMotion && isTouchScrollActive
 
   const heading = (
     <div className="mb-1 flex flex-row items-center justify-center gap-2.5">
@@ -142,18 +148,26 @@ export function ContactSection({
       }
       aria-labelledby="contact-heading"
     >
-      <TiltCard
-        maxTilt={0.8}
-        scale={1.001}
-        showShine
-        innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
+      <motion.div
+        className={cn(touchScrollActive && 'touch-scroll-active')}
+        initial={false}
+        viewport={{ once: false, amount: 0.22, margin: '-8% 0px' }}
+        onViewportEnter={() => setIsTouchScrollActive(true)}
+        onViewportLeave={() => setIsTouchScrollActive(false)}
       >
-        {innerRevealDelay != null && !reduceMotion
-          ? innerAnimated
-          : !disableEntrance && !reduceMotion
-            ? innerWhileInView
-            : inner}
-      </TiltCard>
+        <TiltCard
+          maxTilt={0.8}
+          scale={1.001}
+          showShine
+          innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
+        >
+          {innerRevealDelay != null && !reduceMotion
+            ? innerAnimated
+            : !disableEntrance && !reduceMotion
+              ? innerWhileInView
+              : inner}
+        </TiltCard>
+      </motion.div>
     </motion.section>
   )
 }

@@ -1,10 +1,13 @@
 import { cn } from '@/lib/cn'
+import { useInputModality } from '@/hooks/use-input-modality'
 import {
   motion,
+  useScroll,
   useReducedMotion,
   useMotionValue,
   useSpring,
   useTransform,
+  type MotionValue,
 } from 'motion/react'
 import { useEffect, useLayoutEffect, useRef } from 'react'
 
@@ -151,12 +154,14 @@ function useInteractiveParallax(
   invert: boolean,
   springConfig: { stiffness: number; damping: number },
   disabled: boolean,
+  mode: 'mouse' | 'scroll',
+  scrollY: MotionValue<number>,
 ) {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
   useEffect(() => {
-    if (disabled || typeof window === 'undefined') return
+    if (disabled || mode !== 'mouse' || typeof window === 'undefined') return
 
     mouseX.set(0)
     mouseY.set(0)
@@ -188,11 +193,18 @@ function useInteractiveParallax(
       }
       window.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [disabled, mouseX, mouseY])
+  }, [disabled, mode, mouseX, mouseY])
+
+  const touchX = useTransform(scrollY, (value) => Math.sin(value * 0.0026) * 220)
+  const touchY = useTransform(scrollY, (value) => Math.cos(value * 0.0022) * 180)
+
+  const sourceX = mode === 'scroll' ? touchX : mouseX
+  const sourceY = mode === 'scroll' ? touchY : mouseY
 
   const multiplier = invert ? -1 : 1
-  const offsetX = useTransform(mouseX, (v) => v * strength * multiplier)
-  const offsetY = useTransform(mouseY, (v) => v * strength * multiplier)
+  const modeStrength = mode === 'scroll' ? strength * 1.9 : strength
+  const offsetX = useTransform(sourceX, (v) => v * modeStrength * multiplier)
+  const offsetY = useTransform(sourceY, (v) => v * modeStrength * multiplier)
 
   const x = useSpring(offsetX, springConfig)
   const y = useSpring(offsetY, springConfig)
@@ -263,17 +275,21 @@ function useCursorGlow(disabled: boolean) {
 function ParallaxOrb({
   orb,
   reduceMotion,
-  parallaxActive,
+  interactionMode,
+  scrollY,
 }: {
   orb: OrbConfig
   reduceMotion: boolean
-  parallaxActive: boolean
+  interactionMode: 'mouse' | 'scroll'
+  scrollY: MotionValue<number>
 }) {
   const parallax = useInteractiveParallax(
     orb.parallaxStrength,
     orb.invert ?? false,
     orb.springConfig ?? DEFAULT_SPRING,
-    reduceMotion || !parallaxActive,
+    reduceMotion,
+    interactionMode,
+    scrollY,
   )
 
   return (
@@ -408,13 +424,18 @@ function CursorGlow({ disabled }: { disabled: boolean }) {
 
 export function AmbientBackground({ interactive = true }: { interactive?: boolean }) {
   const reduceMotion = useReducedMotion() ?? false
+  const { isTouchLike } = useInputModality()
   const allowInteractive = interactive && !reduceMotion
+  const interactionMode = allowInteractive && isTouchLike ? 'scroll' : 'mouse'
+  const allowMouseInteractive = allowInteractive && interactionMode === 'mouse'
+  const allowScrollInteractive = allowInteractive && interactionMode === 'scroll'
+  const { scrollY } = useScroll()
 
   const auroraMouseX = useMotionValue(0)
   const auroraMouseY = useMotionValue(0)
 
   useEffect(() => {
-    if (!allowInteractive || typeof window === 'undefined') return
+    if (!allowMouseInteractive || typeof window === 'undefined') return
 
     auroraMouseX.set(0)
     auroraMouseY.set(0)
@@ -446,7 +467,16 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
       }
       window.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [allowInteractive, auroraMouseX, auroraMouseY])
+  }, [allowMouseInteractive, auroraMouseX, auroraMouseY])
+
+  const auroraScrollX = useSpring(useTransform(scrollY, (v) => Math.sin(v * 0.0014) * 42), {
+    stiffness: 20,
+    damping: 14,
+  })
+  const auroraScrollY = useSpring(useTransform(scrollY, (v) => Math.cos(v * 0.0012) * 54), {
+    stiffness: 20,
+    damping: 14,
+  })
 
   const auroraX = useSpring(
     useTransform(auroraMouseX, (v) => v * 0.07),
@@ -471,8 +501,8 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
         style={{
           background:
             'conic-gradient(from 182deg at 50% 50%, rgba(42,84,146,0.22) 0deg, rgba(86,68,164,0.22) 78deg, rgba(188,110,68,0.12) 144deg, rgba(8,12,22,0.34) 220deg, rgba(46,88,152,0.2) 300deg, rgba(42,84,146,0.22) 360deg)',
-          x: allowInteractive ? auroraX : undefined,
-          y: allowInteractive ? auroraY : undefined,
+          x: allowMouseInteractive ? auroraX : allowScrollInteractive ? auroraScrollX : undefined,
+          y: allowMouseInteractive ? auroraY : allowScrollInteractive ? auroraScrollY : undefined,
         }}
         animate={reduceMotion ? { rotate: 0 } : { rotate: 360 }}
         transition={
@@ -499,12 +529,13 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
           key={orb.id}
           orb={orb}
           reduceMotion={reduceMotion}
-          parallaxActive={allowInteractive}
+          interactionMode={interactionMode}
+          scrollY={scrollY}
         />
       ))}
 
       {/* Cursor glow - follows mouse with soft ambient light */}
-      <CursorGlow disabled={!allowInteractive} />
+      <CursorGlow disabled={!allowMouseInteractive} />
 
       {/* Subtle film grain */}
       <div

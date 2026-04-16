@@ -1,6 +1,7 @@
 import { site } from '@/content/site'
 import { EmailCopyLine } from '@/components/email-copy-line'
 import { TiltCard } from '@/components/tilt-card'
+import { useInputModality } from '@/hooks/use-input-modality'
 import { cn } from '@/lib/cn'
 import { motion, useReducedMotion } from 'motion/react'
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
@@ -232,10 +233,16 @@ export function HeroSection({
   onIntroTypingComplete,
 }: HeroSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
+  const { isTouchLike } = useInputModality()
   const [isRevealHintIdle, setIsRevealHintIdle] = useState(false)
   const idleTimerRef = useRef<number | null>(null)
   const isIntro = mode === 'intro'
   const showRevealHint = isIntro && introPhase === 'hint-visible'
+  const introTouchHintHighlight =
+    isTouchLike &&
+    !reduceMotion &&
+    (introPhase === 'hint-visible' || introPhase === 'revealing')
+  const flowTouchHighlight = isTouchLike && !reduceMotion
 
   const clearIdleTimer = useCallback(() => {
     if (idleTimerRef.current !== null) {
@@ -289,7 +296,10 @@ export function HeroSection({
     return (
       <div className="pointer-events-none fixed inset-0 z-20 flex items-start justify-center px-5 pt-16 sm:px-6 md:px-8 md:pt-24">
         <motion.div
-          className="intro-hero-group pointer-events-auto relative w-full max-w-2xl transform-gpu will-change-transform md:max-w-176"
+          className={cn(
+            'intro-hero-group pointer-events-auto relative w-full max-w-2xl transform-gpu will-change-transform md:max-w-176',
+            introTouchHintHighlight && 'touch-scroll-active',
+          )}
           onPointerEnter={showRevealHint ? markRevealHintActive : undefined}
           onPointerLeave={showRevealHint ? scheduleIdleJump : undefined}
           initial={false}
@@ -365,8 +375,8 @@ export function HeroSection({
   }
 
   return (
-    <section className="w-full">
+    <motion.section className={cn('w-full', flowTouchHighlight && 'touch-scroll-active')}>
       <HeroCard isIntro={false} reduceMotion={reduceMotion} />
-    </section>
+    </motion.section>
   )
 }
