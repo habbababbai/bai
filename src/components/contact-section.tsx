@@ -81,9 +81,9 @@ export function ContactSection({
     <motion.section
       id="contact"
       initial={
-        disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }
+        disableEntrance || reduceMotion ? false : { y: 20 }
       }
-      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
+      whileInView={disableEntrance ? undefined : { y: 0 }}
       viewport={{ once: true, margin: '-12% 0px' }}
       transition={
         reduceMotion
@@ -110,6 +110,18 @@ export function ContactSection({
               duration: 1.12,
               delay: innerRevealDelay,
               ease: [0.18, 0.92, 0.22, 1] as const,
+            }}
+          >
+            {inner}
+          </motion.div>
+        ) : !disableEntrance && !reduceMotion ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: '-12% 0px' }}
+            transition={{
+              duration: 0.72,
+              ease: [0.22, 1, 0.36, 1] as const,
             }}
           >
             {inner}

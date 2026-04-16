@@ -364,7 +364,7 @@ export default function App() {
                   style={{ backfaceVisibility: 'hidden' }}
                 >
                   <SkillsSection
-                    disableEntrance={introEntranceDisabled}
+                    disableEntrance={false}
                   />
                 </motion.div>
                 <motion.div
@@ -373,10 +373,7 @@ export default function App() {
                   style={{ backfaceVisibility: 'hidden' }}
                 >
                   <ContactSection
-                    disableEntrance={introEntranceDisabled}
-                    innerRevealDelay={
-                      showInnerContentFade ? introInnerFadeDelay(2) : undefined
-                    }
+                    disableEntrance={false}
                   />
                 </motion.div>
               </motion.div>
