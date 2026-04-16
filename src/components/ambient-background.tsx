@@ -1,10 +1,14 @@
 import { cn } from '@/lib/cn'
+import { useInputModality } from '@/hooks/use-input-modality'
 import {
   motion,
+  useScroll,
   useReducedMotion,
   useMotionValue,
+  useTime,
   useSpring,
   useTransform,
+  type MotionValue,
 } from 'motion/react'
 import { useEffect, useLayoutEffect, useRef } from 'react'
 
@@ -151,12 +155,14 @@ function useInteractiveParallax(
   invert: boolean,
   springConfig: { stiffness: number; damping: number },
   disabled: boolean,
+  mode: 'mouse' | 'scroll',
+  scrollY: MotionValue<number>,
 ) {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
   useEffect(() => {
-    if (disabled || typeof window === 'undefined') return
+    if (disabled || mode !== 'mouse' || typeof window === 'undefined') return
 
     mouseX.set(0)
     mouseY.set(0)
@@ -188,11 +194,18 @@ function useInteractiveParallax(
       }
       window.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [disabled, mouseX, mouseY])
+  }, [disabled, mode, mouseX, mouseY])
+
+  const touchX = useTransform(scrollY, (value) => Math.sin(value * 0.0026) * 220)
+  const touchY = useTransform(scrollY, (value) => Math.cos(value * 0.0022) * 180)
+
+  const sourceX = mode === 'scroll' ? touchX : mouseX
+  const sourceY = mode === 'scroll' ? touchY : mouseY
 
   const multiplier = invert ? -1 : 1
-  const offsetX = useTransform(mouseX, (v) => v * strength * multiplier)
-  const offsetY = useTransform(mouseY, (v) => v * strength * multiplier)
+  const modeStrength = mode === 'scroll' ? strength * 1.9 : strength
+  const offsetX = useTransform(sourceX, (v) => v * modeStrength * multiplier)
+  const offsetY = useTransform(sourceY, (v) => v * modeStrength * multiplier)
 
   const x = useSpring(offsetX, springConfig)
   const y = useSpring(offsetY, springConfig)
@@ -262,19 +275,46 @@ function useCursorGlow(disabled: boolean) {
 
 function ParallaxOrb({
   orb,
+  orbIndex,
   reduceMotion,
-  parallaxActive,
+  interactionMode,
+  scrollY,
 }: {
   orb: OrbConfig
+  orbIndex: number
   reduceMotion: boolean
-  parallaxActive: boolean
+  interactionMode: 'mouse' | 'scroll'
+  scrollY: MotionValue<number>
 }) {
   const parallax = useInteractiveParallax(
     orb.parallaxStrength,
     orb.invert ?? false,
     orb.springConfig ?? DEFAULT_SPRING,
-    reduceMotion || !parallaxActive,
+    reduceMotion,
+    interactionMode,
+    scrollY,
   )
+  const time = useTime()
+  const phase = orbIndex * 2.35
+  const horizontalDirection = orbIndex % 2 === 0 ? 1 : -1
+  const verticalDirection = orbIndex % 2 === 0 ? -1 : 1
+
+  // Closed-loop path with a secondary harmonic keeps motion centered,
+  // so orbs do not appear to "drift away" in one direction.
+  const idleDriftX = useTransform(time, (t) =>
+    reduceMotion
+      ? 0
+      : horizontalDirection *
+          (Math.sin(t / 5200 + phase) * 52 + Math.sin(t / 8200 + phase * 1.7) * 22),
+  )
+  const idleDriftY = useTransform(time, (t) =>
+    reduceMotion
+      ? 0
+      : verticalDirection *
+          (Math.cos(t / 6800 + phase) * 40 + Math.sin(t / 9600 + phase * 1.4) * 18),
+  )
+  const layeredX = useTransform(() => parallax.x.get() + idleDriftX.get())
+  const layeredY = useTransform(() => parallax.y.get() + idleDriftY.get())
 
   return (
     <motion.div
@@ -283,8 +323,8 @@ function ParallaxOrb({
         reduceMotion
           ? undefined
           : {
-              x: parallax.x,
-              y: parallax.y,
+              x: layeredX,
+              y: layeredY,
             }
       }
     >
@@ -408,13 +448,18 @@ function CursorGlow({ disabled }: { disabled: boolean }) {
 
 export function AmbientBackground({ interactive = true }: { interactive?: boolean }) {
   const reduceMotion = useReducedMotion() ?? false
+  const { isTouchLike } = useInputModality()
   const allowInteractive = interactive && !reduceMotion
+  const interactionMode = allowInteractive && isTouchLike ? 'scroll' : 'mouse'
+  const allowMouseInteractive = allowInteractive && interactionMode === 'mouse'
+  const allowScrollInteractive = allowInteractive && interactionMode === 'scroll'
+  const { scrollY } = useScroll()
 
   const auroraMouseX = useMotionValue(0)
   const auroraMouseY = useMotionValue(0)
 
   useEffect(() => {
-    if (!allowInteractive || typeof window === 'undefined') return
+    if (!allowMouseInteractive || typeof window === 'undefined') return
 
     auroraMouseX.set(0)
     auroraMouseY.set(0)
@@ -446,7 +491,16 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
       }
       window.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [allowInteractive, auroraMouseX, auroraMouseY])
+  }, [allowMouseInteractive, auroraMouseX, auroraMouseY])
+
+  const auroraScrollX = useSpring(useTransform(scrollY, (v) => Math.sin(v * 0.0014) * 42), {
+    stiffness: 20,
+    damping: 14,
+  })
+  const auroraScrollY = useSpring(useTransform(scrollY, (v) => Math.cos(v * 0.0012) * 54), {
+    stiffness: 20,
+    damping: 14,
+  })
 
   const auroraX = useSpring(
     useTransform(auroraMouseX, (v) => v * 0.07),
@@ -471,8 +525,8 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
         style={{
           background:
             'conic-gradient(from 182deg at 50% 50%, rgba(42,84,146,0.22) 0deg, rgba(86,68,164,0.22) 78deg, rgba(188,110,68,0.12) 144deg, rgba(8,12,22,0.34) 220deg, rgba(46,88,152,0.2) 300deg, rgba(42,84,146,0.22) 360deg)',
-          x: allowInteractive ? auroraX : undefined,
-          y: allowInteractive ? auroraY : undefined,
+          x: allowMouseInteractive ? auroraX : allowScrollInteractive ? auroraScrollX : undefined,
+          y: allowMouseInteractive ? auroraY : allowScrollInteractive ? auroraScrollY : undefined,
         }}
         animate={reduceMotion ? { rotate: 0 } : { rotate: 360 }}
         transition={
@@ -494,17 +548,19 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(60,100,170,0.065),rgba(96,68,160,0.05)_26%,transparent_40%)]" />
 
       {/* Floating orbs with parallax */}
-      {orbs.map((orb) => (
+      {orbs.map((orb, orbIndex) => (
         <ParallaxOrb
           key={orb.id}
           orb={orb}
+          orbIndex={orbIndex}
           reduceMotion={reduceMotion}
-          parallaxActive={allowInteractive}
+          interactionMode={interactionMode}
+          scrollY={scrollY}
         />
       ))}
 
       {/* Cursor glow - follows mouse with soft ambient light */}
-      <CursorGlow disabled={!allowInteractive} />
+      <CursorGlow disabled={!allowMouseInteractive} />
 
       {/* Subtle film grain */}
       <div

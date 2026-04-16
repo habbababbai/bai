@@ -89,6 +89,88 @@
     }
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .touch-scroll-active .frost-panel {
+      @apply border-white/20 bg-[#0b0d12]/82 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_30px_70px_-44px_rgba(0,0,0,0.86),0_0_0_1px_rgba(120,100,194,0.16)];
+    }
+
+    .touch-scroll-active .chip {
+      @apply border-white/22 bg-[#171a23]/70 font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_0_1px_rgba(112,94,178,0.1),0_10px_20px_-14px_rgba(0,0,0,0.45)];
+    }
+
+    .touch-scroll-active .skill-card {
+      @apply border-white/20 bg-[#161922]/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.11),0_12px_32px_-12px_rgba(0,0,0,0.42),0_0_0_1px_rgba(112,94,178,0.08),0_0_0_1px_rgba(66,108,176,0.06)];
+    }
+
+    .touch-scroll-active .skill-card h3 {
+      @apply font-semibold text-zinc-100;
+    }
+
+    .touch-scroll-active .link-pill {
+      @apply border-white/24 bg-[#1a1d28]/84 font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_8px_20px_-6px_rgba(0,0,0,0.34),0_0_0_1px_rgba(112,94,178,0.08)];
+    }
+
+    .touch-scroll-active .about-copy {
+      @apply text-zinc-200;
+    }
+
+    .touch-scroll-active .about-heading-title {
+      @apply text-white;
+    }
+
+    .touch-scroll-active .about-heading-icon {
+      @apply border-white/18 bg-white/10 text-[#9ec8ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_0_1px_rgba(112,94,178,0.09),0_10px_20px_-14px_rgba(0,0,0,0.45)];
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+    .touch-scroll-active .frost-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .touch-scroll-active .frost-panel::after {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(
+        circle at 50% 36%,
+        rgba(124, 172, 255, 0.18) 0%,
+        rgba(170, 124, 255, 0.12) 26%,
+        rgba(255, 162, 116, 0.09) 44%,
+        transparent 68%
+      );
+      mix-blend-mode: screen;
+      opacity: 0.88;
+      filter: blur(20px);
+      transform: translate3d(0, 0, 0);
+      animation: mobile-active-spotlight 8.6s ease-in-out infinite;
+    }
+  }
+
+  @keyframes mobile-active-spotlight {
+    0% {
+      transform: translate3d(-9%, -7%, 0);
+    }
+
+    25% {
+      transform: translate3d(7%, -10%, 0);
+    }
+
+    50% {
+      transform: translate3d(11%, 6%, 0);
+    }
+
+    75% {
+      transform: translate3d(-6%, 10%, 0);
+    }
+
+    100% {
+      transform: translate3d(-10%, -4%, 0);
+    }
+  }
+
   .intro-reveal-arrow {
     @apply transition-colors duration-300 ease-out;
   }
