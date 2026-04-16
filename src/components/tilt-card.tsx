@@ -59,12 +59,15 @@ export function TiltCard({
         onMouseMove={handlers.onMouseMove}
         onMouseLeave={handlers.onMouseLeave}
         onMouseEnter={handlers.onMouseEnter}
+        onPointerDown={handlers.onPointerDown}
+        onPointerUp={handlers.onPointerUp}
+        onPointerCancel={handlers.onPointerCancel}
       >
         {children}
 
         {showShine && !disabled && (
           <motion.div
-            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-active:opacity-100"
             style={{ background: shineBackground }}
             aria-hidden
           />

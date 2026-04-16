@@ -3,13 +3,14 @@
  */
 export const site = {
     displayName: "bai",
-    tagline: "React Native Developer — JS, Swift, Kotlin.",
+    tagline: "Javascript Developer: React Native",
     about: {
         title: "About",
         paragraphs: [
             "I work on React Native apps: shipping features, fixing what breaks, bumping versions, and refactoring when the codebase needs it. I’m fine in TypeScript/JavaScript and I write native code when the problem isn’t solvable in JS alone.",
             "Outside the JS layer I’ve done native modules, releases, hooking into APIs, analytics, push — the normal overhead around a shipped app.",
             "I’m fine owning RN work end to end and coordinating with iOS, Android, and backend.",
+            "While React Native is my main focus, in free time I work on hobby projects with mostly Javascript. I'm familiar with implementing Web in React, as well Node.js backend side and handling monorepos with multiple applications.",
         ],
     },
     skills: [
@@ -51,11 +52,7 @@ export const site = {
         },
         {
             label: "Native languages",
-            items: [
-                "Swift",
-                "Kotlin",
-                "C# (basics)",
-            ],
+            items: ["Swift", "Kotlin", "C# (basics)"],
         },
         {
             label: "Backend & web",
@@ -65,18 +62,15 @@ export const site = {
                 "NestJS",
                 "Next.js",
                 "PostgreSQL",
+                "SQLite",
+                "MSSQL",
                 "Discord.js",
                 "Docker",
             ],
         },
         {
             label: "Analytics & product",
-            items: [
-                "Firebase",
-                "Sentry",
-                "Segment",
-                "Mixpanel",
-            ],
+            items: ["Firebase", "Sentry", "Segment", "Mixpanel"],
         },
         {
             label: "Testing & quality",

@@ -23,11 +23,11 @@ export function AboutSection() {
         maxTilt={0.8}
         scale={1.001}
         showShine
-        innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
+        innerClassName="frost-panel px-7 py-10 md:px-10 md:py-12"
       >
         <div className="mx-auto max-w-[40rem]">
-          <div className="mb-7 flex select-none flex-row items-center justify-center gap-2.5">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+          <div className="mb-6 flex select-none flex-row items-center justify-center gap-2.5">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-violet-300/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
               <Smartphone className="h-5 w-5" aria-hidden strokeWidth={1.75} />
             </span>
             <h2
@@ -37,7 +37,7 @@ export function AboutSection() {
               {site.about.title}
             </h2>
           </div>
-          <div className="space-y-4 text-left text-pretty text-[0.9375rem] leading-relaxed text-zinc-400 sm:hyphens-auto sm:text-justify md:text-base md:leading-[1.7]">
+          <div className="space-y-4 text-left text-pretty text-[0.95rem] leading-[1.78] text-zinc-400 sm:hyphens-auto sm:text-justify md:text-base">
             {site.about.paragraphs.map((p, i) => (
               <p key={i}>{p}</p>
             ))}

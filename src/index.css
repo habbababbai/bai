@@ -31,11 +31,11 @@
   }
 
   .chip {
-    @apply inline-flex max-w-full cursor-default items-center break-words rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-sm font-normal text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)];
+    @apply inline-flex max-w-full cursor-default items-center break-words rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-left text-[0.8125rem] font-normal text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] sm:px-3 sm:text-sm;
   }
 
   .skill-card {
-    @apply origin-center rounded-2xl border border-white/8 bg-white/3 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_24px_-12px_rgba(0,0,0,0)] transition-[transform,background-color,border-color,box-shadow] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] md:p-6;
+    @apply origin-center rounded-2xl border border-white/8 bg-white/3 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_24px_-12px_rgba(0,0,0,0)] transition-[transform,background-color,border-color,box-shadow] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] sm:p-5 md:p-6;
   }
 
   @media (hover: hover) {
@@ -79,6 +79,24 @@
 
     .link-pill:active {
       @apply scale-[0.98] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_-4px_rgba(0,0,0,0)];
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .chip:active {
+      @apply border-white/24 bg-white/[0.07] font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_0_1px_rgba(255,255,255,0.05)];
+    }
+
+    .skill-card:active {
+      @apply border-white/12 bg-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_10px_24px_-12px_rgba(0,0,0,0.28),0_0_0_1px_rgba(255,255,255,0.04)];
+    }
+
+    .skill-card:active h3 {
+      @apply font-semibold text-zinc-100;
+    }
+
+    .link-pill:active {
+      @apply border-white/28 bg-zinc-900/52 font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_20px_-6px_rgba(0,0,0,0.24)];
     }
   }
 }

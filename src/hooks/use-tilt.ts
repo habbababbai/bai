@@ -30,6 +30,9 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
     onMouseMove: (e: React.MouseEvent<T>) => void
     onMouseLeave: () => void
     onMouseEnter: () => void
+    onPointerDown: (e: React.PointerEvent<T>) => void
+    onPointerUp: () => void
+    onPointerCancel: () => void
   }
 } {
   const {
@@ -102,6 +105,28 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
     rawShineY.set(50)
   }, [rawRotateX, rawRotateY, rawScale, rawX, rawY, rawShineX, rawShineY])
 
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent<T>) => {
+      if (disabled || !ref.current || e.pointerType === 'mouse') return
+
+      const rect = ref.current.getBoundingClientRect()
+      const shinePercentX = ((e.clientX - rect.left) / rect.width) * 100
+      const shinePercentY = ((e.clientY - rect.top) / rect.height) * 100
+
+      setIsHovering(true)
+      rawRotateX.set(0)
+      rawRotateY.set(0)
+      rawScale.set(Math.min(scaleAmount, 1.008))
+      rawShineX.set(shinePercentX)
+      rawShineY.set(shinePercentY)
+    },
+    [disabled, rawRotateX, rawRotateY, rawScale, rawShineX, rawShineY, scaleAmount]
+  )
+
+  const handlePointerUp = useCallback(() => {
+    handleMouseLeave()
+  }, [handleMouseLeave])
+
   useEffect(() => {
     if (disabled && isHovering) {
       handleMouseLeave()
@@ -115,6 +140,9 @@ export function useTilt<T extends HTMLElement = HTMLElement>(
       onMouseMove: handleMouseMove,
       onMouseLeave: handleMouseLeave,
       onMouseEnter: handleMouseEnter,
+      onPointerDown: handlePointerDown,
+      onPointerUp: handlePointerUp,
+      onPointerCancel: handlePointerUp,
     },
   }
 }
