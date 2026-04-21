@@ -446,7 +446,13 @@ function CursorGlow({ disabled }: { disabled: boolean }) {
   )
 }
 
-export function AmbientBackground({ interactive = true }: { interactive?: boolean }) {
+export function AmbientBackground({
+  interactive = true,
+  lightweight = false,
+}: {
+  interactive?: boolean
+  lightweight?: boolean
+}) {
   const reduceMotion = useReducedMotion() ?? false
   const { isTouchLike } = useInputModality()
   const allowInteractive = interactive && !reduceMotion
@@ -511,9 +517,26 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
     { stiffness: 24, damping: 14 },
   )
 
+  if (lightweight) {
+    return (
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+        style={{ height: '100lvh' }}
+        aria-hidden="true"
+      >
+        <div className="absolute inset-0 bg-[#000000]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_82%_62%_at_50%_30%,rgba(74,120,192,0.08),rgba(108,82,180,0.06)_34%,rgba(190,110,68,0.03)_50%,transparent_64%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_108%_84%_at_50%_102%,rgba(0,0,0,0.995),transparent_50%)]" />
+        <div className="absolute right-[-20%] top-[-10%] h-[44vh] w-[44vh] rounded-full bg-[radial-gradient(circle,rgba(100,120,210,0.34),rgba(60,62,130,0.18)_44%,transparent_74%)] blur-[42px]" />
+        <div className="absolute left-[-24%] bottom-[-14%] h-[50vh] w-[50vh] rounded-full bg-[radial-gradient(circle,rgba(210,132,82,0.24),rgba(84,74,152,0.16)_40%,transparent_74%)] blur-[48px]" />
+      </div>
+    )
+  }
+
   return (
     <div
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      style={{ height: '100lvh' }}
       aria-hidden="true"
     >
       {/* Solid base - ensures no gaps ever show */}
