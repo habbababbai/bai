@@ -134,6 +134,24 @@ export function ContactSection({
     </div>
   )
 
+  if (safariPerfMode) {
+    return (
+      <section id="contact" aria-labelledby="contact-heading">
+        <div>
+          <TiltCard
+            maxTilt={0.8}
+            scale={1.001}
+            showShine={false}
+            disabled
+            innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
+          >
+            {inner}
+          </TiltCard>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <motion.section
       id="contact"

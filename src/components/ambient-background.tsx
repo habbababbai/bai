@@ -525,10 +525,22 @@ export function AmbientBackground({
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-[#000000]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_82%_62%_at_50%_30%,rgba(74,120,192,0.08),rgba(108,82,180,0.06)_34%,rgba(190,110,68,0.03)_50%,transparent_64%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_108%_84%_at_50%_102%,rgba(0,0,0,0.995),transparent_50%)]" />
-        <div className="absolute right-[-20%] top-[-10%] h-[44vh] w-[44vh] rounded-full bg-[radial-gradient(circle,rgba(100,120,210,0.34),rgba(60,62,130,0.18)_44%,transparent_74%)] blur-[42px]" />
-        <div className="absolute left-[-24%] bottom-[-14%] h-[50vh] w-[50vh] rounded-full bg-[radial-gradient(circle,rgba(210,132,82,0.24),rgba(84,74,152,0.16)_40%,transparent_74%)] blur-[48px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_78%_58%_at_50%_34%,rgba(70,116,186,0.045),rgba(108,82,180,0.04)_38%,rgba(190,110,68,0.022)_52%,transparent_64%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_110%_82%_at_50%_100%,rgba(0,0,0,0.99),transparent_48%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(60,100,170,0.065),rgba(96,68,160,0.05)_26%,transparent_40%)]" />
+        {/* Static blurred mobile layers using desktop orb palettes. */}
+        <div
+          className="absolute right-[-20%] top-[-10%] h-[46vh] w-[46vh] rounded-full blur-[44px]"
+          style={{ background: orbs[0]?.glowBackground }}
+        />
+        <div
+          className="absolute left-[-24%] bottom-[-14%] h-[52vh] w-[52vh] rounded-full blur-[50px]"
+          style={{ background: orbs[1]?.glowBackground }}
+        />
+        <div
+          className="absolute right-[10%] top-[50%] h-[20vh] w-[20vh] rounded-full blur-[30px]"
+          style={{ background: orbs[2]?.glowBackground }}
+        />
       </div>
     )
   }

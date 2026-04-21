@@ -58,6 +58,28 @@ export function AboutSection({
     </div>
   )
 
+  if (safariPerfMode) {
+    return (
+      <section id="about" tabIndex={-1} aria-labelledby="about-heading">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: 'easeOut' }}
+        >
+          <TiltCard
+            maxTilt={0.8}
+            scale={1.001}
+            showShine={false}
+            disabled
+            innerClassName="frost-panel px-7 py-10 md:px-10 md:py-12"
+          >
+            {inner}
+          </TiltCard>
+        </motion.div>
+      </section>
+    )
+  }
+
   return (
     <motion.section
       id="about"

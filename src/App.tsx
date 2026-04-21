@@ -381,7 +381,7 @@ export default function App() {
                 <motion.div
                   variants={revealSectionsItemVariants}
                   className={cn(
-                    'w-full transform-gpu [contain-intrinsic-size:auto_520px] [content-visibility:auto]',
+                    'w-full transform-gpu',
                     keepRevealWillChange && 'will-change-transform',
                   )}
                   style={{ backfaceVisibility: 'hidden' }}
@@ -396,7 +396,7 @@ export default function App() {
                 <motion.div
                   variants={revealSectionsItemVariants}
                   className={cn(
-                    'w-full transform-gpu [contain-intrinsic-size:auto_560px] [content-visibility:auto]',
+                    'w-full transform-gpu',
                     keepRevealWillChange && 'will-change-transform',
                   )}
                   style={{ backfaceVisibility: 'hidden' }}
@@ -406,7 +406,7 @@ export default function App() {
                 <motion.div
                   variants={revealSectionsItemVariants}
                   className={cn(
-                    'w-full transform-gpu [contain-intrinsic-size:auto_420px] [content-visibility:auto]',
+                    'w-full transform-gpu',
                     keepRevealWillChange && 'will-change-transform',
                   )}
                   style={{ backfaceVisibility: 'hidden' }}
