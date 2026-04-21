@@ -446,7 +446,13 @@ function CursorGlow({ disabled }: { disabled: boolean }) {
   )
 }
 
-export function AmbientBackground({ interactive = true }: { interactive?: boolean }) {
+export function AmbientBackground({
+  interactive = true,
+  lightweight = false,
+}: {
+  interactive?: boolean
+  lightweight?: boolean
+}) {
   const reduceMotion = useReducedMotion() ?? false
   const { isTouchLike } = useInputModality()
   const allowInteractive = interactive && !reduceMotion
@@ -511,9 +517,38 @@ export function AmbientBackground({ interactive = true }: { interactive?: boolea
     { stiffness: 24, damping: 14 },
   )
 
+  if (lightweight) {
+    return (
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+        style={{ height: '100lvh' }}
+        aria-hidden="true"
+      >
+        <div className="absolute inset-0 bg-[#000000]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_78%_58%_at_50%_34%,rgba(70,116,186,0.045),rgba(108,82,180,0.04)_38%,rgba(190,110,68,0.022)_52%,transparent_64%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_110%_82%_at_50%_100%,rgba(0,0,0,0.99),transparent_48%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(60,100,170,0.065),rgba(96,68,160,0.05)_26%,transparent_40%)]" />
+        {/* Static blurred mobile layers using desktop orb palettes. */}
+        <div
+          className="absolute right-[-20%] top-[-10%] h-[46vh] w-[46vh] rounded-full blur-[44px]"
+          style={{ background: orbs[0]?.glowBackground }}
+        />
+        <div
+          className="absolute left-[-24%] bottom-[-14%] h-[52vh] w-[52vh] rounded-full blur-[50px]"
+          style={{ background: orbs[1]?.glowBackground }}
+        />
+        <div
+          className="absolute right-[10%] top-[50%] h-[20vh] w-[20vh] rounded-full blur-[30px]"
+          style={{ background: orbs[2]?.glowBackground }}
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      style={{ height: '100lvh' }}
       aria-hidden="true"
     >
       {/* Solid base - ensures no gaps ever show */}

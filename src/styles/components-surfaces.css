@@ -14,7 +14,7 @@
   }
 
   .chip {
-    @apply inline-flex max-w-full cursor-default items-center rounded-full border border-white/12 bg-[#0f1014]/68 px-2.5 py-1.5 text-left text-[0.8125rem] font-normal wrap-break-word text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out sm:px-3 sm:text-sm;
+    @apply inline-flex min-w-0 max-w-full cursor-default items-center rounded-full border border-white/12 bg-[#0f1014]/68 px-2.5 py-1.5 text-left text-[0.8125rem] font-normal whitespace-nowrap text-zinc-200/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_0_0_0_rgba(255,255,255,0)] transition-[transform,background-color,border-color,box-shadow,font-weight] duration-500 ease-in-out sm:px-3 sm:text-sm;
   }
 
   .skill-card {
@@ -35,5 +35,32 @@
 
   .intro-reveal-arrow {
     @apply text-base leading-none text-[#8ea0d3]/90 transition-[color,transform] duration-500 ease-in-out;
+  }
+
+  /* iOS Safari: reduce compositing load and prevent corner halo artifacts around clipped blur panels. */
+  @supports (-webkit-touch-callout: none) {
+    .frost-panel {
+      background: rgba(11, 13, 18, 0.88);
+      border-color: rgba(255, 255, 255, 0.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 20px 44px -34px rgba(0, 0, 0, 0.72);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      background-clip: padding-box;
+      isolation: isolate;
+    }
+
+    .intro-reveal-pill {
+      background: rgba(16, 18, 24, 0.86);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      background-clip: padding-box;
+      isolation: isolate;
+    }
+
+    .chip {
+      white-space: nowrap;
+    }
   }
 }

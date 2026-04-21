@@ -128,6 +128,7 @@ type HeroSectionProps = {
 
 function HeroCard({
   isIntro,
+  isTouchLike,
   disableTilt = false,
   introPhase,
   onPressCard,
@@ -135,6 +136,7 @@ function HeroCard({
   onIntroTypingComplete,
 }: {
   isIntro: boolean
+  isTouchLike: boolean
   disableTilt?: boolean
   introPhase?: HeroIntroPhase
   onPressCard?: () => void
@@ -210,8 +212,8 @@ function HeroCard({
       <TiltCard
         maxTilt={isIntro ? 1.2 : 0.8}
         scale={isIntro ? 1.004 : 1.001}
-        showShine
-        disabled={disableTilt}
+        showShine={!isTouchLike}
+        disabled={disableTilt || isTouchLike}
         innerClassName="frost-panel relative overflow-hidden px-6 py-8 sm:px-8 sm:py-9 md:px-10 md:py-10"
       >
         {canPressToReveal ? (
@@ -319,6 +321,7 @@ export function HeroSection({
           <section>
             <HeroCard
               isIntro
+              isTouchLike={isTouchLike}
               disableTilt={isRevealing}
               introPhase={introPhase}
               onPressCard={onReveal}
@@ -376,7 +379,7 @@ export function HeroSection({
 
   return (
     <motion.section className={cn('w-full', flowTouchHighlight && 'touch-scroll-active')}>
-      <HeroCard isIntro={false} reduceMotion={reduceMotion} />
+      <HeroCard isIntro={false} isTouchLike={isTouchLike} reduceMotion={reduceMotion} />
     </motion.section>
   )
 }

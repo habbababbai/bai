@@ -9,17 +9,20 @@ import { useState } from 'react'
 
 type SkillsSectionProps = {
   disableEntrance?: boolean
+  safariPerfMode?: boolean
   innerRevealDelay?: number
 }
 
 export function SkillsSection({
   disableEntrance = false,
+  safariPerfMode = false,
   innerRevealDelay,
 }: SkillsSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
   const { isTouchLike } = useInputModality()
   const [isTouchScrollActive, setIsTouchScrollActive] = useState(false)
-  const touchScrollActive = isTouchLike && !reduceMotion && isTouchScrollActive
+  const touchScrollActive =
+    isTouchLike && !reduceMotion && !safariPerfMode && isTouchScrollActive
   const skillGroups = site.skills
   const lastIsOdd = skillGroups.length % 2 === 1
   const useIntroGridReveal = innerRevealDelay != null && !reduceMotion
@@ -70,75 +73,137 @@ export function SkillsSection({
       <p className="mx-auto max-w-lg text-center text-sm leading-relaxed text-zinc-500">
         Tools and technologies I reach for most often.
       </p>
-      <motion.div
-        className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
-        variants={gridContainerVariants}
-        initial={useIntroGridReveal ? 'hidden' : 'hidden'}
-        animate={useIntroGridReveal ? 'visible' : undefined}
-        whileInView={useIntroGridReveal ? undefined : 'visible'}
-        viewport={
-          useIntroGridReveal
-            ? undefined
-            : {
-                once: true,
-                amount: 0.25,
-                margin: '-8% 0px',
-              }
-        }
-      >
-        {skillGroups.map((group, index) => {
-          const isLast = index === skillGroups.length - 1
-          const spanLastOdd = lastIsOdd && isLast
-
-          return (
-            <motion.div
-              key={group.label}
-              variants={cardVariants}
-              custom={index}
-              className={cn(
-                'skill-card flex h-full min-h-0 min-w-0 flex-col',
-                spanLastOdd && 'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
-              )}
-            >
-              <h3 className="shrink-0 text-sm leading-snug font-medium text-zinc-300 transition-[font-weight,color] duration-700 ease-in-out">
-                {group.label}
-              </h3>
-              <ul className="mt-3.5 flex min-h-0 flex-1 flex-wrap content-start gap-x-2 gap-y-2">
-                {group.items.map((item) => {
-                  const skillInfo = getSkillInfo(item)
-                  const Icon = skillInfo?.icon
-                  return (
-                    <li key={item} className="max-w-full min-w-0">
-                      <span className="chip group/chip leading-snug select-none">
-                        {Icon && (
-                          <Icon
-                            className="mr-1.5 h-3.5 w-3.5 shrink-0 opacity-75 transition-opacity duration-500 group-hover/chip:opacity-100"
-                            style={{
-                              color: skillInfo?.color,
-                            }}
-                            aria-hidden
-                          />
-                        )}
-                        {item}
-                      </span>
-                    </li>
-                  )
-                })}
-              </ul>
-            </motion.div>
-          )
-        })}
-      </motion.div>
+      {safariPerfMode ? (
+        <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5">
+          {skillGroups.map((group, index) => {
+            const isLast = index === skillGroups.length - 1
+            const spanLastOdd = lastIsOdd && isLast
+            return (
+              <div
+                key={group.label}
+                className={cn(
+                  'skill-card flex h-full min-h-0 min-w-0 flex-col',
+                  spanLastOdd && 'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
+                )}
+              >
+                <h3 className="shrink-0 text-sm leading-snug font-medium text-zinc-300 transition-[font-weight,color] duration-700 ease-in-out">
+                  {group.label}
+                </h3>
+                <ul className="mt-3.5 flex min-h-0 flex-wrap content-start gap-x-2 gap-y-2">
+                  {group.items.map((item) => {
+                    const skillInfo = getSkillInfo(item)
+                    const Icon = skillInfo?.icon
+                    return (
+                      <li key={item} className="max-w-full shrink-0">
+                        <span className="chip group/chip leading-snug select-none">
+                          {Icon && (
+                            <Icon
+                              className="mr-1.5 h-3.5 w-3.5 shrink-0 opacity-75 transition-opacity duration-500 group-hover/chip:opacity-100"
+                              style={{
+                                color: skillInfo?.color,
+                              }}
+                              aria-hidden
+                            />
+                          )}
+                          {item}
+                        </span>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        <motion.div
+          className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
+          variants={gridContainerVariants}
+          initial={useIntroGridReveal ? 'hidden' : 'hidden'}
+          whileInView={useIntroGridReveal ? undefined : 'visible'}
+          animate={useIntroGridReveal ? 'visible' : undefined}
+          viewport={
+            useIntroGridReveal
+              ? undefined
+              : {
+                  once: true,
+                  amount: 0.1,
+                  margin: '0px 0px -10% 0px',
+                }
+          }
+        >
+          {skillGroups.map((group, index) => {
+            const isLast = index === skillGroups.length - 1
+            const spanLastOdd = lastIsOdd && isLast
+            return (
+              <motion.div
+                key={group.label}
+                variants={cardVariants}
+                custom={index}
+                className={cn(
+                  'skill-card flex h-full min-h-0 min-w-0 flex-col',
+                  spanLastOdd && 'md:col-span-2 md:mx-auto md:w-full md:max-w-lg',
+                )}
+              >
+                <h3 className="shrink-0 text-sm leading-snug font-medium text-zinc-300 transition-[font-weight,color] duration-700 ease-in-out">
+                  {group.label}
+                </h3>
+                <ul className="mt-3.5 flex min-h-0 flex-wrap content-start gap-x-2 gap-y-2">
+                  {group.items.map((item) => {
+                    const skillInfo = getSkillInfo(item)
+                    const Icon = skillInfo?.icon
+                    return (
+                      <li key={item} className="max-w-full shrink-0">
+                        <span className="chip group/chip leading-snug select-none">
+                          {Icon && (
+                            <Icon
+                              className="mr-1.5 h-3.5 w-3.5 shrink-0 opacity-75 transition-opacity duration-500 group-hover/chip:opacity-100"
+                              style={{
+                                color: skillInfo?.color,
+                              }}
+                              aria-hidden
+                            />
+                          )}
+                          {item}
+                        </span>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </motion.div>
+            )
+          })}
+        </motion.div>
+      )}
     </div>
   )
+
+  if (safariPerfMode) {
+    return (
+      <section id="skills" aria-labelledby="skills-heading">
+        <div>
+          <TiltCard
+            maxTilt={0.8}
+            scale={1.001}
+            showShine={false}
+            disabled
+            innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
+          >
+            {inner}
+          </TiltCard>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <motion.section
       id="skills"
       aria-labelledby="skills-heading"
       initial={disableEntrance || reduceMotion ? false : { y: 20 }}
-      whileInView={disableEntrance ? undefined : { y: 0 }}
-      viewport={{ once: true, margin: '-8% 0px' }}
+      whileInView={safariPerfMode ? undefined : disableEntrance ? undefined : { y: 0 }}
+      animate={safariPerfMode && !disableEntrance ? { y: 0 } : undefined}
+      viewport={safariPerfMode ? undefined : { once: true, amount: 0.08, margin: '0px 0px -12% 0px' }}
       transition={
         reduceMotion
           ? { duration: 0 }
@@ -155,7 +220,8 @@ export function SkillsSection({
         <TiltCard
           maxTilt={0.8}
           scale={1.001}
-          showShine
+          showShine={!isTouchLike}
+          disabled={isTouchLike}
           innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
         >
           {/*
@@ -178,7 +244,7 @@ export function SkillsSection({
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.25, margin: '-8% 0px' }}
+              viewport={{ once: true, amount: 0.08, margin: '0px 0px -12% 0px' }}
               transition={{
                 duration: 0.72,
                 ease: [0.22, 1, 0.36, 1] as const,

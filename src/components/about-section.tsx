@@ -8,12 +8,14 @@ import { useState } from 'react'
 
 type AboutSectionProps = {
   disableEntrance?: boolean
+  safariPerfMode?: boolean
   /** Opacity fade for inner copy only (inside glass). Sync delay with App intro stagger. */
   innerRevealDelay?: number
 }
 
 export function AboutSection({
   disableEntrance = false,
+  safariPerfMode = false,
   innerRevealDelay,
 }: AboutSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
@@ -56,13 +58,32 @@ export function AboutSection({
     </div>
   )
 
+  if (safariPerfMode) {
+    return (
+      <section id="about" tabIndex={-1} aria-labelledby="about-heading">
+        <div>
+          <TiltCard
+            maxTilt={0.8}
+            scale={1.001}
+            showShine={false}
+            disabled
+            innerClassName="frost-panel px-7 py-10 md:px-10 md:py-12"
+          >
+            {inner}
+          </TiltCard>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <motion.section
       id="about"
       tabIndex={-1}
       initial={disableEntrance || reduceMotion ? false : { opacity: 0, y: 28, scale: 0.988 }}
-      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-10% 0px' }}
+      whileInView={safariPerfMode ? undefined : disableEntrance ? undefined : { opacity: 1, y: 0, scale: 1 }}
+      animate={safariPerfMode && !disableEntrance ? { opacity: 1, y: 0, scale: 1 } : undefined}
+      viewport={safariPerfMode ? undefined : { once: true, margin: '-10% 0px' }}
       transition={
         reduceMotion
           ? { duration: 0 }
@@ -78,8 +99,11 @@ export function AboutSection({
       <motion.div
         className={cn(touchScrollActive && 'touch-scroll-active')}
         initial={reduceMotion ? false : { opacity: 0.93, y: 12, scale: 0.996 }}
-        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: false, amount: 0.22, margin: '-8% 0px -10% 0px' }}
+        whileInView={
+          safariPerfMode ? undefined : reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }
+        }
+        animate={safariPerfMode && !reduceMotion ? { opacity: 1, y: 0, scale: 1 } : undefined}
+        viewport={safariPerfMode ? undefined : { once: false, amount: 0.22, margin: '-8% 0px -10% 0px' }}
         transition={
           reduceMotion
             ? { duration: 0 }
@@ -96,7 +120,8 @@ export function AboutSection({
         <TiltCard
           maxTilt={0.8}
           scale={1.001}
-          showShine
+          showShine={!isTouchLike}
+          disabled={isTouchLike}
           innerClassName="frost-panel px-7 py-10 md:px-10 md:py-12"
         >
           {innerRevealDelay != null && !reduceMotion ? (

@@ -1,14 +1,24 @@
 @layer base {
+  :root {
+    --mobile-browser-chrome-offset: 0px;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    :root {
+      --mobile-browser-chrome-offset: 56px;
+    }
+  }
+
   html {
     @apply scroll-smooth antialiased;
   }
 
   body {
-    @apply m-0 min-h-svh bg-[#05070b] font-sans text-zinc-100;
+    @apply m-0 min-h-dvh bg-[#05070b] font-sans text-zinc-100;
   }
 
   #root {
-    @apply min-h-svh;
+    @apply min-h-dvh;
   }
 
   ::selection {
