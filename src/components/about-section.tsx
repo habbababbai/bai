@@ -61,11 +61,7 @@ export function AboutSection({
   if (safariPerfMode) {
     return (
       <section id="about" tabIndex={-1} aria-labelledby="about-heading">
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: 'easeOut' }}
-        >
+        <div>
           <TiltCard
             maxTilt={0.8}
             scale={1.001}
@@ -75,7 +71,7 @@ export function AboutSection({
           >
             {inner}
           </TiltCard>
-        </motion.div>
+        </div>
       </section>
     )
   }

@@ -353,7 +353,11 @@ export default function App() {
 
       <main
         id="main"
-        className="relative z-10 w-full px-5 pt-16 pb-28 sm:px-6 md:px-8 md:pt-24 md:pb-32 [padding-bottom:calc(env(safe-area-inset-bottom)+var(--mobile-browser-chrome-offset)+7.5rem)] md:[padding-bottom:calc(env(safe-area-inset-bottom)+var(--mobile-browser-chrome-offset)+8.5rem)]"
+        className={cn(
+          'relative z-10 w-full px-5 pt-16 pb-28 sm:px-6 md:px-8 md:pt-24 md:pb-32',
+          safariPerfMode &&
+            '[padding-bottom:calc(env(safe-area-inset-bottom)+7.5rem)] md:[padding-bottom:calc(env(safe-area-inset-bottom)+8.5rem)]',
+        )}
       >
         <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 md:max-w-176 md:gap-14">
           {showFlowHero && <HeroSection introPhase={effectiveIntroPhase} mode="flow" />}
@@ -422,7 +426,7 @@ export default function App() {
             ))}
         </div>
       </main>
-      {mobileLiteMode && (
+      {safariPerfMode && (
         <div
           className="pointer-events-none fixed inset-x-0 bottom-0 z-30 bg-[#05070b]"
           style={{
