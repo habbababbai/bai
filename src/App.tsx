@@ -284,15 +284,10 @@ export default function App() {
   )
 
   const showIntroHero = introEnabled && effectiveIntroPhase !== 'revealed'
-  const keepFlowMountedDuringIntro = mobileLiteMode && introEnabled
-  const keepSectionsMountedDuringIntro = mobileLiteMode && introEnabled
   const showFlowHero =
-    !introEnabled || effectiveIntroPhase === 'revealed' || keepFlowMountedDuringIntro
+    !introEnabled || effectiveIntroPhase === 'revealed'
   const showSections =
-    !introEnabled || effectiveIntroPhase === 'revealed' || keepSectionsMountedDuringIntro
-  const hideFlowDuringIntro = keepFlowMountedDuringIntro && effectiveIntroPhase !== 'revealed'
-  const hideSectionsDuringIntro =
-    keepSectionsMountedDuringIntro && effectiveIntroPhase !== 'revealed'
+    !introEnabled || effectiveIntroPhase === 'revealed'
   const introEntranceDisabled = introEnabled
   const keepRevealWillChange =
     !mobileLiteMode && introEnabled && effectiveIntroPhase !== 'revealed'
@@ -358,23 +353,14 @@ export default function App() {
 
       <main
         id="main"
-        className="relative z-10 w-full px-5 pt-16 pb-28 sm:px-6 md:px-8 md:pt-24 md:pb-32"
+        className="relative z-10 w-full px-5 pt-16 pb-28 sm:px-6 md:px-8 md:pt-24 md:pb-32 [padding-bottom:calc(env(safe-area-inset-bottom)+var(--mobile-browser-chrome-offset)+7.5rem)] md:[padding-bottom:calc(env(safe-area-inset-bottom)+var(--mobile-browser-chrome-offset)+8.5rem)]"
       >
         <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 md:max-w-176 md:gap-14">
-          {showFlowHero && (
-            <div className={cn(hideFlowDuringIntro && 'invisible pointer-events-none')}>
-              <HeroSection introPhase={effectiveIntroPhase} mode="flow" />
-            </div>
-          )}
+          {showFlowHero && <HeroSection introPhase={effectiveIntroPhase} mode="flow" />}
 
           {showSections &&
             (mobileLiteMode ? (
-              <div
-                className={cn(
-                  'flex flex-col gap-12 md:gap-14',
-                  hideSectionsDuringIntro && 'invisible pointer-events-none',
-                )}
-              >
+              <div className="flex flex-col gap-12 md:gap-14">
                 <div className="w-full">
                   <AboutSection disableEntrance safariPerfMode />
                 </div>
@@ -436,6 +422,15 @@ export default function App() {
             ))}
         </div>
       </main>
+      {mobileLiteMode && (
+        <div
+          className="pointer-events-none fixed inset-x-0 bottom-0 z-30 bg-[#05070b]"
+          style={{
+            height: 'calc(env(safe-area-inset-bottom) + 10px)',
+          }}
+          aria-hidden
+        />
+      )}
     </div>
   )
 }

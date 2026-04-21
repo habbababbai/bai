@@ -21,7 +21,8 @@ export function SkillsSection({
   const reduceMotion = useReducedMotion() ?? false
   const { isTouchLike } = useInputModality()
   const [isTouchScrollActive, setIsTouchScrollActive] = useState(false)
-  const touchScrollActive = isTouchLike && !reduceMotion && isTouchScrollActive
+  const touchScrollActive =
+    isTouchLike && !reduceMotion && !safariPerfMode && isTouchScrollActive
   const skillGroups = site.skills
   const lastIsOdd = skillGroups.length % 2 === 1
   const useIntroGridReveal = innerRevealDelay != null && !reduceMotion
@@ -105,12 +106,12 @@ export function SkillsSection({
               <h3 className="shrink-0 text-sm leading-snug font-medium text-zinc-300 transition-[font-weight,color] duration-700 ease-in-out">
                 {group.label}
               </h3>
-              <ul className="mt-3.5 flex min-h-0 flex-1 flex-wrap content-start gap-x-2 gap-y-2">
+              <ul className="mt-3.5 flex min-h-0 flex-wrap content-start gap-x-2 gap-y-2">
                 {group.items.map((item) => {
                   const skillInfo = getSkillInfo(item)
                   const Icon = skillInfo?.icon
                   return (
-                    <li key={item} className="max-w-full min-w-0">
+                    <li key={item} className="max-w-full shrink-0">
                       <span className="chip group/chip leading-snug select-none">
                         {Icon && (
                           <Icon
