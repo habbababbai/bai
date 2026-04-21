@@ -149,6 +149,21 @@
     }
   }
 
+  /* iOS Safari: disable blend/blur moving spotlight that causes corner overlays and jank. */
+  @supports (-webkit-touch-callout: none) {
+    .touch-scroll-active .frost-panel::after {
+      content: none;
+      animation: none;
+    }
+
+    .touch-scroll-active .frost-panel,
+    .intro-hero-group .frost-panel {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 20px 44px -34px rgba(0, 0, 0, 0.72);
+    }
+  }
+
   @keyframes mobile-active-spotlight {
     0% {
       transform: translate3d(-9%, -7%, 0);

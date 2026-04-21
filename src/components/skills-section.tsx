@@ -9,11 +9,13 @@ import { useState } from 'react'
 
 type SkillsSectionProps = {
   disableEntrance?: boolean
+  safariPerfMode?: boolean
   innerRevealDelay?: number
 }
 
 export function SkillsSection({
   disableEntrance = false,
+  safariPerfMode = false,
   innerRevealDelay,
 }: SkillsSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
@@ -74,15 +76,15 @@ export function SkillsSection({
         className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5"
         variants={gridContainerVariants}
         initial={useIntroGridReveal ? 'hidden' : 'hidden'}
-        animate={useIntroGridReveal ? 'visible' : undefined}
-        whileInView={useIntroGridReveal ? undefined : 'visible'}
+        whileInView={safariPerfMode ? undefined : useIntroGridReveal ? undefined : 'visible'}
+        animate={safariPerfMode ? 'visible' : useIntroGridReveal ? 'visible' : undefined}
         viewport={
-          useIntroGridReveal
+          safariPerfMode || useIntroGridReveal
             ? undefined
             : {
                 once: true,
-                amount: 0.25,
-                margin: '-8% 0px',
+                amount: 0.1,
+                margin: '0px 0px -10% 0px',
               }
         }
       >
@@ -137,8 +139,9 @@ export function SkillsSection({
       id="skills"
       aria-labelledby="skills-heading"
       initial={disableEntrance || reduceMotion ? false : { y: 20 }}
-      whileInView={disableEntrance ? undefined : { y: 0 }}
-      viewport={{ once: true, margin: '-8% 0px' }}
+      whileInView={safariPerfMode ? undefined : disableEntrance ? undefined : { y: 0 }}
+      animate={safariPerfMode && !disableEntrance ? { y: 0 } : undefined}
+      viewport={safariPerfMode ? undefined : { once: true, amount: 0.08, margin: '0px 0px -12% 0px' }}
       transition={
         reduceMotion
           ? { duration: 0 }
@@ -155,7 +158,8 @@ export function SkillsSection({
         <TiltCard
           maxTilt={0.8}
           scale={1.001}
-          showShine
+          showShine={!isTouchLike}
+          disabled={isTouchLike}
           innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
         >
           {/*
@@ -178,7 +182,7 @@ export function SkillsSection({
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.25, margin: '-8% 0px' }}
+              viewport={{ once: true, amount: 0.08, margin: '0px 0px -12% 0px' }}
               transition={{
                 duration: 0.72,
                 ease: [0.22, 1, 0.36, 1] as const,

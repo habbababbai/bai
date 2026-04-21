@@ -33,11 +33,13 @@ const items = [
 
 type ContactSectionProps = {
   disableEntrance?: boolean
+  safariPerfMode?: boolean
   innerRevealDelay?: number
 }
 
 export function ContactSection({
   disableEntrance = false,
+  safariPerfMode = false,
   innerRevealDelay,
 }: ContactSectionProps) {
   const reduceMotion = useReducedMotion() ?? false
@@ -116,8 +118,9 @@ export function ContactSection({
     <div className="mx-auto max-w-xl text-center select-none">
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: '-12% 0px' }}
+        whileInView={safariPerfMode ? undefined : { opacity: 1 }}
+        animate={safariPerfMode ? { opacity: 1 } : undefined}
+        viewport={safariPerfMode ? undefined : { once: true, margin: '-12% 0px' }}
         transition={{
           duration: 0.72,
           ease: [0.22, 1, 0.36, 1] as const,
@@ -135,8 +138,9 @@ export function ContactSection({
     <motion.section
       id="contact"
       initial={disableEntrance || reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={disableEntrance ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-12% 0px' }}
+      whileInView={safariPerfMode ? undefined : disableEntrance ? undefined : { opacity: 1, y: 0 }}
+      animate={safariPerfMode && !disableEntrance ? { opacity: 1, y: 0 } : undefined}
+      viewport={safariPerfMode ? undefined : { once: true, margin: '-12% 0px' }}
       transition={
         reduceMotion
           ? { duration: 0 }
@@ -158,7 +162,8 @@ export function ContactSection({
         <TiltCard
           maxTilt={0.8}
           scale={1.001}
-          showShine
+          showShine={!isTouchLike}
+          disabled={isTouchLike}
           innerClassName="frost-panel px-7 py-11 md:px-10 md:py-13"
         >
           {innerRevealDelay != null && !reduceMotion

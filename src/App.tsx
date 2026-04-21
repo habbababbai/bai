@@ -3,6 +3,7 @@ import { AmbientBackground } from '@/components/ambient-background'
 import { ContactSection } from '@/components/contact-section'
 import { HeroSection, type HeroIntroPhase } from '@/components/hero-section'
 import { SkillsSection } from '@/components/skills-section'
+import { useMobileSafari } from '@/hooks/use-mobile-safari'
 import { cn } from '@/lib/cn'
 import { motion, useReducedMotion } from 'motion/react'
 import {
@@ -42,6 +43,8 @@ function isInteractiveTarget(target: EventTarget | null) {
 
 export default function App() {
   const reduceMotion = useReducedMotion() ?? false
+  const { isMobileSafari } = useMobileSafari()
+  const safariPerfMode = isMobileSafari
   const introEnabled = !reduceMotion
   const [introPhase, setIntroPhase] = useState<HeroIntroPhase>(
     introEnabled ? 'locked' : 'revealed',
@@ -281,7 +284,8 @@ export default function App() {
   const showFlowHero = !introEnabled || effectiveIntroPhase === 'revealed'
   const showSections = !introEnabled || effectiveIntroPhase === 'revealed'
   const introEntranceDisabled = introEnabled
-  const keepRevealWillChange = introEnabled && effectiveIntroPhase !== 'revealed'
+  const keepRevealWillChange =
+    !safariPerfMode && introEnabled && effectiveIntroPhase !== 'revealed'
 
   const revealSectionsContainerVariants = useMemo(
     () => ({
@@ -312,7 +316,7 @@ export default function App() {
     [reduceMotion],
   )
 
-  const showInnerContentFade = introEntranceDisabled && !reduceMotion
+  const showInnerContentFade = introEntranceDisabled && !reduceMotion && !safariPerfMode
 
   return (
     <div
@@ -323,7 +327,7 @@ export default function App() {
       onTouchMove={handleTouchMove}
       onTouchStart={handleTouchStart}
     >
-      <AmbientBackground />
+      <AmbientBackground interactive={!safariPerfMode} />
       <a
         href="#about"
         onClick={handleSkipToAbout}
@@ -359,13 +363,16 @@ export default function App() {
               <motion.div
                 variants={revealSectionsItemVariants}
                 className={cn(
-                  'w-full transform-gpu [contain-intrinsic-size:auto_520px] [content-visibility:auto]',
+                  'w-full transform-gpu',
+                  !safariPerfMode && '[contain-intrinsic-size:auto_520px]',
+                  !safariPerfMode && '[content-visibility:auto]',
                   keepRevealWillChange && 'will-change-transform',
                 )}
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 <AboutSection
                   disableEntrance={introEntranceDisabled}
+                  safariPerfMode={safariPerfMode}
                   innerRevealDelay={
                     showInnerContentFade ? introInnerFadeDelay(0) : undefined
                   }
@@ -374,23 +381,28 @@ export default function App() {
               <motion.div
                 variants={revealSectionsItemVariants}
                 className={cn(
-                  'w-full transform-gpu [contain-intrinsic-size:auto_560px] [content-visibility:auto]',
+                  'w-full transform-gpu',
+                  !safariPerfMode && '[contain-intrinsic-size:auto_560px]',
+                  !safariPerfMode && '[content-visibility:auto]',
                   keepRevealWillChange && 'will-change-transform',
                 )}
                 style={{ backfaceVisibility: 'hidden' }}
               >
-                <SkillsSection disableEntrance={false} />
+                <SkillsSection disableEntrance={false} safariPerfMode={safariPerfMode} />
               </motion.div>
               <motion.div
                 variants={revealSectionsItemVariants}
                 className={cn(
-                  'w-full transform-gpu [contain-intrinsic-size:auto_420px] [content-visibility:auto]',
+                  'w-full transform-gpu',
+                  !safariPerfMode && '[contain-intrinsic-size:auto_420px]',
+                  !safariPerfMode && '[content-visibility:auto]',
                   keepRevealWillChange && 'will-change-transform',
                 )}
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 <ContactSection
                   disableEntrance={false}
+                  safariPerfMode={safariPerfMode}
                   innerRevealDelay={
                     showInnerContentFade ? introInnerFadeDelay(2) : undefined
                   }
